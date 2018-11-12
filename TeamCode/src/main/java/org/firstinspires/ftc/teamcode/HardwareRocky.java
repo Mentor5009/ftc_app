@@ -100,7 +100,7 @@ public class HardwareRocky {
 
 
         //set position of servos
-        marker.setPosition(0.6);
+        marker.setPosition(0.5);
 
         tpr = 1066;
     }
@@ -135,6 +135,16 @@ public class HardwareRocky {
 
         leftDrive.setPower(0);
         rightDrive.setPower(0);
+    }
+
+    public void moveChih(double power){
+        leftDrive.setPower(power);
+        rightDrive.setPower(power);
+    }
+
+    public void moveChina(double power){
+        leftDrive.setPower(power);
+        rightDrive.setPower(-power);
     }
 
     //Robot pivots towards the crater from the depot

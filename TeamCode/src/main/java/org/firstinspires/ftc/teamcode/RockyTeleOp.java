@@ -99,6 +99,43 @@ public class RockyTeleOp extends LinearOpMode {
             telemetry.addData("arm", robot.arm.getPower());
             telemetry.update();
 
+            if(gamepad1.x) ; // set power for chicken fingers and position
+            else if(gamepad1.x) ; // set power for chicken fingers and position
+
+            if(gamepad1.y) ; // set power for chicken fingers and position
+            else if(gamepad1.y) ; // set power for chicken fingers and position
+
+            if(gamepad1.dpad_up) {
+                robot.moveChih(0.2);
+            } else if (gamepad1.dpad_down) {
+                robot.moveChih(-0.2);
+            } else{
+                robot.moveChih(0);
+            }
+
+            if(gamepad1.dpad_left) {
+                robot.moveChina(-0.2);
+            } else if (gamepad1.dpad_right) {
+                robot.moveChina(0.2);
+            }    else{
+                    robot.moveChina(0);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
         }
