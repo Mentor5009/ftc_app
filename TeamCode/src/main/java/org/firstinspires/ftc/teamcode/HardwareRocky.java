@@ -130,8 +130,8 @@ public class HardwareRocky {
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftDrive.setPower(.6);
-        rightDrive.setPower(.6);
+        leftDrive.setPower(power);
+        rightDrive.setPower(power);
         while (Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
 
         }
@@ -178,7 +178,6 @@ public class HardwareRocky {
 
         while (Math.abs(lift.getCurrentPosition()) < Math.abs(ticks))  {
 
-
         }
         lift.setPower(0);
     }
@@ -187,7 +186,7 @@ public class HardwareRocky {
         resetEncoders();
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        arm.setPower(power);
+
         while (Math.abs(arm.getCurrentPosition()) < Math.abs(ticks)) {
 
         }
@@ -203,7 +202,7 @@ public class HardwareRocky {
         return d.in(Length.Unit.INCH)*tpr / ((wheelDiamater.in(Length.Unit.INCH))* Math.PI);
     }
     public double armDegreesToTicks (double armDegrees){
-        return (tpr*armDegrees)/1080;
+        return (tpr*armDegrees)/120;
     }
 }
 
