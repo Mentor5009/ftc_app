@@ -28,7 +28,7 @@ public class RockyAutonomous extends LinearOpMode {
         //TimeUnit.SECONDS.sleep(1);
         //robot.pivot(135, .6);
         //robot.move(new Length( 74,Length.Unit.INCH), .6);
-        robot.armMove(45,0.6);
+        //robot.armMove(45,0.6);
 
     }
 

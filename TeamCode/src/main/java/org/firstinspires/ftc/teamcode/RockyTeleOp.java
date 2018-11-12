@@ -82,6 +82,18 @@ public class RockyTeleOp extends LinearOpMode {
             robot.leftDrive.setPower(left);
             robot.rightDrive.setPower(right);
 
+            if(gamepad1.dpad_up) {
+                robot.moveChih(0.4);
+            } else if (gamepad1.dpad_down) {
+                robot.moveChih(-0.4);
+            } else if(gamepad1.dpad_left) {
+                robot.moveChina(-0.4);
+            } else if (gamepad1.dpad_right) {
+                robot.moveChina(0.4);
+            }    else{
+                //robot.move1(new Length(0,Length.Unit.INCH),0);
+            }
+
             if(gamepad1.b) robot.marker.setPosition(0.2);
             else robot.marker.setPosition(0.6);
 
@@ -104,22 +116,6 @@ public class RockyTeleOp extends LinearOpMode {
 
             if(gamepad1.y) ; // set power for chicken fingers and position
             else if(gamepad1.y) ; // set power for chicken fingers and position
-
-            if(gamepad1.dpad_up) {
-                robot.moveChih(0.2);
-            } else if (gamepad1.dpad_down) {
-                robot.moveChih(-0.2);
-            } else{
-                robot.moveChih(0);
-            }
-
-            if(gamepad1.dpad_left) {
-                robot.moveChina(-0.2);
-            } else if (gamepad1.dpad_right) {
-                robot.moveChina(0.2);
-            }    else{
-                    robot.moveChina(0);
-            }
 
 
 
