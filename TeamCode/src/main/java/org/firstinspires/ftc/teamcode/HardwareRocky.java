@@ -123,14 +123,13 @@ public class HardwareRocky {
         double ticks = inchesToTicks(d); //d.in(Length.Unit.INCH)*tpr / ((wheelDiamater.in(Length.Unit.INCH))* Math.PI);
         resetEncoders();
 
-       leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftDrive.setPower(.6);
         rightDrive.setPower(.6);
-        while (Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks))
-        {
+        while (Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
 
         }
 
@@ -138,26 +137,37 @@ public class HardwareRocky {
         rightDrive.setPower(0);
     }
 
-//Robot pivots towards the crater from the depot
-        public void pivot ( double angle, double power){
-            double rads = angle*Math.PI/180;
-            double robotwidth = 17;
-            double ticks = inchesToTicks(new Length(.5 * rads * robotwidth,Length.Unit.INCH));
-            resetEncoders();
-            rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            rightDrive.setPower(-power);
-            leftDrive.setPower(power);
-            while (Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks))
-            {
-
-            }
-            leftDrive.setPower(0);
-            rightDrive.setPower(0);
+    //Robot pivots towards the crater from the depot
+    public void pivot(double angle, double power) {
+        double rads = angle * Math.PI / 180;
+        double robotwidth = 17;
+        double ticks = inchesToTicks(new Length(.5 * rads * robotwidth, Length.Unit.INCH));
+        resetEncoders();
+        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setPower(-power);
+        leftDrive.setPower(power);
+        while (Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
 
         }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+    }
+
+    public void liftmove(double inches, double power) {
+        double ticks = liftInchesToTicks(inches);
+        lift.setPower(power);
+    }
+
+    {
+
+        }
+    public double liftInchesToTicks(double liftInches){
+        return (2132*liftInches)/2.25;
+    }
+
     public double inchesToTicks(Length d) {
         return d.in(Length.Unit.INCH)*tpr / ((wheelDiamater.in(Length.Unit.INCH))* Math.PI);
     }
