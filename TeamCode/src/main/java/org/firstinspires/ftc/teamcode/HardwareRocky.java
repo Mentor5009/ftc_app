@@ -140,6 +140,16 @@ public class HardwareRocky {
         rightDrive.setPower(0);
     }
 
+    public void moveChih(double power){
+        leftDrive.setPower(power);
+        rightDrive.setPower(power);
+    }
+
+    public void moveChina(double power){
+        leftDrive.setPower(power);
+        rightDrive.setPower(-power);
+    }
+
     //Robot pivots towards the crater from the depot
     public void pivot(double angle, double power) {
         double rads = angle * Math.PI / 180;
