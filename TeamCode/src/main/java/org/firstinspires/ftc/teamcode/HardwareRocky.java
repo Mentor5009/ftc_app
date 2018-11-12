@@ -35,6 +35,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * This is NOT an opmode.
  * <p>
@@ -100,7 +102,8 @@ public class HardwareRocky {
 
 
         //set position of servos
-        marker.setPosition(0.6);
+        marker.setPosition(0.8);
+        while(marker.getPosition()<0.8);
 
         tpr = 1066;
     }
@@ -159,17 +162,38 @@ public class HardwareRocky {
     public void liftmove(double inches, double power) {
         double ticks = liftInchesToTicks(inches);
         lift.setPower(power);
-    }
+        resetEncoders();
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-    {
+        while (Math.abs(lift.getCurrentPosition()) < Math.abs(ticks))  {
+
 
         }
+        lift.setPower(0);
+    }
+    public void armMove(double angle, double power){
+        double ticks = armDegreesToTicks(angle);
+        resetEncoders();
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        arm.setPower(power);
+        while (Math.abs(arm.getCurrentPosition()) < Math.abs(ticks)) {
+
+        }
+        arm.setPower(0);
+    }
+
+
     public double liftInchesToTicks(double liftInches){
         return (2132*liftInches)/2.25;
     }
 
     public double inchesToTicks(Length d) {
         return d.in(Length.Unit.INCH)*tpr / ((wheelDiamater.in(Length.Unit.INCH))* Math.PI);
+    }
+    public double armDegreesToTicks (double armDegrees){
+        return (tpr*armDegrees)/1080;
     }
 }
 

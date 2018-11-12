@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.util.concurrent.TimeUnit;
+
 @Autonomous(name = "Autonomous Facing Depot")
 public class RockyAutonomous extends LinearOpMode {
     HardwareRocky robot;
@@ -17,14 +19,16 @@ public class RockyAutonomous extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        robot.pivot(5,0.6);
-        robot.move(new Length( -2,Length.Unit.INCH),0.6);
-        robot.pivot(90, 0.6);
-        robot.move(new Length(48,Length.Unit.INCH),.6);
-        robot.marker.setPosition(0.2);
-        robot.marker.setPosition(0.6);
-        robot.pivot(135, .6);
-        robot.move(new Length( 74,Length.Unit.INCH), .6);
+       robot.liftmove(4.75,0.6);
+        //robot.pivot(5,0.6);
+       // robot.move(new Length( -2,Length.Unit.INCH),0.6);
+        //robot.pivot(90, 0.6);
+       // robot.move(new Length(48,Length.Unit.INCH),.6);
+       // robot.marker.setPosition(0.2);
+        //TimeUnit.SECONDS.sleep(1);
+        //robot.pivot(135, .6);
+        //robot.move(new Length( 74,Length.Unit.INCH), .6);
+        robot.armMove(45,0.6);
 
     }
 
