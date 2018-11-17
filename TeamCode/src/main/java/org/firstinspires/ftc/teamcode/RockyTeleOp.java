@@ -91,7 +91,7 @@ public class RockyTeleOp extends LinearOpMode {
             } else if (gamepad1.dpad_right) {
                 robot.moveChina(0.4);
             }    else{
-                //robot.move1(new Length(0,Length.Unit.INCH),0);
+                robot.moveChih(0);
             }
 
             if(gamepad1.b) robot.marker.setPosition(0.2);
