@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -93,6 +94,7 @@ public class HardwareRocky {
     public DcMotorEx lift = null;
     public DcMotorEx arm = null;
     public Servo marker = null;
+    public DcMotorEx chickenFingers;
     public double tpr;
 
     /* Local OpMode members. */
@@ -117,12 +119,14 @@ public class HardwareRocky {
         lift = (DcMotorEx) hwMap.get(DcMotorEx.class, "lift");
         arm = (DcMotorEx) hwMap.get(DcMotorEx.class, "arm");
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
+        chickenFingers = (DcMotorEx) hwMap.get(DcMotorEx.class, "chickenFingers");
 
         // Set all motors to zero power
         leftDrive.setPower(0);
         rightDrive.setPower(0);
         lift.setPower(0);
         arm.setPower(0);
+        chickenFingers.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -130,6 +134,7 @@ public class HardwareRocky {
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        chickenFingers.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         //set position of servos
@@ -152,7 +157,7 @@ public class HardwareRocky {
     }
 
     //
-    public void move(Length d, double power) {
+    public void move(Length d, double power, OpMode om) {
         //tpr = leftDrive.getMotorType().getTicksPerRev();
         double ticks = inchesToTicks(d); //d.in(Length.Unit.INCH)*tpr / ((wheelDiamater.in(Length.Unit.INCH))* Math.PI);
         resetEncoders();
@@ -182,7 +187,7 @@ public class HardwareRocky {
     }
 
     //Robot pivots towards the crater from the depot
-    public void pivot(double angle, double power) {
+    public void pivot(double angle, double power, OpMode om) {
         double rads = angle * Math.PI / 180;
         double robotwidth = 17;
         double ticks = inchesToTicks(new Length(.5 * rads * robotwidth, Length.Unit.INCH));
@@ -235,6 +240,11 @@ public class HardwareRocky {
     }
     public double armDegreesToTicks (double armDegrees){ return (tpr*armDegrees)/120;
     }
+
+    public void chickenspin(double power) {
+        chickenFingers.setPower(power);
+    }
+
     // if something goes wrong delete everything below this
     /**
      * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
