@@ -113,8 +113,29 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
                     // the last time that call was made.
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
-                      telemetry.addData("# Object Detected", updatedRecognitions.size());
-                      if (updatedRecognitions.size() == 3) {
+                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        int i = 1;
+                        String leftMineral = "";
+                        String centreMineral = "";
+
+                        for (Recognition recognition : updatedRecognitions) {
+                            telemetry.addData("object " + String.valueOf(i), recognition.getLabel() + "," + recognition.getTop() + "," + recognition.getBottom());
+                            i++;
+
+                            if (recognition.getTop() < 600 && leftMineral != "silver") {
+                                leftMineral = recognition.getLabel();
+                            } else if (recognition.getTop() >= 600 && recognition.getTop() <= 1000 && centreMineral != "silver") {
+                                centreMineral = recognition.getLabel();
+
+                            }
+
+
+                        }
+                        telemetry.addData("left min.",leftMineral);
+                        telemetry.addData("centre min.",centreMineral);
+                    }
+
+                        /*if (updatedRecognitions.size() == 3) {
                         int goldMineralX = -1;
                         int silverMineral1X = -1;
                         int silverMineral2X = -1;
@@ -136,17 +157,18 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
                             telemetry.addData("Gold Mineral Position", "Center");
                           }
                         }
-                      }
+                      }*/
                       telemetry.update();
                     }
                 }
             }
-        }
+
 
         if (tfod != null) {
             tfod.shutdown();
         }
     }
+
 
     /**
      * Initialize the Vuforia localization engine.

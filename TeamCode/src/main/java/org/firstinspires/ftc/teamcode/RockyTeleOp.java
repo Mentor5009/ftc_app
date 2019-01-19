@@ -94,15 +94,14 @@ public class RockyTeleOp extends LinearOpMode {
                 robot.moveChih(0);
             }
 
-            if(gamepad1.b) robot.marker.setPosition(0.2);
+            if(gamepad2.b) robot.marker.setPosition(0.2);
             else robot.marker.setPosition(0.6);
 
-            if(gamepad1.right_bumper) robot.lift.setPower(-1.0);
-            else if(gamepad1.left_bumper) robot.lift.setPower(1.0);
+            if(gamepad2.right_bumper) robot.lift.setPower(-1.0);
+            else if(gamepad2.left_bumper) robot.lift.setPower(1.0);
             else robot.lift.setPower(0);
 
-            robot.arm.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
-
+            robot.arm.setPower(gamepad2.right_trigger-gamepad2.left_trigger);
 
             telemetry.addData("left",  "%.2f", left);
             telemetry.addData("right", "%.2f", right);
@@ -111,11 +110,11 @@ public class RockyTeleOp extends LinearOpMode {
             telemetry.addData("arm", robot.arm.getPower());
             telemetry.update();
 
-            if(gamepad1.x) ; // set power for chicken fingers and position
-            else if(gamepad1.x) ; // set power for chicken fingers and position
+            if(gamepad2.x) robot.chickenFingers.setPower(0.8); // set power for chicken fingers and position
+            else if(gamepad2.a) robot.chickenFingers.setPower(-0.8); // set power for chicken fingers reverse direction
+            else robot.chickenFingers.setPower(0);
 
-            if(gamepad1.y) ; // set power for chicken fingers and position
-            else if(gamepad1.y) ; // set power for chicken fingers and position
+
 
 
 
