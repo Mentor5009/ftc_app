@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * This OpMode uses the common HardwareK9bot class to define the devices on the robot.
@@ -65,6 +66,8 @@ public class RockyTeleOp extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
+        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
@@ -82,57 +85,42 @@ public class RockyTeleOp extends LinearOpMode {
             robot.leftDrive.setPower(left);
             robot.rightDrive.setPower(right);
 
-            if(gamepad1.dpad_up) {
-                robot.moveChih(0.4);
-            } else if (gamepad1.dpad_down) {
-                robot.moveChih(-0.4);
-            } else if(gamepad1.dpad_left) {
-                robot.moveChina(-0.4);
-            } else if (gamepad1.dpad_right) {
-                robot.moveChina(0.4);
-            }    else{
-                robot.moveChih(0);
-            }
 
-            if(gamepad2.b) robot.marker.setPosition(0.2);
-            else robot.marker.setPosition(0.6);
-
-            if(gamepad2.right_bumper) robot.lift.setPower(-1.0);
-            else if(gamepad2.left_bumper) robot.lift.setPower(1.0);
+            if(gamepad2.right_bumper) robot.lift.setPower(1.0);
+            else if(gamepad2.left_bumper) robot.lift.setPower(-1.0);
             else robot.lift.setPower(0);
 
-            robot.arm.setPower(gamepad2.right_trigger-gamepad2.left_trigger);
+            robot.arm.setPower(gamepad2.left_trigger-gamepad2.right_trigger);
 
-            telemetry.addData("left",  "%.2f", left);
-            telemetry.addData("right", "%.2f", right);
-            telemetry.addData("marker",robot.marker.getPosition());
+            //telemetry.addData("left",  "%.2f", left);
+
+            //telemetry.addData("right", "%.2f", right);
+            //telemetry.addData("marker",robot.marker.getPosition());
             telemetry.addData("lift", robot.lift.getPower());
+            telemetry.addData("lift", robot.lift.getCurrentPosition());
             telemetry.addData("arm", robot.arm.getPower());
+            telemetry.addData("GigaDrill", robot.GigaDrill.getPower());
+            telemetry.addData("arm encoder", robot.arm.getCurrentPosition());
+            telemetry.addData("GigaDrill encoder", robot.GigaDrill.getCurrentPosition());
             telemetry.update();
 
             if(gamepad2.x) robot.chickenFingers.setPower(0.8); // set power for chicken fingers and position
             else if(gamepad2.a) robot.chickenFingers.setPower(-0.8); // set power for chicken fingers reverse direction
             else robot.chickenFingers.setPower(0);
 
+            if(gamepad2.y) robot.GigaDrill.setPower(1);
+            else if (gamepad2.b) robot.GigaDrill.setPower(-1);
+            else robot.GigaDrill.setPower(0);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            telemetry.addData( "right bumper", gamepad2.right_bumper);
+            telemetry.addData( "left bumper", gamepad2.left_bumper);
+            telemetry.addData( "right trigger", gamepad2.right_trigger);
+            telemetry.addData( "left trigger", gamepad2.left_trigger);
 
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
+
+
         }
     }
 }

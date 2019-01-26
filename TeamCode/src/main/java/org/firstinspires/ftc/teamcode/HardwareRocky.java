@@ -29,16 +29,22 @@
 
 package org.firstinspires.ftc.teamcode;
 
+
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+ //import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
@@ -55,6 +61,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
+
 
 import java.util.List;
 
@@ -85,7 +93,9 @@ import java.util.List;
  * As the arm servo approaches 0, the arm position moves up (away from the floor).
  * As the claw servo approaches 0, the claw opens up (drops the game element).
  */
+
 public class HardwareRocky {
+
 
     final Length wheelDiamater = new Length(4, Length.Unit.INCH);
     /* Public OpMode members. */
@@ -95,7 +105,14 @@ public class HardwareRocky {
     public DcMotorEx arm = null;
     public Servo marker = null;
     public DcMotorEx chickenFingers;
+    public DcMotorEx GigaDrill;
     public double tpr;
+    private TFObjectDetector tfod;
+    private VuforiaLocalizer vuforia;
+    private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
+    private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
+    private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+    private static final String VUFORIA_KEY = "AfZdcpz/////AAAAGeFAEIQ7eEL9ilMArx0PrTpfGi14uY5DxJNi9A/pNhrpWpMLBsZIt21zn61HlpOEsX4SW/GyN//S+CJpHALNQkDftlrlJ3+cGtzrVC0ZZcEpltXAdp/5CkO+M7Q3rDOtKBeFhCBnjDUVswvmD0sU9mRgjVhn5TvOSXcSuJIJymIy5x15BUxbqsZe+5Rkzt4a/4ltQvr3jN13s4RECp03x+zfPWKR7S79x1+VSITaBB5lrv43p9ZEBJeIaWlAXQTST8O0uf2YhNXCuzrBxuAgL5onSpOWmBUzyFxE8cooXOgyktMm/mtYHG+vujg4gG9FpxFFLutypcN3hLaBOqfS1DyNrQD1i05cpRLwJ4M0Gszc";
 
     /* Local OpMode members. */
     HardwareMap hwMap = null;
@@ -106,9 +123,10 @@ public class HardwareRocky {
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
+    public void init(HardwareMap ahwMap,LinearOpMode om) {
         // save reference to HW Map
         hwMap = ahwMap;
+
 
         // Define and Initialize Servos
         marker = hwMap.get(Servo.class, "marker");
@@ -120,6 +138,7 @@ public class HardwareRocky {
         arm = (DcMotorEx) hwMap.get(DcMotorEx.class, "arm");
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         chickenFingers = (DcMotorEx) hwMap.get(DcMotorEx.class, "chickenFingers");
+        GigaDrill = (DcMotorEx) hwMap.get(DcMotorEx.class, "GigaDrill");
 
         // Set all motors to zero power
         leftDrive.setPower(0);
@@ -127,6 +146,8 @@ public class HardwareRocky {
         lift.setPower(0);
         arm.setPower(0);
         chickenFingers.setPower(0);
+        GigaDrill.setPower(0);
+        arm.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -135,6 +156,50 @@ public class HardwareRocky {
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         chickenFingers.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        GigaDrill.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        initDetector(om);
+
+
+        //set position of servos
+        marker.setPosition(0.8);
+        while (marker.getPosition() < 0.8) ;
+
+        tpr = 1066;
+    }/* Initialize standard Hardware interfaces */
+    public void init(HardwareMap ahwMap) {
+        // save reference to HW Map
+        hwMap = ahwMap;
+
+
+        // Define and Initialize Servos
+        marker = hwMap.get(Servo.class, "marker");
+
+        // Define and Initialize Motors
+        leftDrive = (DcMotorEx) hwMap.get(DcMotorEx.class, "leftDrive");
+        rightDrive = (DcMotorEx) hwMap.get(DcMotorEx.class, "rightDrive");
+        lift = (DcMotorEx) hwMap.get(DcMotorEx.class, "lift");
+        arm = (DcMotorEx) hwMap.get(DcMotorEx.class, "arm");
+        leftDrive.setDirection(DcMotor.Direction.REVERSE);
+        chickenFingers = (DcMotorEx) hwMap.get(DcMotorEx.class, "chickenFingers");
+        GigaDrill = (DcMotorEx) hwMap.get(DcMotorEx.class, "GigaDrill");
+
+        // Set all motors to zero power
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+        lift.setPower(0);
+        arm.setPower(0);
+        chickenFingers.setPower(0);
+        GigaDrill.setPower(0);
+        arm.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        // Set all motors to run without encoders.
+        // May want to use RUN_USING_ENCODERS if encoders are installed.
+        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        chickenFingers.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        GigaDrill.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         //set position of servos
@@ -214,6 +279,7 @@ public class HardwareRocky {
 
         while (Math.abs(lift.getCurrentPosition()) < Math.abs(ticks)) {
 
+
         }
         lift.setPower(0);
     }
@@ -231,55 +297,118 @@ public class HardwareRocky {
     }
 
 
-    public double liftInchesToTicks(double liftInches){
-        return (2132*liftInches)/2.25;
+    public double liftInchesToTicks(double liftInches) {
+        return (2132 * liftInches) / 2.25;
     }
 
     public double inchesToTicks(Length d) {
-        return d.in(Length.Unit.INCH)*tpr / ((wheelDiamater.in(Length.Unit.INCH))* Math.PI);
+        return d.in(Length.Unit.INCH) * tpr / ((wheelDiamater.in(Length.Unit.INCH)) * Math.PI);
     }
-    public double armDegreesToTicks (double armDegrees){ return (tpr*armDegrees)/120;
+
+    public double armDegreesToTicks(double armDegrees) {
+        return (tpr * armDegrees) / 120;
     }
 
     public void chickenspin(double power) {
         chickenFingers.setPower(power);
     }
 
-
-}
+    public void initTfod(LinearOpMode om) {
+        int tfodMonitorViewId = om.hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", om.hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+    }
 
 //delete everything under this if shit goes wrong.
 
-public String getGoldPos (OpMode op) {
+    public void initVuforia() {
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-    if (tfod != null) {
-        // getUpdatedRecognitions() will return null if no new information is available since
-        // the last time that call was made.
-        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-        if (updatedRecognitions != null) {
-            op telemetry.addData("# Object Detected", updatedRecognitions.size());
-            int i = 1;
-            String leftMineral = "";
-            String centreMineral = "";
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraDirection = CameraDirection.BACK;
 
-            for (Recognition recognition : updatedRecognitions) {
-                telemetry.addData("object " + String.valueOf(i), recognition.getLabel() + "," + recognition.getTop() + "," + recognition.getBottom());
-                i++;
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-                if (recognition.getTop() < 600 && leftMineral != "silver") {
-                    leftMineral = recognition.getLabel();
-                } else if (recognition.getTop() >= 600 && recognition.getTop() <= 1000 && centreMineral != "silver") {
-                    centreMineral = recognition.getLabel();
+        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
+    }
+
+    public TFObjectDetector initDetector(LinearOpMode om ) {
+        if (om.opModeIsActive()) {
+            /** Activate Tensor Flow Object Detection. */
+            initVuforia();
+            if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+                initTfod(om);
+            } else {
+                om.telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+            }
+            if (tfod != null) {
+                tfod.activate();
+            }
+
+
+        }
+        return tfod;
+    }
+    public void shutdownDetector(){
+        if (tfod != null) {
+            tfod.shutdown();
+        }
+    }
+
+    public String getGoldPos(LinearOpMode om) {
+        ElapsedTime t = new ElapsedTime();
+        t.reset();
+
+        while (om.opModeIsActive() && t.milliseconds() < 4000) {
+            if (tfod != null) {
+
+                // getUpdatedRecognitions() will return null if no new information is available since
+                // the last time that call was made.
+                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    om.telemetry.addData("# Object Detected", updatedRecognitions.size());
+                    int i = 1;
+
+                    String leftMineral = "";
+                    String centreMineral = "";
+                    for (Recognition recognition : updatedRecognitions) {
+                        om.telemetry.addData("object " + String.valueOf(i), recognition.getLabel() + "," + recognition.getTop() + "," + recognition.getBottom());
+                        i++;
+
+                        if (recognition.getTop() < 600 && leftMineral.equals("silver")) {
+                            leftMineral = recognition.getLabel();
+                        } else if (recognition.getTop() >= 600 && recognition.getTop() <= 1000 && centreMineral.equals("silver")) {
+                            centreMineral = recognition.getLabel();
+                        }
+                    }
+
+                    if (leftMineral != "silver") {
+                        return "left";
+                    } else if (centreMineral != "silver") {
+                        return "centre";
+                    } else {
+                        return "right";
+                    }
+
 
                 }
 
-
             }
-            telemetry.addData("left min.", leftMineral);
-            telemetry.addData("centre min.", centreMineral);
         }
-        op 
+        return "right";
     }
 }
-}
+
+
+
+
+
+                // telemetry.addData("left min.", leftMineral);
+                //telemetry.addData("centre min.", centreMineral
 

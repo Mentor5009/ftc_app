@@ -123,7 +123,10 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
                             i++;
 
                             if (recognition.getTop() < 600 && leftMineral != "silver") {
+
                                 leftMineral = recognition.getLabel();
+                                
+
                             } else if (recognition.getTop() >= 600 && recognition.getTop() <= 1000 && centreMineral != "silver") {
                                 centreMineral = recognition.getLabel();
 
