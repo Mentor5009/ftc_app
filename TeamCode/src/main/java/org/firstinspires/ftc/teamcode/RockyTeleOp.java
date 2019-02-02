@@ -66,8 +66,6 @@ public class RockyTeleOp extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-        robot.arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
@@ -86,8 +84,12 @@ public class RockyTeleOp extends LinearOpMode {
             robot.rightDrive.setPower(right);
 
 
-            if(gamepad2.right_bumper) robot.lift.setPower(1.0);
-            else if(gamepad2.left_bumper) robot.lift.setPower(-1.0);
+            if(gamepad2.right_bumper){
+                robot.lift.setPower(1.0);
+            }
+            else if(gamepad2.left_bumper){
+                robot.lift.setPower(-1.0);
+            }
             else robot.lift.setPower(0);
 
             robot.arm.setPower(gamepad2.left_trigger-gamepad2.right_trigger);
@@ -99,23 +101,55 @@ public class RockyTeleOp extends LinearOpMode {
             telemetry.addData("lift", robot.lift.getPower());
             telemetry.addData("lift", robot.lift.getCurrentPosition());
             telemetry.addData("arm", robot.arm.getPower());
-            telemetry.addData("GigaDrill", robot.GigaDrill.getPower());
+            telemetry.addData("upper", robot.upper.getPower());
             telemetry.addData("arm encoder", robot.arm.getCurrentPosition());
-            telemetry.addData("GigaDrill encoder", robot.GigaDrill.getCurrentPosition());
+            telemetry.addData("upper encoder", robot.upper.getCurrentPosition());
             telemetry.update();
 
-            if(gamepad2.x) robot.chickenFingers.setPower(0.8); // set power for chicken fingers and position
-            else if(gamepad2.a) robot.chickenFingers.setPower(-0.8); // set power for chicken fingers reverse direction
+            if(gamepad2.x){
+                robot.chickenFingers.setPower(0.8); // set power for chicken fingers and position
+            }
+            else if(gamepad2.a){
+                robot.chickenFingers.setPower(-0.8); // set power for chicken fingers reverse direction
+            }
+            else if (gamepad2.dpad_up) {
+                robot.slowchick(0.25);
+            }
+            else if (gamepad2.dpad_down) {
+                robot.slowchick(-0.25);
+            }
             else robot.chickenFingers.setPower(0);
+            
+            if(gamepad2.y){
+                robot.upper.setPower(1);
+            }
+            else if (gamepad2.b){
+                robot.upper.setPower(-1);
+            }
+            else robot.upper.setPower(0);
 
-            if(gamepad2.y) robot.GigaDrill.setPower(1);
-            else if (gamepad2.b) robot.GigaDrill.setPower(-1);
-            else robot.GigaDrill.setPower(0);
+
+            if (gamepad1.dpad_down) {
+                robot.moveChih(- 0.25);
+            }
+            else if (gamepad1.dpad_up) {
+                robot.moveChih(0.25);
+            }
+            else if (gamepad1.dpad_left){
+                robot.moveChina(-.25);
+            }
+            else if (gamepad1.dpad_right) {
+                robot.moveChina(.25);
+            }
+           else robot.stop();
 
             telemetry.addData( "right bumper", gamepad2.right_bumper);
             telemetry.addData( "left bumper", gamepad2.left_bumper);
             telemetry.addData( "right trigger", gamepad2.right_trigger);
             telemetry.addData( "left trigger", gamepad2.left_trigger);
+
+            telemetry.addData("upper encoder", robot.upper.getCurrentPosition());
+
 
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);

@@ -105,14 +105,14 @@ public class HardwareRocky {
     public DcMotorEx arm = null;
     public Servo marker = null;
     public DcMotorEx chickenFingers;
-    public DcMotorEx GigaDrill;
+    public DcMotorEx upper;
     public double tpr;
     private TFObjectDetector tfod;
     private VuforiaLocalizer vuforia;
-    private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
-    private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
-    private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
-    private static final String VUFORIA_KEY = "AfZdcpz/////AAAAGeFAEIQ7eEL9ilMArx0PrTpfGi14uY5DxJNi9A/pNhrpWpMLBsZIt21zn61HlpOEsX4SW/GyN//S+CJpHALNQkDftlrlJ3+cGtzrVC0ZZcEpltXAdp/5CkO+M7Q3rDOtKBeFhCBnjDUVswvmD0sU9mRgjVhn5TvOSXcSuJIJymIy5x15BUxbqsZe+5Rkzt4a/4ltQvr3jN13s4RECp03x+zfPWKR7S79x1+VSITaBB5lrv43p9ZEBJeIaWlAXQTST8O0uf2YhNXCuzrBxuAgL5onSpOWmBUzyFxE8cooXOgyktMm/mtYHG+vujg4gG9FpxFFLutypcN3hLaBOqfS1DyNrQD1i05cpRLwJ4M0Gszc";
+    public static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
+    public static final String LABEL_GOLD_MINERAL = "Gold Mineral";
+    public static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+    public static final String VUFORIA_KEY = "AfZdcpz/////AAAAGeFAEIQ7eEL9ilMArx0PrTpfGi14uY5DxJNi9A/pNhrpWpMLBsZIt21zn61HlpOEsX4SW/GyN//S+CJpHALNQkDftlrlJ3+cGtzrVC0ZZcEpltXAdp/5CkO+M7Q3rDOtKBeFhCBnjDUVswvmD0sU9mRgjVhn5TvOSXcSuJIJymIy5x15BUxbqsZe+5Rkzt4a/4ltQvr3jN13s4RECp03x+zfPWKR7S79x1+VSITaBB5lrv43p9ZEBJeIaWlAXQTST8O0uf2YhNXCuzrBxuAgL5onSpOWmBUzyFxE8cooXOgyktMm/mtYHG+vujg4gG9FpxFFLutypcN3hLaBOqfS1DyNrQD1i05cpRLwJ4M0Gszc";
 
     /* Local OpMode members. */
     HardwareMap hwMap = null;
@@ -138,7 +138,7 @@ public class HardwareRocky {
         arm = (DcMotorEx) hwMap.get(DcMotorEx.class, "arm");
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         chickenFingers = (DcMotorEx) hwMap.get(DcMotorEx.class, "chickenFingers");
-        GigaDrill = (DcMotorEx) hwMap.get(DcMotorEx.class, "GigaDrill");
+        upper = (DcMotorEx) hwMap.get(DcMotorEx.class, "upper");
 
         // Set all motors to zero power
         leftDrive.setPower(0);
@@ -146,17 +146,12 @@ public class HardwareRocky {
         lift.setPower(0);
         arm.setPower(0);
         chickenFingers.setPower(0);
-        GigaDrill.setPower(0);
+        upper.setPower(0);
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        chickenFingers.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        GigaDrill.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        resetEncoders();
         initDetector(om);
 
 
@@ -181,7 +176,7 @@ public class HardwareRocky {
         arm = (DcMotorEx) hwMap.get(DcMotorEx.class, "arm");
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         chickenFingers = (DcMotorEx) hwMap.get(DcMotorEx.class, "chickenFingers");
-        GigaDrill = (DcMotorEx) hwMap.get(DcMotorEx.class, "GigaDrill");
+        upper = (DcMotorEx) hwMap.get(DcMotorEx.class, "upper");
 
         // Set all motors to zero power
         leftDrive.setPower(0);
@@ -189,18 +184,12 @@ public class HardwareRocky {
         lift.setPower(0);
         arm.setPower(0);
         chickenFingers.setPower(0);
-        GigaDrill.setPower(0);
+        upper.setPower(0);
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        chickenFingers.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        GigaDrill.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+       resetEncoders();
 
         //set position of servos
         marker.setPosition(0.8);
@@ -214,15 +203,16 @@ public class HardwareRocky {
         rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        upper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        upper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     //
-    public void move(Length d, double power, OpMode om) {
+    public void move(Length d, double power, LinearOpMode om) {
         //tpr = leftDrive.getMotorType().getTicksPerRev();
         double ticks = inchesToTicks(d); //d.in(Length.Unit.INCH)*tpr / ((wheelDiamater.in(Length.Unit.INCH))* Math.PI);
         resetEncoders();
@@ -233,12 +223,12 @@ public class HardwareRocky {
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftDrive.setPower(power);
         rightDrive.setPower(power);
-        while (Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
+        while (om.opModeIsActive() && Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
 
         }
-
         leftDrive.setPower(0);
         rightDrive.setPower(0);
+
     }
 
     public void moveChih(double power) {
@@ -251,8 +241,18 @@ public class HardwareRocky {
         rightDrive.setPower(-power);
     }
 
+    public void  slowchick(double power){
+
+        chickenFingers.setPower(power);
+    }
+
+    public void stop () {
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+    }
+
     //Robot pivots towards the crater from the depot
-    public void pivot(double angle, double power, OpMode om) {
+    public void pivot(double angle, double power, LinearOpMode om) {
         double rads = angle * Math.PI / 180;
         double robotwidth = 17;
         double ticks = inchesToTicks(new Length(.5 * rads * robotwidth, Length.Unit.INCH));
@@ -263,34 +263,34 @@ public class HardwareRocky {
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setPower(-power);
         leftDrive.setPower(power);
-        while (Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
+        while (om.opModeIsActive() && Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
 
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
     }
 
-    public void liftmove(double inches, double power) {
+    public void liftmove(double inches, double power, LinearOpMode om) {
         double ticks = liftInchesToTicks(inches);
         lift.setPower(power);
         resetEncoders();
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        while (Math.abs(lift.getCurrentPosition()) < Math.abs(ticks)) {
+        while (om.opModeIsActive() && Math.abs(lift.getCurrentPosition()) < Math.abs(ticks)) {
 
 
         }
         lift.setPower(0);
     }
 
-    public void armMove(double angle, double power) {
+    public void armMove(double angle, double power, LinearOpMode om) {
         double ticks = armDegreesToTicks(angle);
         resetEncoders();
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        while (Math.abs(arm.getCurrentPosition()) < Math.abs(ticks)) {
+        while (om.opModeIsActive() && Math.abs(arm.getCurrentPosition()) < Math.abs(ticks)) {
 
         }
         arm.setPower(0);
@@ -361,49 +361,9 @@ public class HardwareRocky {
         }
     }
 
-    public String getGoldPos(LinearOpMode om) {
-        ElapsedTime t = new ElapsedTime();
-        t.reset();
 
-        while (om.opModeIsActive() && t.milliseconds() < 4000) {
-            if (tfod != null) {
-
-                // getUpdatedRecognitions() will return null if no new information is available since
-                // the last time that call was made.
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                if (updatedRecognitions != null) {
-                    om.telemetry.addData("# Object Detected", updatedRecognitions.size());
-                    int i = 1;
-
-                    String leftMineral = "";
-                    String centreMineral = "";
-                    for (Recognition recognition : updatedRecognitions) {
-                        om.telemetry.addData("object " + String.valueOf(i), recognition.getLabel() + "," + recognition.getTop() + "," + recognition.getBottom());
-                        i++;
-
-                        if (recognition.getTop() < 600 && leftMineral.equals("silver")) {
-                            leftMineral = recognition.getLabel();
-                        } else if (recognition.getTop() >= 600 && recognition.getTop() <= 1000 && centreMineral.equals("silver")) {
-                            centreMineral = recognition.getLabel();
-                        }
-                    }
-
-                    if (leftMineral != "silver") {
-                        return "left";
-                    } else if (centreMineral != "silver") {
-                        return "centre";
-                    } else {
-                        return "right";
-                    }
-
-
-                }
-
-            }
-        }
-        return "right";
     }
-}
+
 
 
 
