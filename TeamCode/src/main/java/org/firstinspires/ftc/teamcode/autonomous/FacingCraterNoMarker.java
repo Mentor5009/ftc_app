@@ -34,14 +34,7 @@ public class FacingCraterNoMarker extends LinearOpMode {
         runtime.reset();
 
         // descend from lander
-        robot.upper.setPower(0.9);
-        while (robot.upper.getCurrentPosition() < 17200 && opModeIsActive()) {
-            telemetry.addData("going up", robot.upper.getCurrentPosition());
-            telemetry.update();
-        }
-        robot.upper.setPower(0);
-
-        robot.move(new Length(9, Length.Unit.INCH), -0.6); //reverse to  closer to sample for a better look
+        robot.dropFromLander();
 
         // retract upper (descent arm) while scanning for the gold mineral position
         robot.upper.setPower(-0.9);
@@ -58,16 +51,17 @@ public class FacingCraterNoMarker extends LinearOpMode {
         switch(goldPos) {
             case LEFT:
                 robot.pivot(55, 0.6); // turn toward gold
-                robot.move(new Length(34, Length.Unit.INCH), -0.6); //reverse to gold and push through
+                robot.move(34, -0.6); //reverse to gold and push through
                 //robot.armMove(45,0.6);
                 break;
             case RIGHT:
                 robot.pivot(54, -0.6); // turn toward gold
-                robot.move(new Length(31, Length.Unit.INCH), -0.6); //reverse to gold and push through
+                robot.move(31, -0.6); //reverse to gold and push through
+
                 //robot.armMove(45,0.6);
                 break;
             case CENTRE:
-                robot.move(new Length(28, Length.Unit.INCH), -0.6); //reverse to gold and push through to depot
+                robot.move(28, -0.6); //reverse to gold and push through to depot
                 //robot.armMove(45,0.6);
                 break;
         }

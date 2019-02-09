@@ -80,7 +80,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Came
 public class HardwareRocky {
 
 
-    final Length wheelDiamater = new Length(4, Length.Unit.INCH);
+    final double wheelDiamater = 4;
     /* Public OpMode members. */
     public DcMotorEx leftDrive = null;
     public DcMotorEx rightDrive = null;
@@ -165,13 +165,22 @@ public class HardwareRocky {
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         upper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-    public void move(double d, double power){
-            move(new Length(d, Length.Unit.INCH),power);
+
+    public void dropFromLander() {
+        upper.setPower(0.9);
+        while (upper.getCurrentPosition() < 17200 && om.opModeIsActive()) {
+            om.telemetry.addData("going up", upper.getCurrentPosition());
+            om.telemetry.update();
+        }
+        upper.setPower(0);
+
+        move(9, -0.6); //reverse to  closer to sample for a better look
+
     }
     //
-    public void move(Length d, double power) {
+    public void move(double inches, double power) {
         //tpr = leftDrive.getMotorType().getTicksPerRev();
-        double ticks = inchesToTicks(d); //d.in(Length.Unit.INCH)*tpr / ((wheelDiamater.in(Length.Unit.INCH))* Math.PI);
+        double ticks = inchesToTicks(inches);
         resetEncoders();
 
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -208,7 +217,7 @@ public class HardwareRocky {
     public void pivot(double angle, double power) {
         double rads = angle * Math.PI / 180;
         double robotwidth = 17;
-        double ticks = inchesToTicks(new Length(.5 * rads * robotwidth, Length.Unit.INCH));
+        double ticks = inchesToTicks(.5 * rads * robotwidth);
         resetEncoders();
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -256,8 +265,8 @@ public class HardwareRocky {
 
 
 
-    public double inchesToTicks(Length d) {
-        return d.in(Length.Unit.INCH) * tpr / ((wheelDiamater.in(Length.Unit.INCH)) * Math.PI);
+    public double inchesToTicks(double inches) {
+        return (inches * tpr) / (wheelDiamater * Math.PI);
     }
 
     public double armDegreesToTicks(double armDegrees) {
