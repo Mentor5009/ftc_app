@@ -31,11 +31,8 @@ package org.firstinspires.ftc.teamcode;
 
 
 
-import android.hardware.Sensor;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -44,31 +41,13 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
  //import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
-
-
-import java.util.List;
 
 /**
  * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -123,58 +102,15 @@ public class HardwareRocky {
 
     /* Local OpMode members. */
     HardwareMap hwMap = null;
+    private LinearOpMode om;
     private ElapsedTime period = new ElapsedTime();
 
     /* Constructor */
-    public HardwareRocky() {
+    public HardwareRocky(LinearOpMode opMode) {
+        om = opMode;
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap,LinearOpMode om) {
-        // save reference to HW Map
-        hwMap = ahwMap;
-
-
-        // Define and Initialize Servos
-        marker = hwMap.get(Servo.class, "marker");
-        chickenFingers = hwMap.get(CRServo.class, " chickenFingers");
-        Tilter =  hwMap.get(Servo.class, "Tilter");
-        bigboi = hwMap.get(Servo.class, "bigboi");
-
-        // Define and Initialize Motors
-        leftDrive = (DcMotorEx) hwMap.get(DcMotorEx.class, "leftDrive");
-        rightDrive = (DcMotorEx) hwMap.get(DcMotorEx.class, "rightDrive");
-        lift = (DcMotorEx) hwMap.get(DcMotorEx.class, "lift");
-        arm = (DcMotorEx) hwMap.get(DcMotorEx.class, "arm");
-        leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        upper = (DcMotorEx) hwMap.get(DcMotorEx.class, "upper");
-        potentiometer = hwMap.analogInput.get("potentiometer");
-
-        potentiometer.getVoltage();
-
-        // Set all motors to zero power
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
-        lift.setPower(0);
-        arm.setPower(0);
-        chickenFingers.setPower(0);
-        upper.setPower(0);
-        arm.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
-        resetEncoders();
-        initDetector(om);
-
-
-        //set position of servos
-        marker.setPosition(0.8);
-        while (marker.getPosition() < 0.8) ;
-
-
-
-        tpr = 1066;
-    }/* Initialize standard Hardware interfaces */
         public void init(HardwareMap ahwMap) {
         // save reference to HW Map
         hwMap = ahwMap;
@@ -229,9 +165,11 @@ public class HardwareRocky {
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         upper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
+    public void move(double d, double power){
+            move(new Length(d, Length.Unit.INCH),power);
+    }
     //
-    public void move(Length d, double power, LinearOpMode om) {
+    public void move(Length d, double power) {
         //tpr = leftDrive.getMotorType().getTicksPerRev();
         double ticks = inchesToTicks(d); //d.in(Length.Unit.INCH)*tpr / ((wheelDiamater.in(Length.Unit.INCH))* Math.PI);
         resetEncoders();
@@ -267,7 +205,7 @@ public class HardwareRocky {
     }
 
     //Robot pivots towards the crater from the depot
-    public void pivot(double angle, double power, LinearOpMode om) {
+    public void pivot(double angle, double power) {
         double rads = angle * Math.PI / 180;
         double robotwidth = 17;
         double ticks = inchesToTicks(new Length(.5 * rads * robotwidth, Length.Unit.INCH));
@@ -285,7 +223,7 @@ public class HardwareRocky {
         rightDrive.setPower(0);
     }
 
-    public void liftmove(double inches, double power, LinearOpMode om) {
+    public void liftmove(double inches, double power) {
         double ticks = liftInchesToTicks(inches);
         lift.setPower(power);
         resetEncoders();
@@ -299,7 +237,7 @@ public class HardwareRocky {
         lift.setPower(0);
     }
 
-    public void armMove(double angle, double power, LinearOpMode om) {
+    public void armMove(double angle, double power) {
         double ticks = armDegreesToTicks(angle);
         resetEncoders();
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -316,6 +254,8 @@ public class HardwareRocky {
         return (2132 * liftInches) / 2.25;
     }
 
+
+
     public double inchesToTicks(Length d) {
         return d.in(Length.Unit.INCH) * tpr / ((wheelDiamater.in(Length.Unit.INCH)) * Math.PI);
     }
@@ -328,7 +268,7 @@ public class HardwareRocky {
         chickenFingers.setPower(power);
     }
 
-    public void initTfod(LinearOpMode om) {
+    public void initTfod() {
         int tfodMonitorViewId = om.hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", om.hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
@@ -353,12 +293,12 @@ public class HardwareRocky {
         // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
     }
 
-    public TFObjectDetector initDetector(LinearOpMode om ) {
+    public TFObjectDetector initDetector() {
         if (om.opModeIsActive()) {
             /** Activate Tensor Flow Object Detection. */
             initVuforia();
             if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-                initTfod(om);
+                initTfod();
             } else {
                 om.telemetry.addData("Sorry!", "This device is not compatible with TFOD");
             }
