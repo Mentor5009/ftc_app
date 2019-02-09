@@ -66,17 +66,17 @@ public class FacingCraterNoMarker extends LinearOpMode {
 
         if (goldPos == "left") {
                 robot.pivot(55, 0.6); // turn toward gold
-                robot.move(new Length(34, Length.Unit.INCH), -0.6); //reverse to gold and push through
+                robot.move(34, -0.6); //reverse to gold and push through
                 //robot.armMove(45,0.6);
             }
             if (goldPos == "right") {
                 robot.pivot(54, -0.6); // turn toward gold
-                robot.move(new Length(31, Length.Unit.INCH), -0.6); //reverse to gold and push through
+                robot.move(31, -0.6); //reverse to gold and push through
 
                 //robot.armMove(45,0.6);
             }
             if (goldPos == "centre") {
-                robot.move(new Length(28, Length.Unit.INCH), -0.6); //reverse to gold and push through to depot
+                robot.move(28, -0.6); //reverse to gold and push through to depot
                 //robot.armMove(45,0.6);
 
 

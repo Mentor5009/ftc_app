@@ -70,29 +70,29 @@ public class FacingDepot extends LinearOpMode {
             if (goldPos == "left") {
                 //this at the end
                 robot.pivot(57, 0.6); // turn toward gold
-                robot.move(new Length(38, Length.Unit.INCH), -0.6); //reverse to gold and push through
+                robot.move(38, -0.6); //reverse to gold and push through
                 robot.pivot(100, -0.6); // turn toward depot
-                robot.move(new Length(43, Length.Unit.INCH), -0.6); // reverse into depot
+                robot.move(43, -0.6); // reverse into depot
                 robot.marker.setPosition(0.2); // drop marker
                 robot.pivot(100, 0.6); // turn toward crater
-                robot.move(new Length(71, Length.Unit.INCH), 0.6); // forward to crater
+                robot.move(71, 0.6); // forward to crater
                 //robot.armMove(45, 0.6); // rotate arm over crater
             }
             if (goldPos == "right") {
                 robot.pivot(53, -0.6); // turn toward gold
-                robot.move(new Length(38, Length.Unit.INCH), -0.6); //reverse to gold and push through
+                robot.move(38, -0.6); //reverse to gold and push through
                 robot.pivot(107, .6);  // turn toward depot
-                robot.move(new Length(44, Length.Unit.INCH), -0.6); // reverse to depot
+                robot.move(44, -0.6); // reverse to depot
                 //robot.pivot(10, -.6, this); // turn toward crater
                 robot.marker.setPosition(0.2); // drop marker
-                robot.move(new Length(74, Length.Unit.INCH), 0.6); // forward to crater
+                robot.move(74, 0.6); // forward to crater
                 //robot.armMove(45, 0.6); // rotate arm over crater
             }
             if (goldPos == "centre") {
-                robot.move(new Length(49, Length.Unit.INCH), -0.6); //reverse to gold and push through to depot
+                robot.move(49, -0.6); //reverse to gold and push through to depot
                 robot.pivot(62, 0.6); // turn toward crater
                 robot.marker.setPosition(0.2); // drop marker
-                robot.move(new Length(70, Length.Unit.INCH), 0.6); // forward to crater
+                robot.move(70, 0.6); // forward to crater
                 //robot.armMove(45, 0.6); // rotate arm over crater
 
             }
