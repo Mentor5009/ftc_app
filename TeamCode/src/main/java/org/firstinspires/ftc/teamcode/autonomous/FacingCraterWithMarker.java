@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -13,9 +13,10 @@ import org.firstinspires.ftc.teamcode.Length;
 
 import java.util.List;
 
-@Autonomous(name = "Crater TFod End")
+@Autonomous(name = "Crater")
 
-public class FacingCraterTfodEnd extends LinearOpMode {
+public class
+FacingCraterWithMarker extends LinearOpMode {
     HardwareRocky robot;
     private ElapsedTime runtime = new ElapsedTime();
     public TFObjectDetector tfod;
@@ -93,14 +94,10 @@ public class FacingCraterTfodEnd extends LinearOpMode {
             robot.pivot(120, 0.6);
             robot.move(new Length(70, Length.Unit.INCH), 0.6);
             //in depot
-            robot.pivot(120, -0.6);
+            robot.pivot(180, -0.6);
             robot.marker.setPosition(0.2);
             //Leave depot to go to crater
-            robot.move(new Length(25, Length.Unit.INCH), 0.9);
-            robot.move(new Length(25, Length.Unit.INCH), -0.9);
-            robot.pivot(60,-.6);
             robot.move(new Length(62, Length.Unit.INCH), 0.9);
-
 
 
             //robot.armMove(45,0.6);
@@ -115,12 +112,9 @@ public class FacingCraterTfodEnd extends LinearOpMode {
             robot.pivot(25, -0.6);
             robot.move(new Length(45, Length.Unit.INCH), 0.6);
             //in depot
-            robot.pivot(40,-.8);
+            robot.pivot(220,-.8);
             robot.marker.setPosition(0.2);
             //Leave depot to go to crater
-            robot.move(new Length(24, Length.Unit.INCH), 0.9);
-            robot.move(new Length(24, Length.Unit.INCH), -0.9);
-            robot.pivot(147.4,-8);
             robot.move(new Length(78, Length.Unit.INCH), 0.9);
 
 
@@ -133,29 +127,29 @@ public class FacingCraterTfodEnd extends LinearOpMode {
 
         }
     }
-    public void initTfod () {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(robot.TFOD_MODEL_ASSET, robot.LABEL_GOLD_MINERAL, robot.LABEL_SILVER_MINERAL);
-    }
+        public void initTfod () {
+            int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                    "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+            TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+            tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+            tfod.loadModelFromAsset(robot.TFOD_MODEL_ASSET, robot.LABEL_GOLD_MINERAL, robot.LABEL_SILVER_MINERAL);
+        }
 
 
-    public void initVuforia () {
-        /*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        public void initVuforia () {
+            /*
+             * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+             */
+            VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-        parameters.vuforiaLicenseKey = robot.VUFORIA_KEY;
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+            parameters.vuforiaLicenseKey = robot.VUFORIA_KEY;
+            parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
 
-        //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+            //  Instantiate the Vuforia engine
+            vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
-    }
+            // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
+        }
 
 
     public String getGoldPos() {
