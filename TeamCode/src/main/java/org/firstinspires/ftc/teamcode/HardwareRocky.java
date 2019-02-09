@@ -111,7 +111,7 @@ public class HardwareRocky {
     }
 
     /* Initialize standard Hardware interfaces */
-        public void init(HardwareMap ahwMap) {
+    public void init(HardwareMap ahwMap) {
         // save reference to HW Map
         hwMap = ahwMap;
 

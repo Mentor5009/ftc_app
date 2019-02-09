@@ -24,56 +24,64 @@ public class GoldDetector {
         om = opMode;
         vuforia = initVuforia();
 
-        //Initializing tfod
-        int tfodMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+        // Initializing tfod
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+            int tfodMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier(
+                    "tfodMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
+            TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+            tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+            tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+            tfod.activate();
+        } else {
+            opMode.telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+        }
     }
 
-    public String getGoldPos(int timeout) {
+    public MineralPosition getGoldPos(int timeout) {
         ElapsedTime t = new ElapsedTime();
         t.reset();
 
         while (om.opModeIsActive() && t.milliseconds() < timeout) {
-            if (tfod != null) {
+            if (tfod == null) break;
 
-                // getUpdatedRecognitions() will return null if no new information is available since
-                // the last time that call was made.
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                if (updatedRecognitions != null) {
-                    om.telemetry.addData("# Objects Detected", updatedRecognitions.size());
-                    int i = 1;
+            // getUpdatedRecognitions() will return null if no new information is available since
+            // the last time that call was made.
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                om.telemetry.addData("# Objects Detected", updatedRecognitions.size());
+                int i = 1;
 
-                    String rightMineral = "";
-                    String centreMineral = "";
-                    for (Recognition recognition : updatedRecognitions) {
-                        om.telemetry.addData("object " + String.valueOf(i), recognition.getLabel() + "," + recognition.getTop() + "," + recognition.getBottom());
-                        i++;
+                String rightMineral = "";
+                String centreMineral = "";
+                for (Recognition recognition : updatedRecognitions) {
+                    om.telemetry.addData("object " + String.valueOf(i), recognition.getLabel() + "," + recognition.getTop() + "," + recognition.getBottom());
+                    i++;
 
-                        if (recognition.getTop() < 600 && !rightMineral.equals("Silver Mineral")) {
-                            rightMineral = recognition.getLabel();
-                        } else if (recognition.getTop() >= 600 && recognition.getTop() <= 1000 && !centreMineral.equals("Silver Mineral")) {
-                            centreMineral = recognition.getLabel();
-                        }
-                    }
-
-                    om.telemetry.addData("rightMineral", rightMineral);
-                    om.telemetry.addData("centreMineral", centreMineral);
-
-                    if (!rightMineral.equals("Silver Mineral")) {
-                        return "right";
-                    } else if (!centreMineral.equals("Silver Mineral")) {
-                        return "centre";
-                    } else {
-                        return "left";
+                    if (recognition.getTop() < 600 && !rightMineral.equals("Silver Mineral")) {
+                        rightMineral = recognition.getLabel();
+                    } else if (recognition.getTop() >= 600 && recognition.getTop() <= 1000 && !centreMineral.equals("Silver Mineral")) {
+                        centreMineral = recognition.getLabel();
                     }
                 }
 
+                om.telemetry.addData("rightMineral", rightMineral);
+                om.telemetry.addData("centreMineral", centreMineral);
+
+                if (!rightMineral.equals("Silver Mineral")) {
+                    return MineralPosition.RIGHT;
+                } else if (!centreMineral.equals("Silver Mineral")) {
+                    return MineralPosition.CENTRE;
+                } else {
+                    return MineralPosition.LEFT;
+                }
             }
         }
-        return "right";
+        return MineralPosition.RIGHT;
+    }
+
+    public void shutdown() {
+        if (tfod != null)
+            tfod.shutdown();
     }
 
     private VuforiaLocalizer initVuforia() {
