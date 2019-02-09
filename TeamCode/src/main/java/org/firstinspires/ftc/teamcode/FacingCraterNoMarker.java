@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -11,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 @Autonomous(name = "Crater no marker")
 
 public class FacingCraterNoMarker extends LinearOpMode {
@@ -24,8 +23,8 @@ public class FacingCraterNoMarker extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new HardwareRocky();
-        robot.init(hardwareMap, this);
+        robot = new HardwareRocky(this);
+        robot.init(hardwareMap);
         waitForStart();
         runtime.reset();
         ElapsedTime t = new ElapsedTime();
@@ -56,7 +55,7 @@ public class FacingCraterNoMarker extends LinearOpMode {
         }
         robot.upper.setPower(0);
 
-        robot.move(new Length(9, Length.Unit.INCH), -0.6, this); //reverse to  closer to sample for a better look
+        robot.move(new Length(9, Length.Unit.INCH), -0.6); //reverse to  closer to sample for a better look
 
         // retract upper (descent arm) while scanning for the gold mineral position
         robot.upper.setPower(-0.9);
@@ -71,18 +70,18 @@ public class FacingCraterNoMarker extends LinearOpMode {
         robot.upper.setPower(0);
 
         if (goldPos == "left") {
-                robot.pivot(55, 0.6, this); // turn toward gold
-                robot.move(new Length(34, Length.Unit.INCH), -0.6, this); //reverse to gold and push through
+                robot.pivot(55, 0.6); // turn toward gold
+                robot.move(new Length(34, Length.Unit.INCH), -0.6); //reverse to gold and push through
                 //robot.armMove(45,0.6);
             }
             if (goldPos == "right") {
-                robot.pivot(54, -0.6, this); // turn toward gold
-                robot.move(new Length(31, Length.Unit.INCH), -0.6, this); //reverse to gold and push through
+                robot.pivot(54, -0.6); // turn toward gold
+                robot.move(new Length(31, Length.Unit.INCH), -0.6); //reverse to gold and push through
 
                 //robot.armMove(45,0.6);
             }
             if (goldPos == "centre") {
-                robot.move(new Length(28, Length.Unit.INCH), -0.6, this); //reverse to gold and push through to depot
+                robot.move(new Length(28, Length.Unit.INCH), -0.6); //reverse to gold and push through to depot
                 //robot.armMove(45,0.6);
 
 

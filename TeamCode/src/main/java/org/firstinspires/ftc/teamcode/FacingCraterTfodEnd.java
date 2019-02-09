@@ -22,8 +22,8 @@ public class FacingCraterTfodEnd extends LinearOpMode {
     private String goldPos = "right";
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new HardwareRocky();
-        robot.init(hardwareMap, this);
+        robot = new HardwareRocky(this);
+        robot.init(hardwareMap);
         waitForStart();
         runtime.reset();
         ElapsedTime t = new ElapsedTime();
@@ -54,7 +54,7 @@ public class FacingCraterTfodEnd extends LinearOpMode {
         }
         robot.upper.setPower(0);
 
-        robot.move(new Length(9, Length.Unit.INCH), -0.6, this); //reverse to  closer to sample for a better look
+        robot.move(new Length(9, Length.Unit.INCH), -0.6); //reverse to  closer to sample for a better look
 
         // retract upper (descent arm) while scanning for the gold mineral position
         robot.upper.setPower(-0.9);
@@ -69,57 +69,57 @@ public class FacingCraterTfodEnd extends LinearOpMode {
         robot.upper.setPower(0);
 
         if (goldPos == "left") {
-            robot.pivot(55, 0.6, this); // turn toward gold
-            robot.move(new Length(28, Length.Unit.INCH), -0.6, this); //reverse to gold and push through
+            robot.pivot(55, 0.6); // turn toward gold
+            robot.move(new Length(28, Length.Unit.INCH), -0.6); //reverse to gold and push through
             //after hitting sample
-            robot.move(new Length(15, Length.Unit.INCH), 0.6, this);
-            robot.pivot(35,.6,this);
-            robot.move(new Length(44, Length.Unit.INCH), 0.9, this);
+            robot.move(new Length(15, Length.Unit.INCH), 0.6);
+            robot.pivot(35,.6);
+            robot.move(new Length(44, Length.Unit.INCH), 0.9);
             //at wall
-            robot.pivot(37, -0.6, this);
+            robot.pivot(37, -0.6);
             //moves towards depot
-            robot.move(new Length(50,Length.Unit.INCH), 0.9, this);
-            robot.pivot(220, -0.7,this);
+            robot.move(new Length(50,Length.Unit.INCH), 0.9);
+            robot.pivot(220, -0.7);
             robot.marker.setPosition(0.2);//Leave depot to go to crater
-            robot.move(new Length(70, Length.Unit.INCH), 0.9, this);
+            robot.move(new Length(70, Length.Unit.INCH), 0.9);
 
             //robot.armMove(45,0.6);
         }
         if (goldPos == "right") {
-            robot.pivot(54, -0.6, this); // turn toward gold
-            robot.move(new Length(31, Length.Unit.INCH), -0.6, this);
-            robot.pivot(120, 0.6, this);
-            robot.move(new Length(70, Length.Unit.INCH), 0.6, this);
+            robot.pivot(54, -0.6); // turn toward gold
+            robot.move(new Length(31, Length.Unit.INCH), -0.6);
+            robot.pivot(120, 0.6);
+            robot.move(new Length(70, Length.Unit.INCH), 0.6);
             //in depot
-            robot.pivot(120, -0.6, this);
+            robot.pivot(120, -0.6);
             robot.marker.setPosition(0.2);
             //Leave depot to go to crater
-            robot.move(new Length(25, Length.Unit.INCH), 0.9, this);
-            robot.move(new Length(25, Length.Unit.INCH), -0.9, this);
-            robot.pivot(60,-.6,this);
-            robot.move(new Length(62, Length.Unit.INCH), 0.9, this);
+            robot.move(new Length(25, Length.Unit.INCH), 0.9);
+            robot.move(new Length(25, Length.Unit.INCH), -0.9);
+            robot.pivot(60,-.6);
+            robot.move(new Length(62, Length.Unit.INCH), 0.9);
 
 
 
             //robot.armMove(45,0.6);
         }
         if (goldPos == "centre") {
-            robot.move(new Length(21, Length.Unit.INCH), -0.6, this); //reverse to gold and push through to depot
-            robot.move(new Length(15, Length.Unit.INCH), 0.6, this);
+            robot.move(new Length(21, Length.Unit.INCH), -0.6); //reverse to gold and push through to depot
+            robot.move(new Length(15, Length.Unit.INCH), 0.6);
             //already hit sample
-            robot.pivot(80, 0.6, this);
-            robot.move(new Length(52, Length.Unit.INCH), 0.6, this);
+            robot.pivot(80, 0.6);
+            robot.move(new Length(52, Length.Unit.INCH), 0.6);
             //moves towards depot
-            robot.pivot(25, -0.6, this);
-            robot.move(new Length(45, Length.Unit.INCH), 0.6, this);
+            robot.pivot(25, -0.6);
+            robot.move(new Length(45, Length.Unit.INCH), 0.6);
             //in depot
-            robot.pivot(40,-.8,this);
+            robot.pivot(40,-.8);
             robot.marker.setPosition(0.2);
             //Leave depot to go to crater
-            robot.move(new Length(24, Length.Unit.INCH), 0.9, this);
-            robot.move(new Length(24, Length.Unit.INCH), -0.9, this);
-            robot.pivot(147.4,-8,this);
-            robot.move(new Length(78, Length.Unit.INCH), 0.9, this);
+            robot.move(new Length(24, Length.Unit.INCH), 0.9);
+            robot.move(new Length(24, Length.Unit.INCH), -0.9);
+            robot.pivot(147.4,-8);
+            robot.move(new Length(78, Length.Unit.INCH), 0.9);
 
 
             //robot.armMove(45,0.6);

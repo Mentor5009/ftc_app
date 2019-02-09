@@ -58,7 +58,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class RockyTeleOpEmergency extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareRocky robot = new HardwareRocky();     // Use a Rocky's hardware
+    HardwareRocky robot = new HardwareRocky(this);     // Use a Rocky's hardware
 
     @Override
     public void runOpMode() {

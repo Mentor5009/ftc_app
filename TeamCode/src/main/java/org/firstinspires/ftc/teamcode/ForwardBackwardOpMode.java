@@ -66,7 +66,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class ForwardBackwardOpMode extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareRocky         robot   = new HardwareRocky();   // Use a Rocky hardware
+    HardwareRocky         robot   = new HardwareRocky(this);   // Use a Rocky hardware
     private ElapsedTime runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
