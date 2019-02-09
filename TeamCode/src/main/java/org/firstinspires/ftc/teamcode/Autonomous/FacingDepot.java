@@ -1,26 +1,29 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.teamcode.HardwareRocky;
+import org.firstinspires.ftc.teamcode.Length;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import java.util.List;
 
-@Autonomous(name = "Crater")
 
-public class
-FacingCraterWithMarker extends LinearOpMode {
-    HardwareRocky robot;
+@Autonomous(name = "Depot")
+public class FacingDepot extends LinearOpMode {
+    private HardwareRocky robot;
     private ElapsedTime runtime = new ElapsedTime();
     public TFObjectDetector tfod;
     List<Recognition> updatedRecognitions;
     private VuforiaLocalizer vuforia;
     private String goldPos = "right";
+
     @Override
     public void runOpMode() throws InterruptedException {
         robot = new HardwareRocky(this);
@@ -61,7 +64,7 @@ FacingCraterWithMarker extends LinearOpMode {
         robot.upper.setPower(-0.9);
         telemetry.addData("Before", robot.upper.getCurrentPosition());
         telemetry.update();
-        while (robot.upper.getCurrentPosition() > -12000 && opModeIsActive()) {
+        while (robot.upper.getCurrentPosition() > -16000 && opModeIsActive()) {
             goldPos = getGoldPos();
             telemetry.addData("goldpos", goldPos);
             telemetry.addData("Not there yet", robot.upper.getCurrentPosition());
@@ -69,86 +72,67 @@ FacingCraterWithMarker extends LinearOpMode {
         }
         robot.upper.setPower(0);
 
-        if (goldPos == "left") {
-            robot.pivot(55, 0.6); // turn toward gold
-            robot.move(new Length(28, Length.Unit.INCH), -0.6); //reverse to gold and push through
-            //after hitting sample
-            robot.move(new Length(15, Length.Unit.INCH), 0.6);
-            robot.pivot(35,.6);
-            robot.move(new Length(44, Length.Unit.INCH), 0.9);
-            //at wall
-            robot.pivot(37, -0.6);
-            //moves towards depot
-            robot.move(new Length(50,Length.Unit.INCH), 0.9);
-            robot.pivot(220, -0.7);
-            robot.marker.setPosition(0.2);//Leave depot to go to crater
-            robot.move(new Length(70, Length.Unit.INCH), 0.9);
-
-            //robot.armMove(45,0.6);
-        }
-        if (goldPos == "right") {
-            robot.pivot(54, -0.6); // turn toward gold
-            robot.move(new Length(31, Length.Unit.INCH), -0.6);
-            robot.pivot(120, 0.6);
-            robot.move(new Length(70, Length.Unit.INCH), 0.6);
-            //in depot
-            robot.pivot(180, -0.6);
-            robot.marker.setPosition(0.2);
-            //Leave depot to go to crater
-            robot.move(new Length(62, Length.Unit.INCH), 0.9);
-
-
-            //robot.armMove(45,0.6);
-        }
-        if (goldPos == "centre") {
-            robot.move(new Length(21, Length.Unit.INCH), -0.6); //reverse to gold and push through to depot
-            robot.move(new Length(15, Length.Unit.INCH), 0.6);
-            //already hit sample
-            robot.pivot(80, 0.6);
-            robot.move(new Length(52, Length.Unit.INCH), 0.6);
-            //moves towards depot
-            robot.pivot(25, -0.6);
-            robot.move(new Length(45, Length.Unit.INCH), 0.6);
-            //in depot
-            robot.pivot(220,-.8);
-            robot.marker.setPosition(0.2);
-            //Leave depot to go to crater
-            robot.move(new Length(78, Length.Unit.INCH), 0.9);
-
-
-            //robot.armMove(45,0.6);
-
-            // shut down object detector
-            if (tfod != null) {
-                tfod.shutdown();
+        //move based on gold position;
+        if (opModeIsActive()) {
+            if (goldPos == "left") {
+                //this at the end
+                robot.pivot(57, 0.6); // turn toward gold
+                robot.move(new Length(38, Length.Unit.INCH), -0.6); //reverse to gold and push through
+                robot.pivot(100, -0.6); // turn toward depot
+                robot.move(new Length(43, Length.Unit.INCH), -0.6); // reverse into depot
+                robot.marker.setPosition(0.2); // drop marker
+                robot.pivot(100, 0.6); // turn toward crater
+                robot.move(new Length(71, Length.Unit.INCH), 0.6); // forward to crater
+                //robot.armMove(45, 0.6); // rotate arm over crater
             }
+            if (goldPos == "right") {
+                robot.pivot(53, -0.6); // turn toward gold
+                robot.move(new Length(38, Length.Unit.INCH), -0.6); //reverse to gold and push through
+                robot.pivot(107, .6);  // turn toward depot
+                robot.move(new Length(44, Length.Unit.INCH), -0.6); // reverse to depot
+                //robot.pivot(10, -.6, this); // turn toward crater
+                robot.marker.setPosition(0.2); // drop marker
+                robot.move(new Length(74, Length.Unit.INCH), 0.6); // forward to crater
+                //robot.armMove(45, 0.6); // rotate arm over crater
+            }
+            if (goldPos == "centre") {
+                robot.move(new Length(49, Length.Unit.INCH), -0.6); //reverse to gold and push through to depot
+                robot.pivot(62, 0.6); // turn toward crater
+                robot.marker.setPosition(0.2); // drop marker
+                robot.move(new Length(70, Length.Unit.INCH), 0.6); // forward to crater
+                //robot.armMove(45, 0.6); // rotate arm over crater
 
+            }
         }
+        // shut down object detector
+        if (opModeIsActive() && tfod != null) {
+            tfod.shutdown();
+        }
+
     }
-        public void initTfod () {
-            int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                    "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-            TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-            tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-            tfod.loadModelFromAsset(robot.TFOD_MODEL_ASSET, robot.LABEL_GOLD_MINERAL, robot.LABEL_SILVER_MINERAL);
-        }
 
+    public void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(robot.TFOD_MODEL_ASSET, robot.LABEL_GOLD_MINERAL, robot.LABEL_SILVER_MINERAL);
+    }
 
-        public void initVuforia () {
-            /*
-             * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-             */
-            VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+    public void initVuforia() {
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-            parameters.vuforiaLicenseKey = robot.VUFORIA_KEY;
-            parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        parameters.vuforiaLicenseKey = robot.VUFORIA_KEY;
+        parameters.cameraDirection = CameraDirection.BACK;
 
-            //  Instantiate the Vuforia engine
-            vuforia = ClassFactory.getInstance().createVuforia(parameters);
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-            // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
-        }
-
+        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
+    }
 
     public String getGoldPos() {
         ElapsedTime t = new ElapsedTime();
@@ -195,5 +179,6 @@ FacingCraterWithMarker extends LinearOpMode {
         return "right";
     }
 }
+    
 
 
