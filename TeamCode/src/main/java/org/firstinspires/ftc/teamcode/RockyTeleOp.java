@@ -80,53 +80,6 @@ public class RockyTeleOp extends LinearOpMode {
             // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
             left = -gamepad1.left_stick_y;
             right = -gamepad1.right_stick_y;
-            robot.leftDrive.setPower(left);
-            robot.rightDrive.setPower(right);
-
-
-            if(gamepad2.right_bumper){
-                robot.lift.setPower(1.0);
-            }
-            else if(gamepad2.left_bumper){
-                robot.lift.setPower(-1.0);
-            }
-            else robot.lift.setPower(0);
-
-            robot.arm.setPower(gamepad2.left_trigger-gamepad2.right_trigger);
-
-            //telemetry.addData("left",  "%.2f", left);
-
-            //telemetry.addData("right", "%.2f", right);
-            //telemetry.addData("marker",robot.marker.getPosition());
-            telemetry.addData("lift", robot.lift.getPower());
-            telemetry.addData("lift", robot.lift.getCurrentPosition());
-            telemetry.addData("arm", robot.arm.getPower());
-            telemetry.addData("upper", robot.upper.getPower());
-            telemetry.addData("arm encoder", robot.arm.getCurrentPosition());
-            telemetry.addData("upper encoder", robot.upper.getCurrentPosition());
-            telemetry.update();
-
-            if(gamepad2.x){
-                robot.chickenFingers.setPower(0.8); // set power for chicken fingers and position
-            }
-            else if(gamepad2.a){
-                robot.chickenFingers.setPower(-0.8); // set power for chicken fingers reverse direction
-            }
-            else if (gamepad2.dpad_up) {
-                robot.slowchick(0.25);
-            }
-            else if (gamepad2.dpad_down) {
-                robot.slowchick(-0.25);
-            }
-            else robot.chickenFingers.setPower(0);
-            
-            if(gamepad2.y){
-                robot.upper.setPower(1);
-            }
-            else if (gamepad2.b){
-                robot.upper.setPower(-1);
-            }
-            else robot.upper.setPower(0);
 
 
             if (gamepad1.dpad_down) {
@@ -139,17 +92,85 @@ public class RockyTeleOp extends LinearOpMode {
                 robot.moveChina(-.25);
             }
             else if (gamepad1.dpad_right) {
-                robot.moveChina(.25);
+                    robot.moveChina(.25);
             }
-           else robot.stop();
+            else {
+                robot.leftDrive.setPower(left);
+                robot.rightDrive.setPower(right);
+            }
 
+            robot.arm.setPower(gamepad2.left_trigger-gamepad2.right_trigger);
+
+            if(gamepad2.dpad_up){
+                robot.Tilter.setPosition(0.6);
+            }
+            else {
+                robot.Tilter.setPosition(0.4);
+            }
+
+            if(gamepad1.x){
+                robot.bigboi.setPosition(0.6);
+            }
+            else if (gamepad1.b){
+                robot.bigboi.setPosition(0.4);
+            }
+
+
+            if(gamepad2.x){
+                robot.chickenFingers.setPower(0.8); // set power for chicken fingers and position
+            }
+            else if(gamepad2.a){
+                robot.chickenFingers.setPower(-0.8); // set power for chicken fingers reverse direction
+            }
+            else if(gamepad2.right_bumper){
+                robot.lift.setPower(1.0);
+            }
+            else if(gamepad2.left_bumper){
+                robot.lift.setPower(-1.0);
+
+            }
+            else {
+                robot.chickenFingers.setPower(0);
+                robot.lift.setPower(0);
+            }
+            if(gamepad2.y){
+                robot.upper.setPower(1);
+            }
+            else if (gamepad2.b) {
+                robot.upper.setPower(-1);
+            }
+
+            else {
+                robot.upper.setPower(0);
+            }
+
+
+            /*while (gamepad2.dpad_right @@ robot.potentiometer.getVoltage()<0.853)*/
+
+
+
+            //TELEMETRY ZONE
             telemetry.addData( "right bumper", gamepad2.right_bumper);
             telemetry.addData( "left bumper", gamepad2.left_bumper);
             telemetry.addData( "right trigger", gamepad2.right_trigger);
             telemetry.addData( "left trigger", gamepad2.left_trigger);
 
             telemetry.addData("upper encoder", robot.upper.getCurrentPosition());
+            telemetry.addData("Tilter encoder", robot.Tilter.getPosition());
+            telemetry.addData("potentiometer", robot.potentiometer.getVoltage());
+            telemetry.addData("bigboi", robot.bigboi.getPosition());
 
+            //telemetry.addData("left",  "%.2f", left);
+
+            //telemetry.addData("right", "%.2f", right);
+            //telemetry.addData("marker",robot.marker.getPosition());
+            telemetry.addData("lift", robot.lift.getPower());
+            telemetry.addData("lift", robot.lift.getCurrentPosition());
+            telemetry.addData("arm", robot.arm.getPower());
+            telemetry.addData("upper", robot.upper.getPower());
+            telemetry.addData("arm encoder", robot.arm.getCurrentPosition());
+            telemetry.addData("upper encoder", robot.upper.getCurrentPosition());
+            telemetry.update();
 
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);

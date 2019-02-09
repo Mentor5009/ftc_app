@@ -31,9 +31,13 @@ package org.firstinspires.ftc.teamcode;
 
 
 
+import android.hardware.Sensor;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -104,8 +108,11 @@ public class HardwareRocky {
     public DcMotorEx lift = null;
     public DcMotorEx arm = null;
     public Servo marker = null;
-    public DcMotorEx chickenFingers;
-    public DcMotorEx upper;
+    public Servo Tilter = null;
+    public Servo bigboi = null;
+    public AnalogInput potentiometer;
+    public CRServo chickenFingers;
+    public DcMotorEx upper = null ;
     public double tpr;
     private TFObjectDetector tfod;
     private VuforiaLocalizer vuforia;
@@ -130,6 +137,9 @@ public class HardwareRocky {
 
         // Define and Initialize Servos
         marker = hwMap.get(Servo.class, "marker");
+        chickenFingers = hwMap.get(CRServo.class, " chickenFingers");
+        Tilter =  hwMap.get(Servo.class, "Tilter");
+        bigboi = hwMap.get(Servo.class, "bigboi");
 
         // Define and Initialize Motors
         leftDrive = (DcMotorEx) hwMap.get(DcMotorEx.class, "leftDrive");
@@ -137,8 +147,10 @@ public class HardwareRocky {
         lift = (DcMotorEx) hwMap.get(DcMotorEx.class, "lift");
         arm = (DcMotorEx) hwMap.get(DcMotorEx.class, "arm");
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        chickenFingers = (DcMotorEx) hwMap.get(DcMotorEx.class, "chickenFingers");
         upper = (DcMotorEx) hwMap.get(DcMotorEx.class, "upper");
+        potentiometer = hwMap.analogInput.get("potentiometer");
+
+        potentiometer.getVoltage();
 
         // Set all motors to zero power
         leftDrive.setPower(0);
@@ -159,24 +171,31 @@ public class HardwareRocky {
         marker.setPosition(0.8);
         while (marker.getPosition() < 0.8) ;
 
+
+
         tpr = 1066;
     }/* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
+        public void init(HardwareMap ahwMap) {
         // save reference to HW Map
         hwMap = ahwMap;
 
 
         // Define and Initialize Servos
         marker = hwMap.get(Servo.class, "marker");
-
+       chickenFingers = hwMap.get(CRServo.class, " chickenFingers");
+        Tilter =  hwMap.get(Servo.class, "Tilter");
+        bigboi = hwMap.get(Servo.class, "bigboi");
         // Define and Initialize Motors
         leftDrive = (DcMotorEx) hwMap.get(DcMotorEx.class, "leftDrive");
         rightDrive = (DcMotorEx) hwMap.get(DcMotorEx.class, "rightDrive");
         lift = (DcMotorEx) hwMap.get(DcMotorEx.class, "lift");
         arm = (DcMotorEx) hwMap.get(DcMotorEx.class, "arm");
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        chickenFingers = (DcMotorEx) hwMap.get(DcMotorEx.class, "chickenFingers");
         upper = (DcMotorEx) hwMap.get(DcMotorEx.class, "upper");
+
+
+
+                         potentiometer = hwMap.analogInput.get("potentiometer");
 
         // Set all motors to zero power
         leftDrive.setPower(0);
@@ -241,12 +260,8 @@ public class HardwareRocky {
         rightDrive.setPower(-power);
     }
 
-    public void  slowchick(double power){
 
-        chickenFingers.setPower(power);
-    }
-
-    public void stop () {
+    public void drivestop () {
         leftDrive.setPower(0);
         rightDrive.setPower(0);
     }
@@ -309,7 +324,7 @@ public class HardwareRocky {
         return (tpr * armDegrees) / 120;
     }
 
-    public void chickenspin(double power) {
+   public void chickenspin(double power) {
         chickenFingers.setPower(power);
     }
 
