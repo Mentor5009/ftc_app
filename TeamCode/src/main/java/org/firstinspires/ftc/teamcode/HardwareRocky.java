@@ -168,6 +168,18 @@ public class HardwareRocky {
     public void move(double d, double power){
             move(new Length(d, Length.Unit.INCH),power);
     }
+
+    public void dropFromLander() {
+        upper.setPower(0.9);
+        while (upper.getCurrentPosition() < 17200 && om.opModeIsActive()) {
+            om.telemetry.addData("going up", upper.getCurrentPosition());
+            om.telemetry.update();
+        }
+        upper.setPower(0);
+
+        move(new Length(9, Length.Unit.INCH), -0.6); //reverse to  closer to sample for a better look
+
+    }
     //
     public void move(Length d, double power) {
         //tpr = leftDrive.getMotorType().getTicksPerRev();

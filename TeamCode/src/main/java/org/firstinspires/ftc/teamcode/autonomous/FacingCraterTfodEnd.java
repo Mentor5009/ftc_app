@@ -49,14 +49,7 @@ public class FacingCraterTfodEnd extends LinearOpMode {
         waitForStart();
 
         // descend from lander
-        robot.upper.setPower(0.9);
-        while (robot.upper.getCurrentPosition() < 17200 && opModeIsActive()) {
-            telemetry.addData("going up", robot.upper.getCurrentPosition());
-            telemetry.update();
-        }
-        robot.upper.setPower(0);
-
-        robot.move(new Length(9, Length.Unit.INCH), -0.6); //reverse to  closer to sample for a better look
+        robot.dropFromLander();
 
         // retract upper (descent arm) while scanning for the gold mineral position
         robot.upper.setPower(-0.9);
