@@ -17,8 +17,7 @@ import java.util.List;
 
 @Autonomous(name = "Crater")
 
-public class
-FacingCraterWithMarker extends LinearOpMode {
+public class FacingCraterWithMarker extends LinearOpMode {
     HardwareRocky robot;
     private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;

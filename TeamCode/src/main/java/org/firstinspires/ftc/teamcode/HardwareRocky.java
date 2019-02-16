@@ -32,22 +32,15 @@ package org.firstinspires.ftc.teamcode;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
- //import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+//import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 
 /**
  * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -76,11 +69,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Came
  * As the arm servo approaches 0, the arm position moves up (away from the floor).
  * As the claw servo approaches 0, the claw opens up (drops the game element).
  */
-
 public class HardwareRocky {
+    private final double WHEEL_DIAMETER = 4;
 
-
-    final double wheelDiamater = 4;
     /* Public OpMode members. */
     public DcMotorEx leftDrive = null;
     public DcMotorEx rightDrive = null;
@@ -91,24 +82,16 @@ public class HardwareRocky {
     //public Servo bigboi = null;
     public AnalogInput potentiometer;
     public DcMotorEx chickenFingers;
-    public DcMotorEx upper = null ;
-    public double tpr;
-    private TFObjectDetector tfod;
-    private VuforiaLocalizer vuforia;
-    public static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
-    public static final String LABEL_GOLD_MINERAL = "Gold Mineral";
-    public static final String LABEL_SILVER_MINERAL = "Silver Mineral";
-    public static final String VUFORIA_KEY = "AfZdcpz/////AAAAGeFAEIQ7eEL9ilMArx0PrTpfGi14uY5DxJNi9A/pNhrpWpMLBsZIt21zn61HlpOEsX4SW/GyN//S+CJpHALNQkDftlrlJ3+cGtzrVC0ZZcEpltXAdp/5CkO+M7Q3rDOtKBeFhCBnjDUVswvmD0sU9mRgjVhn5TvOSXcSuJIJymIy5x15BUxbqsZe+5Rkzt4a/4ltQvr3jN13s4RECp03x+zfPWKR7S79x1+VSITaBB5lrv43p9ZEBJeIaWlAXQTST8O0uf2YhNXCuzrBxuAgL5onSpOWmBUzyFxE8cooXOgyktMm/mtYHG+vujg4gG9FpxFFLutypcN3hLaBOqfS1DyNrQD1i05cpRLwJ4M0Gszc";
-    public static final double degreesPerVolt = 128.6;
-    public static final double maxArmAngle = 225;
-    public static final double maxServoPosition = 1;
-    public static final double positionUnitPerDegree = 0.00444444;   //relates servo position to degrees
-
+    public DcMotorEx upper = null;
+    private double tpr;
+    private static final double DEGREES_PER_VOLT = 128.6;
+    private static final double MAX_ARM_ANGLE = 225;
+    private static final double MAX_SERVO_POSITION = 1;
+    private static final double POSITION_UNIT_PER_DEGREE = 0.00444444;   //relates servo position to degrees
 
     /* Local OpMode members. */
     HardwareMap hwMap = null;
     private LinearOpMode om;
-    private ElapsedTime period = new ElapsedTime();
 
     /* Constructor */
     public HardwareRocky(LinearOpMode opMode) {
@@ -120,10 +103,9 @@ public class HardwareRocky {
         // save reference to HW Map
         hwMap = ahwMap;
 
-
         // Define and Initialize Servos
         marker = hwMap.get(Servo.class, "marker");
-       chickenFingers = hwMap.get(DcMotorEx.class, " chickenFingers");
+        chickenFingers = hwMap.get(DcMotorEx.class, " chickenFingers");
         //Tilter =  hwMap.get(Servo.class, "Tilter");
         //bigboi = hwMap.get(Servo.class, "bigboi");
         // Define and Initialize Motors
@@ -134,9 +116,7 @@ public class HardwareRocky {
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         upper = (DcMotorEx) hwMap.get(DcMotorEx.class, "upper");
 
-
-
-                         potentiometer = hwMap.analogInput.get("potentiometer");
+        potentiometer = hwMap.analogInput.get("potentiometer");
 
         // Set all motors to zero power
         leftDrive.setPower(0);
@@ -149,16 +129,16 @@ public class HardwareRocky {
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-       resetEncoders();
+        resetEncoders();
 
         //set position of servos
         marker.setPosition(0.8);
-        while (marker.getPosition() < 0.8) ;
+        while (marker.getPosition() < 0.8) om.sleep(50);
 
         tpr = 1066;
     }
 
-    void resetEncoders() {
+    private void resetEncoders() {
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -180,9 +160,8 @@ public class HardwareRocky {
         upper.setPower(0);
 
         move(9, -0.6); //reverse to  closer to sample for a better look
-
     }
-    //
+
     public void move(double inches, double power) {
         //tpr = leftDrive.getMotorType().getTicksPerRev();
         double ticks = inchesToTicks(inches);
@@ -195,7 +174,7 @@ public class HardwareRocky {
         leftDrive.setPower(power);
         rightDrive.setPower(power);
         while (om.opModeIsActive() && Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
-
+            om.sleep(50);
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
@@ -212,8 +191,7 @@ public class HardwareRocky {
         rightDrive.setPower(-power);
     }
 
-
-    public void drivestop () {
+    public void drivestop() {
         leftDrive.setPower(0);
         rightDrive.setPower(0);
     }
@@ -231,7 +209,7 @@ public class HardwareRocky {
         rightDrive.setPower(-power);
         leftDrive.setPower(power);
         while (om.opModeIsActive() && Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
-
+            om.sleep(50);
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
@@ -245,8 +223,7 @@ public class HardwareRocky {
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         while (om.opModeIsActive() && Math.abs(lift.getCurrentPosition()) < Math.abs(ticks)) {
-
-
+            om.sleep(50);
         }
         lift.setPower(0);
     }
@@ -258,102 +235,42 @@ public class HardwareRocky {
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         while (om.opModeIsActive() && Math.abs(arm.getCurrentPosition()) < Math.abs(ticks)) {
-
+            om.sleep(50);
         }
+
         arm.setPower(0);
     }
-
 
     public double liftInchesToTicks(double liftInches) {
         return (2132 * liftInches) / 2.25;
     }
 
-
-
     public double inchesToTicks(double inches) {
-        return (inches * tpr) / (wheelDiamater * Math.PI);
+        return (inches * tpr) / (WHEEL_DIAMETER * Math.PI);
     }
 
     public double armDegreesToTicks(double armDegrees) {
         return (tpr * armDegrees) / 120;
     }
 
-   public void chickenspin(double power) {
+    public void chickenspin(double power) {
         chickenFingers.setPower(power);
     }
 
-    public void initTfod() {
-        int tfodMonitorViewId = om.hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", om.hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
-    }
-
-//delete everything under this if shit goes wrong.
-
-    public void initVuforia() {
-        /*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = CameraDirection.BACK;
-
-        //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
-    }
-
-    public TFObjectDetector initDetector() {
-        if (om.opModeIsActive()) {
-            /** Activate Tensor Flow Object Detection. */
-            initVuforia();
-            if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-                initTfod();
-            } else {
-                om.telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-            }
-            if (tfod != null) {
-                tfod.activate();
-            }
-
-
-        }
-        return tfod;
-    }
-    public void shutdownDetector(){
-        if (tfod != null) {
-            tfod.shutdown();
-        }
-    }
-
-    public double getArmAngle(){
-        double armAngle = potentiometer.getVoltage() * degreesPerVolt;
-        om.telemetry.addData("arm angle", armAngle );
+    public double getArmAngle() {
+        double armAngle = potentiometer.getVoltage() * DEGREES_PER_VOLT;
+        om.telemetry.addData("arm angle", armAngle);
         return armAngle;
     }
 
     /*public double calculateNewBigBoiPosition() {
-        double cradleAngle = maxArmAngle - getArmAngle();
-        return maxServoPosition - (cradleAngle * positionUnitPerDegree);*/
-
-    }
-
+        double cradleAngle = MAX_ARM_ANGLE - getArmAngle();
+        return MAX_SERVO_POSITION - (cradleAngle * POSITION_UNIT_PER_DEGREE);
+    }*/
 
     /*public void setCradleAngle(){
         bigboi.setPosition(calculateNewBigBoiPosition());
         om.telemetry.addData("bigboi pos ", calculateNewBigBoiPosition() );
-    }
     }*/
-
-
-
-
-
-
-                // telemetry.addData("left min.", leftMineral);
-                //telemetry.addData("centre min.", centreMineral
+}
 
