@@ -87,10 +87,10 @@ public class HardwareRocky {
     public DcMotorEx lift = null;
     public DcMotorEx arm = null;
     public Servo marker = null;
-    public Servo Tilter = null;
-    public Servo bigboi = null;
+    //public Servo Tilter = null;
+    //public Servo bigboi = null;
     public AnalogInput potentiometer;
-    public CRServo chickenFingers;
+    public DcMotorEx chickenFingers;
     public DcMotorEx upper = null ;
     public double tpr;
     private TFObjectDetector tfod;
@@ -99,6 +99,11 @@ public class HardwareRocky {
     public static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     public static final String LABEL_SILVER_MINERAL = "Silver Mineral";
     public static final String VUFORIA_KEY = "AfZdcpz/////AAAAGeFAEIQ7eEL9ilMArx0PrTpfGi14uY5DxJNi9A/pNhrpWpMLBsZIt21zn61HlpOEsX4SW/GyN//S+CJpHALNQkDftlrlJ3+cGtzrVC0ZZcEpltXAdp/5CkO+M7Q3rDOtKBeFhCBnjDUVswvmD0sU9mRgjVhn5TvOSXcSuJIJymIy5x15BUxbqsZe+5Rkzt4a/4ltQvr3jN13s4RECp03x+zfPWKR7S79x1+VSITaBB5lrv43p9ZEBJeIaWlAXQTST8O0uf2YhNXCuzrBxuAgL5onSpOWmBUzyFxE8cooXOgyktMm/mtYHG+vujg4gG9FpxFFLutypcN3hLaBOqfS1DyNrQD1i05cpRLwJ4M0Gszc";
+    public static final double degreesPerVolt = 128.6;
+    public static final double maxArmAngle = 225;
+    public static final double maxServoPosition = 1;
+    public static final double positionUnitPerDegree = 0.00444444;   //relates servo position to degrees
+
 
     /* Local OpMode members. */
     HardwareMap hwMap = null;
@@ -118,9 +123,9 @@ public class HardwareRocky {
 
         // Define and Initialize Servos
         marker = hwMap.get(Servo.class, "marker");
-       chickenFingers = hwMap.get(CRServo.class, " chickenFingers");
-        Tilter =  hwMap.get(Servo.class, "Tilter");
-        bigboi = hwMap.get(Servo.class, "bigboi");
+       chickenFingers = hwMap.get(DcMotorEx.class, " chickenFingers");
+        //Tilter =  hwMap.get(Servo.class, "Tilter");
+        //bigboi = hwMap.get(Servo.class, "bigboi");
         // Define and Initialize Motors
         leftDrive = (DcMotorEx) hwMap.get(DcMotorEx.class, "leftDrive");
         rightDrive = (DcMotorEx) hwMap.get(DcMotorEx.class, "rightDrive");
@@ -325,8 +330,24 @@ public class HardwareRocky {
         }
     }
 
+    public double getArmAngle(){
+        double armAngle = potentiometer.getVoltage() * degreesPerVolt;
+        om.telemetry.addData("arm angle", armAngle );
+        return armAngle;
+    }
+
+    /*public double calculateNewBigBoiPosition() {
+        double cradleAngle = maxArmAngle - getArmAngle();
+        return maxServoPosition - (cradleAngle * positionUnitPerDegree);*/
 
     }
+
+
+    /*public void setCradleAngle(){
+        bigboi.setPosition(calculateNewBigBoiPosition());
+        om.telemetry.addData("bigboi pos ", calculateNewBigBoiPosition() );
+    }
+    }*/
 
 
 

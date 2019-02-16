@@ -100,6 +100,11 @@ FacingCraterWithMarker extends LinearOpMode {
                 //Leave depot to go to crater
                 robot.move(78, 0.9);
 
+                /*0.15 volts at lowest = 19.29 degrees
+                1.2 volts at furthest back point = 154.32
+                 */
+                //robot.armMove();
+
                 //robot.armMove(45,0.6);
                 break;
         }

@@ -63,8 +63,6 @@ public class FacingCraterTfodEnd extends LinearOpMode {
                 robot.marker.setPosition(0.2);//Leave depot to go to crater
                 robot.move(70, 0.9);
 
-
-
                 //robot.armMove(45,0.6);
                 break;
             case RIGHT:

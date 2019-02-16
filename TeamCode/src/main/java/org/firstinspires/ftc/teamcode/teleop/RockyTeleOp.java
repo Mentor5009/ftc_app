@@ -114,6 +114,8 @@ public class RockyTeleOp extends LinearOpMode {
             }
             else if (gamepad1.b){
                 robot.bigboi.setPosition(0.4);
+            } else {
+                robot.setCradleAngle();
             }
 
 
