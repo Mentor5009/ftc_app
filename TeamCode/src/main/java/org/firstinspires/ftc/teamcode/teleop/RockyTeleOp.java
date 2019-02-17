@@ -108,14 +108,17 @@ public class RockyTeleOp extends LinearOpMode {
             else if(gamepad2.a){
                 robot.chickenFingers.setPower(-0.8); // set power for chicken fingers reverse direction
             }
-            else if(gamepad2.right_bumper){
+            else {
+                robot.chickenFingers.setPower(0);
+            }
+            
+            if(gamepad2.right_bumper){
                 robot.lift.setPower(1.0);
             }
             else if(gamepad2.left_bumper){
                 robot.lift.setPower(-1.0);
             }
             else {
-                robot.chickenFingers.setPower(0);
                 robot.lift.setPower(0);
             }
 
