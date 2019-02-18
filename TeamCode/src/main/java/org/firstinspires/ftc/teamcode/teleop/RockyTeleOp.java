@@ -149,7 +149,6 @@ public class RockyTeleOp extends LinearOpMode {
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
 
-
         }
     }
 }

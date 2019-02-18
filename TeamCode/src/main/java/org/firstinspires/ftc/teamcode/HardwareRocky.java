@@ -89,6 +89,9 @@ public class HardwareRocky {
     private static final double MAX_SERVO_POSITION = 1;
     private static final double POSITION_UNIT_PER_DEGREE = 0.00444444;   //relates servo position to degrees
 
+
+
+
     /* Local OpMode members. */
     HardwareMap hwMap = null;
     private LinearOpMode om;
@@ -178,7 +181,6 @@ public class HardwareRocky {
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-
     }
 
     public void moveChih(double power) {
@@ -262,6 +264,10 @@ public class HardwareRocky {
         om.telemetry.addData("arm angle", armAngle);
         return armAngle;
     }
+
+
+
+
 
     /*public double calculateNewBigBoiPosition() {
         double cradleAngle = MAX_ARM_ANGLE - getArmAngle();
