@@ -127,7 +127,7 @@ public class HardwareRocky {
         chickenFingers.setPower(0);
         upper.setPower(0);
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
-        
+
 
 
         // Set all motors to run without encoders.
