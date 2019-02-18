@@ -120,6 +120,7 @@ public class HardwareRocky {
         upper = (DcMotorEx) hwMap.get(DcMotorEx.class, "upper");
 
         potentiometer = hwMap.analogInput.get("potentiometer");
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Set all motors to zero power
         leftDrive.setPower(0);
@@ -129,6 +130,8 @@ public class HardwareRocky {
         chickenFingers.setPower(0);
         upper.setPower(0);
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
+        
+
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -164,6 +167,7 @@ public class HardwareRocky {
 
         move(9, -0.6); //reverse to  closer to sample for a better look
     }
+
 
     public void move(double inches, double power) {
         //tpr = leftDrive.getMotorType().getTicksPerRev();

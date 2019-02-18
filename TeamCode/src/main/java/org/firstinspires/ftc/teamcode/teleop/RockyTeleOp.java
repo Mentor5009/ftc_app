@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.HardwareRocky;
 
@@ -102,20 +103,25 @@ public class RockyTeleOp extends LinearOpMode {
 
             robot.arm.setPower(gamepad2.left_trigger-gamepad2.right_trigger);
 
+
             if(gamepad2.x){
-                robot.chickenFingers.setPower(0.8); // set power for chicken fingers and position
+                robot.chickenFingers.setPower(0.6); // set power for chicken fingers and position
             }
             else if(gamepad2.a){
-                robot.chickenFingers.setPower(-0.8); // set power for chicken fingers reverse direction
-            }
-            else if(gamepad2.right_bumper){
-                robot.lift.setPower(1.0);
-            }
-            else if(gamepad2.left_bumper){
-                robot.lift.setPower(-1.0);
+                robot.chickenFingers.setPower(-0.6); // set power for chicken fingers reverse direction
             }
             else {
                 robot.chickenFingers.setPower(0);
+            }
+
+            if(gamepad2.right_bumper){
+                robot.lift.setPower(.7);
+            }
+            else if(gamepad2.left_bumper){
+                robot.lift.setPower(-.7);
+            }
+            else {
+
                 robot.lift.setPower(0);
             }
 
