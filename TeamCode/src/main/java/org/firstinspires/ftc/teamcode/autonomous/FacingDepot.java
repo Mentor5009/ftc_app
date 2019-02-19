@@ -45,7 +45,7 @@ public class FacingDepot extends LinearOpMode {
         robot.upper.setPower(-0.9);
         telemetry.addData("Before", robot.upper.getCurrentPosition());
         telemetry.update();
-        while (robot.upper.getCurrentPosition() > -16000 && opModeIsActive()) {
+        while (robot.upper.getCurrentPosition() > -15800 && opModeIsActive()) {
             goldPos = goldDetector.getGoldPos(4000);
             telemetry.addData("goldpos", goldPos);
             telemetry.addData("Not there yet", robot.upper.getCurrentPosition());

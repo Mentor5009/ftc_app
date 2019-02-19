@@ -159,7 +159,7 @@ public class HardwareRocky {
 
     public void dropFromLander() {
         upper.setPower(0.9);
-        while (upper.getCurrentPosition() < 17200 && om.opModeIsActive()) {
+        while (upper.getCurrentPosition() < 17000 && om.opModeIsActive()) {
             om.telemetry.addData("going up", upper.getCurrentPosition());
             om.telemetry.update();
         }

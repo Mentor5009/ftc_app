@@ -44,7 +44,7 @@ public class FacingCraterWithMarker extends LinearOpMode {
         robot.upper.setPower(-0.9);
         telemetry.addData("Before", robot.upper.getCurrentPosition());
         telemetry.update();
-        while (robot.upper.getCurrentPosition() > -12000 && opModeIsActive()) {
+        while (robot.upper.getCurrentPosition() > -11800 && opModeIsActive()) {
             goldPos = goldDetector.getGoldPos(4000);
             telemetry.addData("goldpos", goldPos);
             telemetry.addData("Not there yet", robot.upper.getCurrentPosition());
@@ -78,7 +78,7 @@ public class FacingCraterWithMarker extends LinearOpMode {
                 robot.pivot(120, 0.6);
                 robot.move(70, 0.6);
                 //in depot
-                robot.pivot(180, -0.6);
+                robot.pivot(200, -0.6);
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
                 robot.move(62, 0.9);
