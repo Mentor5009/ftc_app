@@ -1,13 +1,19 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 import org.firstinspires.ftc.teamcode.HardwareRocky;
 import org.firstinspires.ftc.teamcode.Length;
 import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
+import org.firstinspires.ftc.teamcode.ConfigDialog;
 
 import java.util.List;
 
@@ -16,6 +22,8 @@ public class FacingCraterNoMarker extends LinearOpMode {
     HardwareRocky robot;
     private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
+    private ConfigDialog config;
+    private FtcRobotControllerActivity activity;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -29,6 +37,9 @@ public class FacingCraterNoMarker extends LinearOpMode {
         /* Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
+
+        config = new ConfigDialog(hardwareMap.appContext);
+        config.show();
 
         waitForStart();
         runtime.reset();

@@ -195,10 +195,10 @@ public class HardwareRocky {
         rightDrive.setPower(-power);
     }
 
-    public void drivestop() {
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
-    }
+//    public void stop() {
+//        leftDrive.setPower(0);
+//        rightDrive.setPower(0);
+//    }
 
     //Robot pivots towards the crater from the depot
     public void pivot(double angle, double power) {
