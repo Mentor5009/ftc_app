@@ -66,7 +66,8 @@ public class FacingCraterWithMarker extends LinearOpMode {
                 robot.move(50, 0.9);
                 robot.pivot(220, -0.7);
                 robot.marker.setPosition(0.2);//Leave depot to go to crater
-                robot.move(70, 0.9);
+                robot.move(62, 0.9);
+                robot.armMove(10, 0.5);
                 //robot.armMove(45,0.6);
 
                 //robot.armMove(45,0.6);
@@ -81,6 +82,7 @@ public class FacingCraterWithMarker extends LinearOpMode {
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
                 robot.move(62, 0.9);
+                robot.armMove(10, 0.5);
 
 
                 //robot.armMove(45,0.6);
@@ -98,12 +100,11 @@ public class FacingCraterWithMarker extends LinearOpMode {
                 robot.pivot(220,-.8);
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
-                robot.move(70, 0.9);
+                robot.move(62, 0.9);
+                //Negative power goes towards 135, positive goes 0)
+                robot.armMove(10, 0.5);
 
-                /*0.15 volts at lowest = 19.29 degrees
-                1.2 volts at furthest back point = 154.32
-                 */
-                //robot.armMove();
+
 
                 //robot.armMove(45,0.6);
                 break;

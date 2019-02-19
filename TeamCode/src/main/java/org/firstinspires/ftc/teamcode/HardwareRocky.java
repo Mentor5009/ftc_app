@@ -84,10 +84,13 @@ public class HardwareRocky {
     public DcMotorEx chickenFingers;
     public DcMotorEx upper = null;
     private double tpr;
-    private static final double DEGREES_PER_VOLT = 128.6;
+    private static final double DEGREES_PER_VOLT = -122.5;
     private static final double MAX_ARM_ANGLE = 225;
     private static final double MAX_SERVO_POSITION = 1;
     private static final double POSITION_UNIT_PER_DEGREE = 0.00444444;   //relates servo position to degrees
+
+
+
 
     /* Local OpMode members. */
     HardwareMap hwMap = null;
@@ -117,7 +120,7 @@ public class HardwareRocky {
         upper = (DcMotorEx) hwMap.get(DcMotorEx.class, "upper");
 
         potentiometer = hwMap.analogInput.get("potentiometer");
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Set all motors to zero power
         leftDrive.setPower(0);
@@ -182,7 +185,6 @@ public class HardwareRocky {
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-
     }
 
     public void moveChih(double power) {
@@ -233,16 +235,13 @@ public class HardwareRocky {
     }
 
     public void armMove(double angle, double power) {
-        double ticks = armDegreesToTicks(angle);
         resetEncoders();
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        while (om.opModeIsActive() && Math.abs(arm.getCurrentPosition()) < Math.abs(ticks)) {
-            om.sleep(50);
+        while (om.opModeIsActive() && getArmAngle()>angle){
+            arm.setPower(power);
         }
 
-        arm.setPower(0);
+
     }
 
     public double liftInchesToTicks(double liftInches) {
@@ -262,10 +261,14 @@ public class HardwareRocky {
     }
 
     public double getArmAngle() {
-        double armAngle = potentiometer.getVoltage() * DEGREES_PER_VOLT;
+        double armAngle = potentiometer.getVoltage() * DEGREES_PER_VOLT + 135;
         om.telemetry.addData("arm angle", armAngle);
         return armAngle;
     }
+
+
+
+
 
     /*public double calculateNewBigBoiPosition() {
         double cradleAngle = MAX_ARM_ANGLE - getArmAngle();
