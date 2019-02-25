@@ -138,11 +138,12 @@ public class HardwareRocky {
         resetEncoders();
 
         //set position of servos
-        marker.setPosition(0.8);
-        while (marker.getPosition() < 0.8) om.sleep(50);
+        /*marker.setPosition(0.8);
+        while (om.opModeIsActive() && marker.getPosition() < 0.8) om.sleep(50);*/
 
         tpr = 1066;
     }
+
 
     private void resetEncoders() {
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -159,13 +160,17 @@ public class HardwareRocky {
 
     public void dropFromLander() {
         upper.setPower(0.9);
-        while (upper.getCurrentPosition() < 17200 && om.opModeIsActive()) {
+        om.telemetry.update();
+        while (om.opModeIsActive() && upper.getCurrentPosition() < 17400) {
             om.telemetry.addData("going up", upper.getCurrentPosition());
+            om.telemetry.addData("op mode", om.opModeIsActive());
             om.telemetry.update();
         }
         upper.setPower(0);
+        move(9, -.6);
 
-        move(9, -0.6); //reverse to  closer to sample for a better look
+
+       // move(9, -0.6); //reverse to  closer to sample for a better look
     }
 
 
@@ -277,7 +282,7 @@ public class HardwareRocky {
 
     /*public void setCradleAngle(){
         bigboi.setPosition(calculateNewBigBoiPosition());
-        om.telemetry.addData("bigboi pos ", calculateNewBigBoiPosition() );
-    }*/
-}
+        om.telemetry.addData("bigboi pos ", calculateNewBigBoiPosition() );*/
+    }
+
 
