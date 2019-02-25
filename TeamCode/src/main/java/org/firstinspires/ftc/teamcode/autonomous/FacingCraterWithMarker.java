@@ -58,12 +58,12 @@ public class FacingCraterWithMarker extends LinearOpMode {
                 robot.move(25, -0.6); //reverse to gold and push through
                 //after hitting sample
                 robot.move(15, 0.6);
-                robot.pivot(18,.6);
-                robot.move(45, 0.9);
+                robot.pivot(15,.6);
+                robot.move(43, 0.9);//was 45
                 //at wall
                 robot.pivot(25, -0.6);
                 //moves towards depot
-                robot.move(50, 0.9);
+                robot.move(55, 0.9);
                 robot.pivot(220, -0.7);
                 robot.marker.setPosition(0.2);//Leave depot to go to crater
                 robot.move(62, 0.9);

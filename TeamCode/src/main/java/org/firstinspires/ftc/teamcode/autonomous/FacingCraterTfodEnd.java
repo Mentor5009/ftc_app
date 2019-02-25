@@ -65,18 +65,17 @@ public class FacingCraterTfodEnd extends LinearOpMode {
                 //robot.armMove(45,0.6);
                 break;
             case RIGHT:
-                robot.pivot(53, -0.6); // turn toward gold
+                robot.pivot(54, -0.6); // turn toward gold
                 robot.move(31, -0.6);
                 robot.pivot(120, 0.6);
                 robot.move(70, 0.6);
                 //in depot
-                robot.pivot(120, -0.6);
+
+                robot.pivot(100, -0.6);
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
-                robot.move(25, 0.9);
-                robot.move(25, -0.9);
-                robot.pivot(60,-.6);
                 robot.move(62, 0.9);
+                robot.armMove(10, 0.5);
                 //robot.armMove(45,0.6);
                 break;
             case CENTRE:
