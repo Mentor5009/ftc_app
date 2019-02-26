@@ -22,7 +22,7 @@ public class FacingCraterTfodEnd extends LinearOpMode {
         robot = new HardwareRocky(this);
         robot.init(hardwareMap);
 
-        goldDetector = new GoldDetector (this);
+        goldDetector = new GoldDetector(this);
 
         /** Wait for the game to begin **/
         telemetry.addData(">", "Press Play to start tracking");
@@ -53,7 +53,7 @@ public class FacingCraterTfodEnd extends LinearOpMode {
                 robot.move(28, -0.6); //reverse to gold and push through
                 //after hitting sample
                 robot.move(15, 0.6);
-                robot.pivot(35,.6);
+                robot.pivot(35, .6);
                 robot.move(44, 0.9);
                 //at wall
                 robot.pivot(37, -0.6);
@@ -88,12 +88,12 @@ public class FacingCraterTfodEnd extends LinearOpMode {
                 robot.pivot(25, -0.6);
                 robot.move(45, 0.6);
                 //in depot
-                robot.pivot(40,-.8);
+                robot.pivot(40, -.8);
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
                 robot.move(24, 0.9);
                 robot.move(24, -0.9);
-                robot.pivot(147.4,-8);
+                robot.pivot(147.4, -8);
                 robot.move(78, 0.9);
                 break;
         }

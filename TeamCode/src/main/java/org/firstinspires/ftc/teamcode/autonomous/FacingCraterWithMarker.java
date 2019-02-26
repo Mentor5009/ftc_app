@@ -19,7 +19,7 @@ import java.util.List;
 
 public class FacingCraterWithMarker extends LinearOpMode {
     HardwareRocky robot;
-    private ElapsedTime runtime = new ElapsedTime();
+    //private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
 
     @Override
@@ -35,16 +35,17 @@ public class FacingCraterWithMarker extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
-        runtime.reset();
+        //runtime.reset();
 
         // descend from lander
         robot.dropFromLander();
 
         // retract upper (descent arm) while scanning for the gold mineral position
-        robot.upper.setPower(-0.9);
+        if (opModeIsActive()) {
         telemetry.addData("Before", robot.upper.getCurrentPosition());
         telemetry.update();
-        while (robot.upper.getCurrentPosition() > -11800 && opModeIsActive()) {
+        while (opModeIsActive() && robot.upper.getCurrentPosition() > -12000) {
+            robot.upper.setPower(-0.9);
             goldPos = goldDetector.getGoldPos(4000);
             telemetry.addData("goldpos", goldPos);
             telemetry.addData("Not there yet", robot.upper.getCurrentPosition());
@@ -52,66 +53,71 @@ public class FacingCraterWithMarker extends LinearOpMode {
         }
         robot.upper.setPower(0);
 
-        switch(goldPos) {
-            case LEFT:
+
+    switch (goldPos) {
+        case LEFT:
+            if(opModeIsActive()) {
                 robot.pivot(55, 0.6); // turn toward gold
                 robot.move(25, -0.6); //reverse to gold and push through
                 //after hitting sample
-                robot.move(15, 0.6);
-                robot.pivot(15,.6);
-                robot.move(43, 0.9);//was 45
+                robot.move(16, 0.6);
+                robot.pivot(20, .6); //20 red, 30 blue
+                robot.move(45, 0.9);
                 //at wall
                 robot.pivot(25, -0.6);
                 //moves towards depot
-                robot.move(55, 0.9);
+                robot.move(50, 0.9);
                 robot.pivot(220, -0.7);
                 robot.marker.setPosition(0.2);//Leave depot to go to crater
                 robot.move(62, 0.9);
                 robot.armMove(10, 0.5);
                 //robot.armMove(45,0.6);
-
-                //robot.armMove(45,0.6);
-                break;
-            case RIGHT:
-                robot.pivot(54, -0.6); // turn toward gold
-                robot.move(31, -0.6);
-                robot.pivot(120, 0.6);
-                robot.move(70, 0.6);
+            }
+            //robot.armMove(45,0.6);
+            break;
+        case RIGHT:
+            if(opModeIsActive()) {
+                robot.pivot(45, -0.6); // turn toward gold
+                robot.move(26, -0.6);
+                //after hitting sample
+                robot.pivot(125, 0.6);
+                robot.move(73, 0.6);
                 //in depot
                 robot.pivot(200, -0.6);
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
                 robot.move(62, 0.9);
                 robot.armMove(10, 0.5);
+            }
 
-
-                //robot.armMove(45,0.6);
-                break;
-            case CENTRE:
+            //robot.armMove(45,0.6);
+            break;
+        case CENTRE:
+            if(opModeIsActive()) {
                 robot.move(21, -0.6); //reverse to gold and push through to depot
                 robot.move(15, 0.6);
                 //already hit sample
-                robot.pivot(80, 0.6);
+                robot.pivot(79, 0.6);
                 robot.move(52, 0.6);
                 //moves towards depot
-                robot.pivot(25, -0.6);
+                robot.pivot(18, -0.6);
                 robot.move(45, 0.6);
                 //in depot
-                robot.pivot(220,-.8);
+                robot.pivot(220, -.8);
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
                 robot.move(62, 0.9);
                 //Negative power goes towards 135, positive goes 0)
                 robot.armMove(10, 0.5);
+            }
 
-
-
-                //robot.armMove(45,0.6);
-                break;
-        }
-
-        goldDetector.shutdown();
+            //robot.armMove(45,0.6);
+            break;
     }
+
+    goldDetector.shutdown();
 }
 
+    }
+}
 

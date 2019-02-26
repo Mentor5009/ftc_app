@@ -138,11 +138,12 @@ public class HardwareRocky {
         resetEncoders();
 
         //set position of servos
-        marker.setPosition(0.8);
-        while (marker.getPosition() < 0.8) om.sleep(50);
+        /*marker.setPosition(0.8);
+        while (om.opModeIsActive() && marker.getPosition() < 0.8) om.sleep(50);*/
 
         tpr = 1066;
     }
+
 
     private void resetEncoders() {
         leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -158,19 +159,25 @@ public class HardwareRocky {
     }
 
     public void dropFromLander() {
-        upper.setPower(0.9);
-        while (upper.getCurrentPosition() < 17000 && om.opModeIsActive()) {
-            om.telemetry.addData("going up", upper.getCurrentPosition());
+        if (om.opModeIsActive()) {
+            upper.setPower(0.9);
             om.telemetry.update();
-        }
-        upper.setPower(0);
+            while (om.opModeIsActive() && upper.getCurrentPosition() < 17400) {
+                om.telemetry.addData("going up", upper.getCurrentPosition());
+                om.telemetry.addData("op mode", om.opModeIsActive());
+                om.telemetry.update();
+            }
 
-        move(9, -0.6); //reverse to  closer to sample for a better look
+            upper.setPower(0);
+            move(9, -.6);
+        }
+
+       // move(9, -0.6); //reverse to  closer to sample for a better look
     }
 
 
     public void move(double inches, double power) {
-        //tpr = leftDrive.getMotorType().getTicksPerRev();
+        if(om.opModeIsActive()) {//tpr = leftDrive.getMotorType().getTicksPerRev();
         double ticks = inchesToTicks(inches);
         resetEncoders();
 
@@ -178,14 +185,15 @@ public class HardwareRocky {
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftDrive.setPower(power);
-        rightDrive.setPower(power);
+
         while (om.opModeIsActive() && Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
-            om.sleep(50);
+            leftDrive.setPower(power);
+            rightDrive.setPower(power);
+
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-    }
+    }}
 
     public void moveChih(double power) {
         leftDrive.setPower(power);
@@ -204,6 +212,7 @@ public class HardwareRocky {
 
     //Robot pivots towards the crater from the depot
     public void pivot(double angle, double power) {
+       if(om.opModeIsActive()){
         double rads = angle * Math.PI / 180;
         double robotwidth = 17;
         double ticks = inchesToTicks(.5 * rads * robotwidth);
@@ -212,16 +221,16 @@ public class HardwareRocky {
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightDrive.setPower(-power);
-        leftDrive.setPower(power);
+
         while (om.opModeIsActive() && Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
-            om.sleep(50);
+            rightDrive.setPower(-power);
+            leftDrive.setPower(power);
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-    }
+    }}
 
-    public void liftmove(double inches, double power) {
+   /* public void liftmove(double inches, double power) {
         double ticks = liftInchesToTicks(inches);
         lift.setPower(power);
         resetEncoders();
@@ -232,9 +241,10 @@ public class HardwareRocky {
             om.sleep(50);
         }
         lift.setPower(0);
-    }
+    }*/
 
     public void armMove(double angle, double power) {
+        if(om.opModeIsActive()){
         resetEncoders();
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         while (om.opModeIsActive() && getArmAngle()>angle){
@@ -242,6 +252,7 @@ public class HardwareRocky {
         }
 
 
+    }
     }
 
     public double liftInchesToTicks(double liftInches) {
@@ -277,7 +288,7 @@ public class HardwareRocky {
 
     /*public void setCradleAngle(){
         bigboi.setPosition(calculateNewBigBoiPosition());
-        om.telemetry.addData("bigboi pos ", calculateNewBigBoiPosition() );
-    }*/
-}
+        om.telemetry.addData("bigboi pos ", calculateNewBigBoiPosition() );*/
+    }
+
 
