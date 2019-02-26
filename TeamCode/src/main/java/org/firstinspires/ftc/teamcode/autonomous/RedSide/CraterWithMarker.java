@@ -1,15 +1,23 @@
-package org.firstinspires.ftc.teamcode.autonomous.BlueSide;
+package org.firstinspires.ftc.teamcode.autonomous.RedSide;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.HardwareRocky;
+import org.firstinspires.ftc.teamcode.Length;
 import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
 
-@Autonomous(name = "Blue Crater")
+import java.util.List;
 
-public class FacingCraterWithMarker extends LinearOpMode {
+@Autonomous(name = "Red Crater")
+
+public class CraterWithMarker extends LinearOpMode {
     HardwareRocky robot;
     //private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;

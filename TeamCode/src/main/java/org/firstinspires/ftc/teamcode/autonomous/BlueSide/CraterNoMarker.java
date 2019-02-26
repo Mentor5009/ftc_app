@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
 
 @Autonomous(name = "Blue Crater no marker")
-public class FacingCraterNoMarker extends LinearOpMode {
+public class CraterNoMarker extends LinearOpMode {
     HardwareRocky robot;
     private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;

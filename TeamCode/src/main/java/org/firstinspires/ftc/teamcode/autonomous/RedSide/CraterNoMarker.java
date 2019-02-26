@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.ConfigDialog;
 import java.util.List;
 
 @Autonomous(name = "Red Crater no marker")
-public class FacingCraterNoMarker extends LinearOpMode {
+public class CraterNoMarker extends LinearOpMode {
     HardwareRocky robot;
     private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;

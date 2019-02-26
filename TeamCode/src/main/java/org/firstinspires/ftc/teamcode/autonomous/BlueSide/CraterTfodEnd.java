@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
 
 @Autonomous(name = "Blue Crater TFod End")
-public class FacingCraterTfodEnd extends LinearOpMode {
+public class CraterTfodEnd extends LinearOpMode {
     private HardwareRocky robot;
     private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;

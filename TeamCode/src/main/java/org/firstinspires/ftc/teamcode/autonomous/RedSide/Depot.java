@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @Autonomous(name = "Red Depot")
-public class FacingDepot extends LinearOpMode {
+public class Depot extends LinearOpMode {
     private HardwareRocky robot;
     //private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
