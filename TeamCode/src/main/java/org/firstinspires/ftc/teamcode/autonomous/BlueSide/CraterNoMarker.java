@@ -1,24 +1,17 @@
-package org.firstinspires.ftc.teamcode.autonomous;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+package org.firstinspires.ftc.teamcode.autonomous.BlueSide;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
+import org.firstinspires.ftc.teamcode.ConfigDialog;
 import org.firstinspires.ftc.teamcode.HardwareRocky;
-import org.firstinspires.ftc.teamcode.Length;
 import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
-import org.firstinspires.ftc.teamcode.ConfigDialog;
 
-import java.util.List;
-
-@Autonomous(name = "Crater no marker")
-public class FacingCraterNoMarker extends LinearOpMode {
+@Autonomous(name = "Blue Crater no marker")
+public class CraterNoMarker extends LinearOpMode {
     HardwareRocky robot;
     private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
