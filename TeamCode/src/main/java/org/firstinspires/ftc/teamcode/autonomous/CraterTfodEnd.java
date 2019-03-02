@@ -1,14 +1,15 @@
-package org.firstinspires.ftc.teamcode.autonomous.BlueSide;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareRocky;
+import org.firstinspires.ftc.teamcode.Length;
 import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
 
-@Autonomous(name = "Blue Crater TFod End")
+@Autonomous(name = "Red Crater TFod End")
 public class CraterTfodEnd extends LinearOpMode {
     private HardwareRocky robot;
     private ElapsedTime runtime = new ElapsedTime();
@@ -21,7 +22,7 @@ public class CraterTfodEnd extends LinearOpMode {
         robot = new HardwareRocky(this);
         robot.init(hardwareMap);
 
-        goldDetector = new GoldDetector (this);
+        goldDetector = new GoldDetector(this);
 
         /** Wait for the game to begin **/
         telemetry.addData(">", "Press Play to start tracking");
@@ -52,7 +53,7 @@ public class CraterTfodEnd extends LinearOpMode {
                 robot.move(28, -0.6); //reverse to gold and push through
                 //after hitting sample
                 robot.move(15, 0.6);
-                robot.pivot(35,.6);
+                robot.pivot(35, .6);
                 robot.move(44, 0.9);
                 //at wall
                 robot.pivot(37, -0.6);
@@ -64,18 +65,17 @@ public class CraterTfodEnd extends LinearOpMode {
                 //robot.armMove(45,0.6);
                 break;
             case RIGHT:
-                robot.pivot(53, -0.6); // turn toward gold
+                robot.pivot(54, -0.6); // turn toward gold
                 robot.move(31, -0.6);
                 robot.pivot(120, 0.6);
                 robot.move(70, 0.6);
                 //in depot
-                robot.pivot(120, -0.6);
+
+                robot.pivot(100, -0.6);
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
-                robot.move(25, 0.9);
-                robot.move(25, -0.9);
-                robot.pivot(60,-.6);
                 robot.move(62, 0.9);
+                robot.armMove(10, 0.5);
                 //robot.armMove(45,0.6);
                 break;
             case CENTRE:
@@ -88,12 +88,12 @@ public class CraterTfodEnd extends LinearOpMode {
                 robot.pivot(25, -0.6);
                 robot.move(45, 0.6);
                 //in depot
-                robot.pivot(40,-.8);
+                robot.pivot(40, -.8);
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
                 robot.move(24, 0.9);
                 robot.move(24, -0.9);
-                robot.pivot(147.4,-8);
+                robot.pivot(147.4, -8);
                 robot.move(78, 0.9);
                 break;
         }
