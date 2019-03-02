@@ -52,7 +52,7 @@ if (opModeIsActive()){
                 robot.move(25, -0.6); //reverse to gold and push through
                 //after hitting sample
                 robot.move(16, 0.6);
-                robot.pivot(20,.6); //20 red, 30 blue
+                robot.pivot(30,.6); //20 red, 30 blue
                 robot.move(45, 0.9);
                 //at wall
                 robot.pivot(25, -0.6);
@@ -61,7 +61,8 @@ if (opModeIsActive()){
                 robot.pivot(220, -0.7);
                 robot.marker.setPosition(0.2);//Leave depot to go to crater
                 robot.move(62, 0.9);
-                robot.armMove(10, 0.5);
+                //robot.liftmove(6, 0.7);
+               // robot.armMove(10, 0.5);
                 //robot.armMove(45,0.6);
 
                 //robot.armMove(45,0.6);
@@ -71,19 +72,20 @@ if (opModeIsActive()){
                 robot.move(26, -0.6);
                 //after hitting sample
                 robot.pivot(125, 0.6);
-                robot.move(73, 0.6);
+                robot.move(76, 0.6);
                 //in depot
-                robot.pivot(200, -0.6);
+                robot.pivot(210, -0.6);
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
-                robot.move(62, 0.9);
-                robot.armMove(10, 0.5);
+                robot.move(66, 0.9);
+                //robot.liftmove(6, 0.7);
+                //robot.armMove(10, 0.5);
 
 
                 //robot.armMove(45,0.6);
                 break;
             case CENTRE:
-                robot.move(21, -0.6); //reverse to gold and push through to depot
+                robot.move(31, -0.6); //reverse to gold and push through to depot
                 robot.move(15, 0.6);
                 //already hit sample
                 robot.pivot(79, 0.6);
@@ -96,8 +98,9 @@ if (opModeIsActive()){
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
                 robot.move(62, 0.9);
+               // robot.liftmove(6, 0.7);
                 //Negative power goes towards 135, positive goes 0)
-                robot.armMove(10, 0.5);
+                //robot.armMove(10, 0.5);
 
 
 

@@ -56,19 +56,22 @@ public class CraterNoMarker extends LinearOpMode {
             case LEFT:
                 robot.pivot(55, 0.6); // turn toward gold
                 robot.move(34, -0.6); //reverse to gold and push through
-                robot.armMove(10, 0.5);
+                //robot.liftmove(6, 0.7);
+                //robot.armMove(10, 0.5);
                 //robot.armMove(45,0.6);
                 break;
             case RIGHT:
                 robot.pivot(54, -0.6); // turn toward gold
                 robot.move(31, -0.6); //reverse to gold and push through
-                robot.armMove(10, 0.5);
+                //robot.liftmove(6, 0.7);
+                //robot.armMove(10, 0.5);
 
                 //robot.armMove(45,0.6);
                 break;
             case CENTRE:
                 robot.move(28, -0.6);
-                robot.armMove(10, 0.5);//reverse to gold and push through to depot
+                //robot.liftmove(6, 0.7);
+                //robot.armMove(10, 0.5);//reverse to gold and push through to depot
                 //robot.armMove(45,0.6);
                 break;
         }

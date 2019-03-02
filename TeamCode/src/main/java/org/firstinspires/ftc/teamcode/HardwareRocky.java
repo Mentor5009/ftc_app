@@ -76,6 +76,7 @@ public class HardwareRocky {
     public DcMotorEx leftDrive = null;
     public DcMotorEx rightDrive = null;
     public DcMotorEx lift = null;
+    public DcMotorEx arm2 = null;
     public DcMotorEx arm = null;
     public Servo marker = null;
     public Servo tilter = null;
@@ -83,8 +84,10 @@ public class HardwareRocky {
     public AnalogInput potentiometer;
     public DcMotorEx chickenFingers;
     public DcMotorEx upper = null;
+    public boolean transportMode = false;
     private double tpr;
-    private static final double DEGREES_PER_VOLT = -122.5;
+    private static final double DEGREES_PER_VOLT = -125;
+    private static final double TILTER_DEEGRRES_PER_ARM_DEGREE = -0.00593;
     private static final double MAX_ARM_ANGLE = 225;
     private static final double MAX_SERVO_POSITION = 1;
     private static final double POSITION_UNIT_PER_DEGREE = 0.00444444;   //relates servo position to degrees
@@ -109,12 +112,12 @@ public class HardwareRocky {
         // Define and Initialize Servos
         marker = hwMap.get(Servo.class, "marker");
         chickenFingers = hwMap.get(DcMotorEx.class, " chickenFingers");
-        //Tilter =  hwMap.get(Servo.class, "Tilter");
         //bigboi = hwMap.get(Servo.class, "bigboi");
         // Define and Initialize Motors
         leftDrive = (DcMotorEx) hwMap.get(DcMotorEx.class, "leftDrive");
         rightDrive = (DcMotorEx) hwMap.get(DcMotorEx.class, "rightDrive");
         lift = (DcMotorEx) hwMap.get(DcMotorEx.class, "lift");
+        arm2 = (DcMotorEx) hwMap.get(DcMotorEx.class, "arm2");
         arm = (DcMotorEx) hwMap.get(DcMotorEx.class, "arm");
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         upper = (DcMotorEx) hwMap.get(DcMotorEx.class, "upper");
@@ -127,10 +130,12 @@ public class HardwareRocky {
         leftDrive.setPower(0);
         rightDrive.setPower(0);
         lift.setPower(0);
+        arm2.setPower(0);
         arm.setPower(0);
         chickenFingers.setPower(0);
         upper.setPower(0);
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
+        arm2.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
 
@@ -153,8 +158,10 @@ public class HardwareRocky {
         rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         upper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         upper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
@@ -176,7 +183,25 @@ public class HardwareRocky {
        // move(9, -0.6); //reverse to  closer to sample for a better look
     }
 
-
+    public void BlueRightDepot (){
+       if(om.opModeIsActive()){
+        pivot(48, -0.6); // turn toward gold
+        if(!om.opModeIsActive()) return;
+        move(38, -0.6); //reverse to gold and push through
+        if(!om.opModeIsActive()) return;
+        //after hitting mineral
+        pivot(110, .6);  // turn toward depot
+        if(!om.opModeIsActive()) return;
+        move(44, -0.6); // reverse to depot
+        if(!om.opModeIsActive()) return;
+        marker.setPosition(0.2); // drop marker
+        if(!om.opModeIsActive()) return;
+        move(62, 0.6); // forward to crater
+        if(!om.opModeIsActive()) return;
+      //ArmMove(10, 0.5); //robot.armMove(45, 0.6); // rotate arm over crater
+        stopAll();
+       }
+    }
     public void move(double inches, double power) {
         if(om.opModeIsActive()) {//tpr = leftDrive.getMotorType().getTicksPerRev();
         double ticks = inchesToTicks(inches);
@@ -231,7 +256,7 @@ public class HardwareRocky {
     }
     }
 
-   /* public void liftmove(double inches, double power) {
+    public void liftmove(double inches, double power) {
         double ticks = liftInchesToTicks(inches);
         lift.setPower(power);
         resetEncoders();
@@ -242,14 +267,16 @@ public class HardwareRocky {
             om.sleep(50);
         }
         lift.setPower(0);
-    }*/
+    }
 
     public void armMove(double angle, double power) {
         if(om.opModeIsActive()){
         resetEncoders();
-        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         while (om.opModeIsActive() && getArmAngle()>angle){
             arm.setPower(power);
+            arm2.setPower(power);
         }
 
 
@@ -263,8 +290,7 @@ public class HardwareRocky {
         arm.setPower(0);
         chickenFingers.setPower(0);
         upper.setPower(0);
-        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
 
     public double liftInchesToTicks(double liftInches) {
@@ -289,6 +315,17 @@ public class HardwareRocky {
         return armAngle;
     }
 
+    public double getTilterPosition() {
+        double tilterPosition = TILTER_DEEGRRES_PER_ARM_DEGREE * getTilterAngle() + 0.9;
+    return tilterPosition;}
+
+    public double getTilterAngle() {
+        double tilterAngle = 135-getArmAngle();
+    return tilterAngle;
+    }
+
+    }
+
     /*public double calculateNewBigBoiPosition() {
         double cradleAngle = MAX_ARM_ANGLE - getArmAngle();
         return MAX_SERVO_POSITION - (cradleAngle * POSITION_UNIT_PER_DEGREE);
@@ -297,6 +334,6 @@ public class HardwareRocky {
     /*public void setCradleAngle(){
         bigboi.setPosition(calculateNewBigBoiPosition());
         om.telemetry.addData("bigboi pos ", calculateNewBigBoiPosition() );*/
-    }
+
 
 
