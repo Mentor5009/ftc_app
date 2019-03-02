@@ -61,26 +61,29 @@ public class Depot extends LinearOpMode {
                 robot.pivot(100, -0.6); // turn toward depot
                 robot.move(43, -0.6); // reverse into depot
                 robot.marker.setPosition(0.2); // drop marker
-                robot.pivot(102, 0.6); // turn toward crater
+                robot.pivot(122, 0.6); // turn toward crater
                 robot.move(62, 0.6); // forward to crater
-                robot.armMove(10, 0.5);//robot.armMove(45, 0.6); // rotate arm over crater
+                //robot.liftmove(6, 0.7);
+                //robot.armMove(10, 0.5);//robot.armMove(45, 0.6); // rotate arm over crater
                 break;
             case RIGHT:
                 robot.pivot(48, -0.6); // turn toward gold
                 robot.move(38, -0.6); //reverse to gold and push through
                 //after hitting mineral
-                robot.pivot(100, .6);  // turn toward depot
+                robot.pivot(110, .6);  // turn toward depot
                 robot.move(44, -0.6); // reverse to depot
                 robot.marker.setPosition(0.2); // drop marker
                 robot.move(62, 0.6); // forward to crater
-                robot.armMove(10, 0.5); //robot.armMove(45, 0.6); // rotate arm over crater
+                //robot.liftmove(6, 0.7);
+                //robot.armMove(10, 0.5); //robot.armMove(45, 0.6); // rotate arm over crater
                 break;
             case CENTRE:
                 robot.move(49, -0.6); //reverse to gold and push through to depot
                 robot.pivot(62, 0.6); // turn toward crater
                 robot.marker.setPosition(0.2); // drop marker
-                robot.move(62, 0.6); // forward to crater
-                robot.armMove(10, 0.5);//robot.armMove(45, 0.6); // rotate arm over crater
+                robot.move(67, 0.6); // forward to crater
+               // robot.liftmove(6, 0.7);
+                //robot.armMove(10, 0.5);//robot.armMove(45, 0.6); // rotate arm over crater
                 break;
         }}
 

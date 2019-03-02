@@ -17,7 +17,7 @@ import java.util.List;
 
 @Autonomous(name = "Red Crater")
 
-public class CraterWithMarker extends LinearOpMode {
+public class CraterMarker extends LinearOpMode {
     HardwareRocky robot;
     //private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
@@ -61,16 +61,17 @@ public class CraterWithMarker extends LinearOpMode {
                 robot.move(25, -0.6); //reverse to gold and push through
                 //after hitting sample
                 robot.move(16, 0.6);
-                robot.pivot(20, .6); //20 red, 30 blue
+                robot.pivot(30, .6); //20 red, 30 blue
                 robot.move(45, 0.9);
                 //at wall
-                robot.pivot(25, -0.6);
+                robot.pivot(35, -0.6);
                 //moves towards depot
                 robot.move(50, 0.9);
                 robot.pivot(220, -0.7);
                 robot.marker.setPosition(0.2);//Leave depot to go to crater
-                robot.move(62, 0.9);
-                robot.armMove(10, 0.5);
+                robot.move(67, 0.9);
+                //robot.liftmove(7, 0.97);
+                //robot.armMove(10, 0.5);
                 //robot.armMove(45,0.6);
             }
             //robot.armMove(45,0.6);
@@ -87,7 +88,8 @@ public class CraterWithMarker extends LinearOpMode {
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
                 robot.move(62, 0.9);
-                robot.armMove(10, 0.5);
+                //
+                //robot.armMove(10, 0.5);
             }
 
             //robot.armMove(45,0.6);
@@ -97,7 +99,7 @@ public class CraterWithMarker extends LinearOpMode {
                 robot.move(21, -0.6); //reverse to gold and push through to depot
                 robot.move(15, 0.6);
                 //already hit sample
-                robot.pivot(79, 0.6);
+                robot.pivot(89, 0.6);
                 robot.move(52, 0.6);
                 //moves towards depot
                 robot.pivot(18, -0.6);
@@ -108,7 +110,9 @@ public class CraterWithMarker extends LinearOpMode {
                 //Leave depot to go to crater
                 robot.move(62, 0.9);
                 //Negative power goes towards 135, positive goes 0)
-                robot.armMove(10, 0.5);
+               // robot.liftmove(7, 0.97);
+               // robot.armMove(10, 0.5);
+
             }
 
             //robot.armMove(45,0.6);

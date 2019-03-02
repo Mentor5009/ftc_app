@@ -61,29 +61,18 @@ public class Depot extends LinearOpMode {
                 if(!opModeIsActive()) return;
                 robot.marker.setPosition(0.2); // drop marker
                 if(!opModeIsActive()) return;
-                robot.pivot(102, 0.6); // turn toward crater
+                robot.pivot(122, 0.6); // turn toward crater
                 if(!opModeIsActive()) return;
                 robot.move(62, 0.6); // forward to crater
                 if(!opModeIsActive()) return;
-                robot.armMove(10, 0.5);//robot.armMove(45, 0.6); // rotate arm over crater
+                //robot.liftmove(6, 0.7);
+               // robot.armMove(10, 0.5);//robot.armMove(45, 0.6); // rotate arm over crater
                 if(!opModeIsActive()) return;
                 break;
             case RIGHT:
-                robot.pivot(48, -0.6); // turn toward gold
-                if(!opModeIsActive()) return;
-                robot.move(38, -0.6); //reverse to gold and push through
-                if(!opModeIsActive()) return;
-                //after hitting mineral
-                robot.pivot(100, .6);  // turn toward depot
-                if(!opModeIsActive()) return;
-                robot.move(44, -0.6); // reverse to depot
-                if(!opModeIsActive()) return;
-                robot.marker.setPosition(0.2); // drop marker
-                if(!opModeIsActive()) return;
-                robot.move(62, 0.6); // forward to crater
-                if(!opModeIsActive()) return;
-                robot.armMove(10, 0.5); //robot.armMove(45, 0.6); // rotate arm over crater
-                if(!opModeIsActive()) return;
+
+                robot.BlueRightDepot();
+
                 break;
             case CENTRE:
                 robot.move(49, -0.6); //reverse to gold and push through to depot
@@ -92,9 +81,9 @@ public class Depot extends LinearOpMode {
                 if(!opModeIsActive()) return;
                 robot.marker.setPosition(0.2); // drop marker
                 if(!opModeIsActive()) return;
-                robot.move(62, 0.6); // forward to crater
+                robot.move(68, 0.6); // forward to crater
                 if(!opModeIsActive()) return;
-                robot.armMove(10, 0.5);//robot.armMove(45, 0.6); // rotate arm over crater
+                //robot.armMove(10, 0.5);//robot.armMove(45, 0.6); // rotate arm over crater
                 if(!opModeIsActive()) return;
                 break;
         }

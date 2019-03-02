@@ -61,6 +61,7 @@ public class CraterTfodEnd extends LinearOpMode {
                 robot.move(50, 0.9);
                 robot.pivot(220, -0.7);
                 robot.marker.setPosition(0.2);//Leave depot to go to crater
+                //robot.liftmove(6, 0.7);
                 robot.move(70, 0.9);
                 //robot.armMove(45,0.6);
                 break;
@@ -68,6 +69,7 @@ public class CraterTfodEnd extends LinearOpMode {
                 robot.pivot(54, -0.6); // turn toward gold
                 robot.move(31, -0.6);
                 robot.pivot(120, 0.6);
+               // robot.liftmove(6, 0.7);
                 robot.move(70, 0.6);
                 //in depot
 
@@ -75,6 +77,7 @@ public class CraterTfodEnd extends LinearOpMode {
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
                 robot.move(62, 0.9);
+                //robot.liftmove(6, 0.7);
                 robot.armMove(10, 0.5);
                 //robot.armMove(45,0.6);
                 break;
@@ -94,6 +97,7 @@ public class CraterTfodEnd extends LinearOpMode {
                 robot.move(24, 0.9);
                 robot.move(24, -0.9);
                 robot.pivot(147.4, -8);
+                //robot.liftmove(6, 0.7);
                 robot.move(78, 0.9);
                 break;
         }
