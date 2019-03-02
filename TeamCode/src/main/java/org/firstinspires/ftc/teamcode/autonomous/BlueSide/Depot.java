@@ -15,7 +15,12 @@ public class Depot extends LinearOpMode {
     private GoldDetector goldDetector;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode () throws InterruptedException {
+
+        runOpModeWhileActive();
+
+    }
+    public void runOpModeWhileActive() throws InterruptedException {
         MineralPosition goldPos = MineralPosition.RIGHT;
         robot = new HardwareRocky(this);
         robot.init(hardwareMap);
@@ -43,37 +48,56 @@ public class Depot extends LinearOpMode {
             telemetry.update();
         }
         robot.upper.setPower(0);
-        if (opModeIsActive()){
         switch (goldPos) {
             case LEFT:
                 //this at the end
                 robot.pivot(57, 0.6); // turn toward gold
+                if(!opModeIsActive()) return;
                 robot.move(38, -0.6); //reverse to gold and push through
+                if(!opModeIsActive()) return;
                 robot.pivot(100, -0.6); // turn toward depot
+                if(!opModeIsActive()) return;
                 robot.move(43, -0.6); // reverse into depot
+                if(!opModeIsActive()) return;
                 robot.marker.setPosition(0.2); // drop marker
+                if(!opModeIsActive()) return;
                 robot.pivot(102, 0.6); // turn toward crater
+                if(!opModeIsActive()) return;
                 robot.move(62, 0.6); // forward to crater
+                if(!opModeIsActive()) return;
                 robot.armMove(10, 0.5);//robot.armMove(45, 0.6); // rotate arm over crater
+                if(!opModeIsActive()) return;
                 break;
             case RIGHT:
                 robot.pivot(48, -0.6); // turn toward gold
+                if(!opModeIsActive()) return;
                 robot.move(38, -0.6); //reverse to gold and push through
+                if(!opModeIsActive()) return;
                 //after hitting mineral
                 robot.pivot(100, .6);  // turn toward depot
+                if(!opModeIsActive()) return;
                 robot.move(44, -0.6); // reverse to depot
+                if(!opModeIsActive()) return;
                 robot.marker.setPosition(0.2); // drop marker
+                if(!opModeIsActive()) return;
                 robot.move(62, 0.6); // forward to crater
+                if(!opModeIsActive()) return;
                 robot.armMove(10, 0.5); //robot.armMove(45, 0.6); // rotate arm over crater
+                if(!opModeIsActive()) return;
                 break;
             case CENTRE:
                 robot.move(49, -0.6); //reverse to gold and push through to depot
+                if(!opModeIsActive()) return;
                 robot.pivot(62, 0.6); // turn toward crater
+                if(!opModeIsActive()) return;
                 robot.marker.setPosition(0.2); // drop marker
+                if(!opModeIsActive()) return;
                 robot.move(62, 0.6); // forward to crater
+                if(!opModeIsActive()) return;
                 robot.armMove(10, 0.5);//robot.armMove(45, 0.6); // rotate arm over crater
+                if(!opModeIsActive()) return;
                 break;
-        }}
+        }
 
         goldDetector.shutdown();
     }

@@ -150,6 +150,7 @@ public class RockyTeleOp extends LinearOpMode {
             telemetry.addData("upper", robot.upper.getPower());
             telemetry.addData("arm encoder", robot.arm.getCurrentPosition());
             telemetry.addData("upper encoder", robot.upper.getCurrentPosition());
+            telemetry.addData("tilter", robot.tilter.getPosition());
             telemetry.update();
 
             // Pause for 40 mS each cycle = update 25 times a second.
