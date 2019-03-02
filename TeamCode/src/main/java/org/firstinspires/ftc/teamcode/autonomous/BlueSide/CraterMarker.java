@@ -13,9 +13,14 @@ public class CraterMarker extends LinearOpMode {
     HardwareRocky robot;
     //private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
-
     @Override
     public void runOpMode() throws InterruptedException {
+        while (opModeIsActive()){
+        runOpModeWhileActive();
+        }
+        robot.StopAll();
+    }
+        public void runOpModeWhileActive() throws InterruptedException {
         MineralPosition goldPos = MineralPosition.RIGHT;
         robot = new HardwareRocky(this);
         robot.init(hardwareMap);

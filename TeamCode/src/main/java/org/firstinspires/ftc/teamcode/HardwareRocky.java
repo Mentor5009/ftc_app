@@ -180,7 +180,6 @@ public class HardwareRocky {
         if(om.opModeIsActive()) {//tpr = leftDrive.getMotorType().getTicksPerRev();
         double ticks = inchesToTicks(inches);
         resetEncoders();
-
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -189,11 +188,22 @@ public class HardwareRocky {
         while (om.opModeIsActive() && Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
             leftDrive.setPower(power);
             rightDrive.setPower(power);
-
-        }
+            }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
     }}
+
+    public void StopAll(){
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+        lift.setPower(0);
+        arm.setPower(0);
+        chickenFingers.setPower(0);
+        upper.setPower(0);
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+    }
 
     public void moveChih(double power) {
         leftDrive.setPower(power);
@@ -250,8 +260,6 @@ public class HardwareRocky {
         while (om.opModeIsActive() && getArmAngle()>angle){
             arm.setPower(power);
         }
-
-
     }
     }
 
