@@ -87,7 +87,7 @@ public class HardwareRocky {
     public boolean transportMode = false;
     private double tpr;
     private static final double DEGREES_PER_VOLT = -125;
-    private static final double TILTER_DEEGRRES_PER_ARM_DEGREE = -0.00593;
+    private static final double TILTER_DEEGRRES_PER_ARM_DEGREE = -0.00678;
     private static final double MAX_ARM_ANGLE = 225;
     private static final double MAX_SERVO_POSITION = 1;
     private static final double POSITION_UNIT_PER_DEGREE = 0.00444444;   //relates servo position to degrees
@@ -297,7 +297,7 @@ public class HardwareRocky {
     }
 
     public double getTilterPosition() {
-        double tilterPosition = TILTER_DEEGRRES_PER_ARM_DEGREE * getTilterAngle() + 0.9;
+        double tilterPosition = TILTER_DEEGRRES_PER_ARM_DEGREE * getTilterAngle() + 0.8;
     return tilterPosition;}
 
     public double getTilterAngle() {

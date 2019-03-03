@@ -16,7 +16,6 @@ import org.firstinspires.ftc.teamcode.vision.MineralPosition;
 import java.util.List;
 
 @Autonomous(name = "Red Crater")
-
 public class CraterMarker extends LinearOpMode {
     HardwareRocky robot;
     //private ElapsedTime runtime = new ElapsedTime();
@@ -79,7 +78,7 @@ public class CraterMarker extends LinearOpMode {
             break;
         case RIGHT:
             if(opModeIsActive()) {
-                robot.pivot(53, -0.6); // turn toward gold
+                robot.pivot(58, -0.6); // turn toward gold
                 robot.move(26, -0.6);
                 //after hitting sample
                 robot.pivot(145, 0.6);

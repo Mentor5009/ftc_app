@@ -84,14 +84,20 @@ public class RockyTeleOp extends LinearOpMode {
             left = -gamepad1.left_stick_y;
             right = -gamepad1.right_stick_y;
 
-            if (gamepad2.dpad_left || robot.getArmAngle()>= 20 && robot.getArmAngle()<= 90   ) {robot.transportMode = true;}
-            if (gamepad2.dpad_right || robot.getArmAngle() <= 45) {robot.transportMode = false;}
+
+
+
+            if (gamepad2.dpad_left || (robot.getArmAngle()>= 20 && robot.getArmAngle()<= 90)) {
+                robot.transportMode = true;
+            }
+            if (gamepad2.dpad_right) {
+                robot.transportMode = false;
+            }
             if (robot.transportMode) {
                 robot.tilter.setPosition(robot.getTilterPosition());
             }
-
             else {
-                robot.tilter.setPosition(0.35);
+                robot.tilter.setPosition(0.24);
             }
 
             if (gamepad1.dpad_down) {
