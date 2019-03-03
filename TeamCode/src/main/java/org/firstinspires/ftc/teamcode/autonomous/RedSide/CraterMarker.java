@@ -40,6 +40,7 @@ public class CraterMarker extends LinearOpMode {
         // descend from lander
         robot.dropFromLander();
 
+
         // retract upper (descent arm) while scanning for the gold mineral position
         if (opModeIsActive()) {
         telemetry.addData("Before", robot.upper.getCurrentPosition());
@@ -61,7 +62,7 @@ public class CraterMarker extends LinearOpMode {
                 robot.move(25, -0.6); //reverse to gold and push through
                 //after hitting sample
                 robot.move(16, 0.6);
-                robot.pivot(30, .6); //20 red, 30 blue
+                robot.pivot(40, .6); //20 red, 30 blue
                 robot.move(45, 0.9);
                 //at wall
                 robot.pivot(35, -0.6);
@@ -78,13 +79,13 @@ public class CraterMarker extends LinearOpMode {
             break;
         case RIGHT:
             if(opModeIsActive()) {
-                robot.pivot(45, -0.6); // turn toward gold
+                robot.pivot(53, -0.6); // turn toward gold
                 robot.move(26, -0.6);
                 //after hitting sample
-                robot.pivot(125, 0.6);
+                robot.pivot(145, 0.6);
                 robot.move(73, 0.6);
                 //in depot
-                robot.pivot(200, -0.6);
+                robot.pivot(220, -0.6);
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
                 robot.move(62, 0.9);
@@ -99,11 +100,11 @@ public class CraterMarker extends LinearOpMode {
                 robot.move(21, -0.6); //reverse to gold and push through to depot
                 robot.move(15, 0.6);
                 //already hit sample
-                robot.pivot(89, 0.6);
+                robot.pivot(95, 0.6);
                 robot.move(52, 0.6);
                 //moves towards depot
                 robot.pivot(18, -0.6);
-                robot.move(45, 0.6);
+                robot.move(40, 0.6);
                 //in depot
                 robot.pivot(220, -.8);
                 robot.marker.setPosition(0.2);

@@ -177,31 +177,12 @@ public class HardwareRocky {
             }
 
             upper.setPower(0);
-            move(9, -.6);
+            move(12, -.6);
         }
 
        // move(9, -0.6); //reverse to  closer to sample for a better look
     }
 
-    public void BlueRightDepot (){
-       if(om.opModeIsActive()){
-        pivot(48, -0.6); // turn toward gold
-        if(!om.opModeIsActive()) return;
-        move(38, -0.6); //reverse to gold and push through
-        if(!om.opModeIsActive()) return;
-        //after hitting mineral
-        pivot(110, .6);  // turn toward depot
-        if(!om.opModeIsActive()) return;
-        move(44, -0.6); // reverse to depot
-        if(!om.opModeIsActive()) return;
-        marker.setPosition(0.2); // drop marker
-        if(!om.opModeIsActive()) return;
-        move(62, 0.6); // forward to crater
-        if(!om.opModeIsActive()) return;
-      //ArmMove(10, 0.5); //robot.armMove(45, 0.6); // rotate arm over crater
-        stopAll();
-       }
-    }
     public void move(double inches, double power) {
         if(om.opModeIsActive()) {//tpr = leftDrive.getMotorType().getTicksPerRev();
         double ticks = inchesToTicks(inches);

@@ -55,10 +55,10 @@ if (opModeIsActive()){
                 robot.pivot(30,.6); //20 red, 30 blue
                 robot.move(45, 0.9);
                 //at wall
-                robot.pivot(25, -0.6);
+                robot.pivot(40, -0.6);
                 //moves towards depot
                 robot.move(50, 0.9);
-                robot.pivot(220, -0.7);
+                robot.pivot(230, -0.7);
                 robot.marker.setPosition(0.2);//Leave depot to go to crater
                 robot.move(62, 0.9);
                 //robot.liftmove(6, 0.7);
@@ -71,10 +71,10 @@ if (opModeIsActive()){
                 robot.pivot(45, -0.6); // turn toward gold
                 robot.move(26, -0.6);
                 //after hitting sample
-                robot.pivot(125, 0.6);
+                robot.pivot(135, 0.6);
                 robot.move(76, 0.6);
                 //in depot
-                robot.pivot(210, -0.6);
+                robot.pivot(230, -0.6);
                 robot.marker.setPosition(0.2);
                 //Leave depot to go to crater
                 robot.move(66, 0.9);
@@ -85,10 +85,10 @@ if (opModeIsActive()){
                 //robot.armMove(45,0.6);
                 break;
             case CENTRE:
-                robot.move(31, -0.6); //reverse to gold and push through to depot
+                robot.move(15, -0.6); //reverse to gold and push through to depot
                 robot.move(15, 0.6);
                 //already hit sample
-                robot.pivot(79, 0.6);
+                robot.pivot(65, 0.6);
                 robot.move(52, 0.6);
                 //moves towards depot
                 robot.pivot(18, -0.6);
