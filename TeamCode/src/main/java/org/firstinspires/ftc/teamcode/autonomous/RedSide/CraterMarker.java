@@ -56,64 +56,56 @@ public class CraterMarker extends LinearOpMode {
 
     switch (goldPos) {
         case LEFT:
-            if(opModeIsActive()) {
-                robot.pivot(55, 0.6); // turn toward gold
-                robot.move(25, -0.6); //reverse to gold and push through
-                //after hitting sample
-                robot.move(16, 0.6);
-                robot.pivot(40, .6); //20 red, 30 blue
-                robot.move(45, 0.9);
-                //at wall
-                robot.pivot(35, -0.6);
-                //moves towards depot
-                robot.move(50, 0.9);
-                robot.pivot(220, -0.7);
-                robot.marker.setPosition(0.2);//Leave depot to go to crater
-                robot.move(67, 0.9);
-                //robot.liftmove(7, 0.97);
-                //robot.armMove(10, 0.5);
-                //robot.armMove(45,0.6);
-            }
+            robot.pivot(55, 0.6); // turn toward gold
+            robot.move(25, -0.6); //reverse to gold and push through
+            //after hitting sample
+            robot.move(16, 0.6);
+            robot.pivot(40, .6); //20 red, 30 blue
+            robot.move(45, 0.9);
+            //at wall
+            robot.pivot(35, -0.6);
+            //moves towards depot
+            robot.move(50, 0.9);
+            robot.pivot(240, -0.7);
+            robot.marker.setPosition(0.2);//Leave depot to go to crater
+            robot.move(67, 0.9);
+            //robot.liftmove(7, 0.97);
+            //robot.armMove(10, 0.5);
+            //robot.armMove(45,0.6);
             //robot.armMove(45,0.6);
             break;
         case RIGHT:
-            if(opModeIsActive()) {
-                robot.pivot(58, -0.6); // turn toward gold
-                robot.move(26, -0.6);
-                //after hitting sample
-                robot.pivot(145, 0.6);
-                robot.move(73, 0.6);
-                //in depot
-                robot.pivot(220, -0.6);
-                robot.marker.setPosition(0.2);
-                //Leave depot to go to crater
-                robot.move(62, 0.9);
-                //
-                //robot.armMove(10, 0.5);
-            }
-
+            robot.pivot(58, -0.6); // turn toward gold
+            robot.move(26, -0.6);
+            //after hitting sample
+            robot.pivot(145, 0.6);
+            robot.move(73, 0.6);
+            //in depot
+            robot.pivot(220, -0.6);
+            robot.marker.setPosition(0.2);
+            //Leave depot to go to crater
+            robot.move(62, 0.9);
+            //
+            //robot.armMove(10, 0.5);
             //robot.armMove(45,0.6);
             break;
         case CENTRE:
-            if(opModeIsActive()) {
-                robot.move(21, -0.6); //reverse to gold and push through to depot
-                robot.move(15, 0.6);
-                //already hit sample
-                robot.pivot(95, 0.6);
-                robot.move(52, 0.6);
-                //moves towards depot
-                robot.pivot(18, -0.6);
-                robot.move(40, 0.6);
-                //in depot
-                robot.pivot(220, -.8);
-                robot.marker.setPosition(0.2);
-                //Leave depot to go to crater
-                robot.move(62, 0.9);
-                //Negative power goes towards 135, positive goes 0)
-               // robot.liftmove(7, 0.97);
-               // robot.armMove(10, 0.5);
-
-            }
+            robot.move(21, -0.6); //reverse to gold and push through to depot
+            robot.move(15, 0.6);
+            //already hit sample
+            robot.pivot(95, 0.6);
+            robot.move(52, 0.6);
+            //moves towards depot
+            robot.pivot(18, -0.6);
+            robot.move(40, 0.6);
+            //in depot
+            robot.pivot(220, -.8);
+            robot.marker.setPosition(0.2);
+            //Leave depot to go to crater
+            robot.move(62, 0.9);
+            //Negative power goes towards 135, positive goes 0)
+           // robot.liftmove(7, 0.97);
+           // robot.armMove(10, 0.5);
 
             //robot.armMove(45,0.6);
             break;

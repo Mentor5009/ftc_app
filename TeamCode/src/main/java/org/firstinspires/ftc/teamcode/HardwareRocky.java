@@ -92,9 +92,6 @@ public class HardwareRocky {
     private static final double MAX_SERVO_POSITION = 1;
     private static final double POSITION_UNIT_PER_DEGREE = 0.00444444;   //relates servo position to degrees
 
-
-
-
     /* Local OpMode members. */
     HardwareMap hwMap = null;
     private LinearOpMode om;
@@ -167,24 +164,23 @@ public class HardwareRocky {
     }
 
     public void dropFromLander() {
-        if (om.opModeIsActive()) {
-            upper.setPower(0.9);
+        upper.setPower(0.9);
+        om.telemetry.update();
+        while (om.opModeIsActive() && upper.getCurrentPosition() < 17400) {
+            om.telemetry.addData("going up", upper.getCurrentPosition());
+            om.telemetry.addData("op mode", om.opModeIsActive());
             om.telemetry.update();
-            while (om.opModeIsActive() && upper.getCurrentPosition() < 17400) {
-                om.telemetry.addData("going up", upper.getCurrentPosition());
-                om.telemetry.addData("op mode", om.opModeIsActive());
-                om.telemetry.update();
-            }
-
-            upper.setPower(0);
-            move(12, -.6);
+            om.idle();
         }
+
+        upper.setPower(0);
+        move(12, -.6);
 
        // move(9, -0.6); //reverse to  closer to sample for a better look
     }
 
     public void move(double inches, double power) {
-        if(om.opModeIsActive()) {//tpr = leftDrive.getMotorType().getTicksPerRev();
+        //tpr = leftDrive.getMotorType().getTicksPerRev();
         double ticks = inchesToTicks(inches);
         resetEncoders();
 
@@ -199,7 +195,7 @@ public class HardwareRocky {
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-    }}
+    }
 
     public void moveChih(double power) {
         leftDrive.setPower(power);
@@ -218,7 +214,6 @@ public class HardwareRocky {
 
     //Robot pivots towards the crater from the depot
     public void pivot(double angle, double power) {
-       if(om.opModeIsActive()){
         double rads = angle * Math.PI / 180;
         double robotwidth = 17;
         double ticks = inchesToTicks(.5 * rads * robotwidth);
@@ -235,7 +230,6 @@ public class HardwareRocky {
         leftDrive.setPower(0);
         rightDrive.setPower(0);
     }
-    }
 
     public void liftmove(double inches, double power) {
         double ticks = liftInchesToTicks(inches);
@@ -251,17 +245,14 @@ public class HardwareRocky {
     }
 
     public void armMove(double angle, double power) {
-        if(om.opModeIsActive()){
         resetEncoders();
-            arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        while (om.opModeIsActive() && getArmAngle()>angle){
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        while (om.opModeIsActive() && getArmAngle() > angle) {
             arm.setPower(power);
             arm2.setPower(power);
         }
-
-
-    }
     }
 
     public void stopAll() {
@@ -297,7 +288,7 @@ public class HardwareRocky {
     }
 
     public double getTilterPosition() {
-        double tilterPosition = TILTER_DEEGRRES_PER_ARM_DEGREE * getTilterAngle() + 0.8;
+        double tilterPosition = TILTER_DEEGRRES_PER_ARM_DEGREE * getTilterAngle() + 0.75;
     return tilterPosition;}
 
     public double getTilterAngle() {
