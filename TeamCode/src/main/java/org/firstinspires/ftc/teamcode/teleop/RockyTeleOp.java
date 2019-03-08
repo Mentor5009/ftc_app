@@ -101,16 +101,16 @@ public class RockyTeleOp extends LinearOpMode {
             }
 
             if (gamepad1.dpad_down) {
-                robot.moveChih(- 0.25);
+                robot.moveChih(- 0.75);
             }
             else if (gamepad1.dpad_up) {
-                robot.moveChih(0.25);
+                robot.moveChih(0.75);
             }
             else if (gamepad1.dpad_left){
-                robot.moveChina(-.25);
+                robot.moveChina(-.75);
             }
             else if (gamepad1.dpad_right) {
-                robot.moveChina(.25);
+                robot.moveChina(0.75);
             }
             else {
                 robot.leftDrive.setPower(left);
