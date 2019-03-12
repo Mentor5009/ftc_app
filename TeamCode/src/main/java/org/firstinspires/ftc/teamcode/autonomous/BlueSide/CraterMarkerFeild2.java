@@ -7,9 +7,9 @@ import org.firstinspires.ftc.teamcode.HardwareRocky;
 import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
 
-@Autonomous(name = "Blue Crater")
+@Autonomous(name = "Blue Crater Field2")
 
-public class CraterMarker extends LinearOpMode {
+public class CraterMarkerFeild2 extends LinearOpMode {
     HardwareRocky robot;
     //private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
@@ -51,16 +51,16 @@ if (opModeIsActive()){
                 robot.pivot(65, 0.6); // turn toward gold
                 robot.move(20, -0.6); //reverse to gold and push through
                 //after hitting sample
-                robot.move(10, 0.6);
-                robot.pivot(32,.6); //20 red, 30 blue
+                robot.move(15, 0.6);
+                robot.pivot(20,.6); //20 red, 30 blue
                 robot.move(45, 0.9);
                 //at wall
-                robot.pivot(30, -0.6);
+                robot.pivot(40, -0.6);
                 //moves towards depot
-                robot.move(47, 0.9);
-                robot.pivot(240, -0.7);
+                robot.move(51, 0.9);
+                robot.pivot(220, -0.7);
                 robot.marker.setPosition(0.2);//Leave depot to go to crater
-                robot.move(62, 0.9);
+                robot.move(63, 0.9);
                 //robot.liftmove(6, 0.7);
                // robot.armMove(10, 0.5);
                 //robot.armMove(45,0.6);

@@ -155,12 +155,13 @@ public class RockyTeleOp extends LinearOpMode {
                 robot.upper.setPower(0);
             }
 
+
             if (gamepad2.dpad_left) robot.tilter.setPosition(0.35);
             //0.8 is 135
             if (gamepad2.dpad_right) robot.tilter.setPosition(0.2);
             //0.2 is 45
 
-
+/*
 
             /*if(robot.getArmAngle()>=1 || robot.getArmAngle()>=1) {
 

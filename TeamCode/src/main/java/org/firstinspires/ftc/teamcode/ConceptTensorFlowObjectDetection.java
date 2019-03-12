@@ -122,7 +122,11 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
                             telemetry.addData("object " + String.valueOf(i), recognition.getLabel() + "," + recognition.getTop() + "," + recognition.getBottom());
                             i++;
 
-                            if (recognition.getTop() < 600 && leftMineral != "silver") {
+                            if (recognition.getLeft() > 800) { //ignore object
+
+                            }
+
+                            else if (recognition.getTop() < 600 && leftMineral != "silver") {
 
                                 leftMineral = recognition.getLabel();
                                 
