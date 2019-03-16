@@ -50,8 +50,8 @@ public class k9Teleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         // you can use this as a regular DistanceSensor.
-        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        leftDrive = hardwareMap.get(DcMotor.class, "leftDrive");
+        rightDrive = hardwareMap.get(DcMotor.class, "rightDrive");
         flagSpinner = hardwareMap.get(DcMotor.class, "flagSpinner");
         sensorRange = hardwareMap.get(Rev2mDistanceSensor.class,"distanceSensor");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
