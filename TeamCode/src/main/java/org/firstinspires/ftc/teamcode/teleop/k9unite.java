@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 //import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 /**
@@ -27,7 +31,7 @@ public class k9unite extends LinearOpMode {
     private DcMotor leftDrive;
     private DcMotor rightDrive;
     private DcMotor flagSpinner;
-
+    private Rev2mDistanceSensor sensorRange;
 
     @Override
     public void runOpMode() {
@@ -35,11 +39,16 @@ public class k9unite extends LinearOpMode {
         leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
         flagSpinner = hardwareMap.get(DcMotor.class, "flagSpinner");
+        sensorRange = hardwareMap.get(Rev2mDistanceSensor.class,"distanceSensor");
 
         // you can also cast this to a Rev2mDistanceSensor if you want to use added
         // methods associated with the Rev2mDistanceSensor class.
 
-        telemetry.addData(">>", "Press start to continue");
+        //telemetry.addData(">>", "Press start to continue");
+        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
+
+
+
         telemetry.update();
 
 
@@ -51,18 +60,23 @@ public class k9unite extends LinearOpMode {
              double rightDrivePower;
              double flagSpinnerPower;
 
+
             leftDrivePower = gamepad1.left_stick_y;
             rightDrivePower = -gamepad1.right_stick_y;
 
-            if (gamepad1.a){flagSpinnerPower = 0.5;}
+            if (gamepad2.a){flagSpinnerPower = 0.5;}
 
-            else if (gamepad1.b){flagSpinnerPower = -0.5;}
+            else if (gamepad2.b){flagSpinnerPower = -0.5;}
 
             else flagSpinnerPower = 0;
 
             flagSpinner.setPower(flagSpinnerPower);
             leftDrive.setPower(leftDrivePower);
             rightDrive.setPower(rightDrivePower);
+
+            telemetry.addData("deviceName",sensorRange.getDeviceName() );
+            telemetry.addData("Distance", sensorRange.getDistance(DistanceUnit.INCH));
+            telemetry.addData("ID", String.format("%x", sensorTimeOfFlight.getModelID()));
             telemetry.update();
 
             sleep(50);
