@@ -37,6 +37,7 @@ public class k9imuGyro extends LinearOpMode {
     {
         leftDrive = hardwareMap.dcMotor.get("leftDrive");
         rightDrive = hardwareMap.dcMotor.get("rightDrive");
+        flagSpinner = hardwareMap.get(DcMotor.class, "flagSpinner");
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
