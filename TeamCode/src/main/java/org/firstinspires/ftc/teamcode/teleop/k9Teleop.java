@@ -7,8 +7,21 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 //import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+
+
 
 
 /**
@@ -24,22 +37,24 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name = "k9unite", group = "Rocky")
+@TeleOp(name = "k9Teleop", group = "Rocky")
 
-public class k9unite extends LinearOpMode {
+public class k9Teleop extends LinearOpMode {
 
     private DcMotor leftDrive;
     private DcMotor rightDrive;
     private DcMotor flagSpinner;
     private Rev2mDistanceSensor sensorRange;
+    private BNO055IMU imu;
 
     @Override
     public void runOpMode() {
         // you can use this as a regular DistanceSensor.
-        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        leftDrive = hardwareMap.get(DcMotor.class, "leftDrive");
+        rightDrive = hardwareMap.get(DcMotor.class, "rightDrive");
         flagSpinner = hardwareMap.get(DcMotor.class, "flagSpinner");
         sensorRange = hardwareMap.get(Rev2mDistanceSensor.class,"distanceSensor");
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         // you can also cast this to a Rev2mDistanceSensor if you want to use added
         // methods associated with the Rev2mDistanceSensor class.
@@ -59,7 +74,6 @@ public class k9unite extends LinearOpMode {
              double leftDrivePower;
              double rightDrivePower;
              double flagSpinnerPower;
-
 
             leftDrivePower = gamepad1.left_stick_y;
             rightDrivePower = -gamepad1.right_stick_y;
