@@ -84,27 +84,33 @@ public class RockyTeleOp extends LinearOpMode {
             left = -gamepad1.left_stick_y;
             right = -gamepad1.right_stick_y;
 
-            if (gamepad2.dpad_left || robot.getArmAngle()>= 20) {robot.transportMode = true;}
-            if (gamepad2.dpad_right) {robot.transportMode = false;}
+
+
+
+            if (gamepad2.dpad_left || (robot.getArmAngle()>= 20 && robot.getArmAngle()<= 90)) {
+                robot.transportMode = true;
+            }
+            if (gamepad2.dpad_right) {
+                robot.transportMode = false;
+            }
             if (robot.transportMode) {
                 robot.tilter.setPosition(robot.getTilterPosition());
             }
-
             else {
-                robot.tilter.setPosition(0.35);
+                robot.tilter.setPosition(0.24);
             }
 
             if (gamepad1.dpad_down) {
-                robot.moveChih(- 0.25);
+                robot.moveChih(- 0.75);
             }
             else if (gamepad1.dpad_up) {
-                robot.moveChih(0.25);
+                robot.moveChih(0.75);
             }
             else if (gamepad1.dpad_left){
-                robot.moveChina(-.25);
+                robot.moveChina(-.75);
             }
             else if (gamepad1.dpad_right) {
-                robot.moveChina(.25);
+                robot.moveChina(0.75);
             }
             else {
                 robot.leftDrive.setPower(left);
@@ -149,12 +155,13 @@ public class RockyTeleOp extends LinearOpMode {
                 robot.upper.setPower(0);
             }
 
+
             if (gamepad2.dpad_left) robot.tilter.setPosition(0.35);
             //0.8 is 135
             if (gamepad2.dpad_right) robot.tilter.setPosition(0.2);
             //0.2 is 45
 
-
+/*
 
             /*if(robot.getArmAngle()>=1 || robot.getArmAngle()>=1) {
 

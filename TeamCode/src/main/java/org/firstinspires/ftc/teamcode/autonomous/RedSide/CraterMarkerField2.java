@@ -2,21 +2,13 @@ package org.firstinspires.ftc.teamcode.autonomous.RedSide;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.HardwareRocky;
-import org.firstinspires.ftc.teamcode.Length;
 import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
 
-import java.util.List;
-
-@Autonomous(name = "Red Crater")
-public class CraterMarker extends LinearOpMode {
+@Autonomous(name = "Red Crater Field 2")
+public class CraterMarkerField2 extends LinearOpMode {
     HardwareRocky robot;
     //private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
@@ -56,19 +48,19 @@ public class CraterMarker extends LinearOpMode {
 
     switch (goldPos) {
         case LEFT: //hits both golds
-            robot.pivot(70, 0.6); // turn toward gold
-            robot.move(18, -0.6); //reverse to gold and push through
+            robot.pivot(60, 0.6); // turn toward gold
+            robot.move(20, -0.6); //reverse to gold and push through
             //after hitting sample
-            robot.move(20, 0.6);
-            robot.pivot(40, .6);
+            robot.move(15, 0.6);
+            robot.pivot(30, .6);
             robot.move(45, 0.9);
-            // half way there
-            robot.pivot(72, -0.6);
+            //at wall
+            robot.pivot(35, -0.6);
             //moves towards depot
-            robot.move(56, 0.9);
-            robot.pivot(270, -0.7);
+            robot.move(60, 0.9);
+            robot.pivot(240, -0.7);
             robot.marker.setPosition(0.2);//Leave depot to go to crater
-            robot.move(67, 0.9);
+            robot.move(68, 0.9);
             //robot.liftmove(7, 0.97);
             //robot.armMove(10, 0.5);
             //robot.armMove(45,0.6);
@@ -96,7 +88,7 @@ public class CraterMarker extends LinearOpMode {
             robot.pivot(95, 0.6);
             robot.move(54, 0.6);
             //moves towards depot
-            robot.pivot(30, -0.6);
+            robot.pivot(18, -0.6);
             robot.move(45, 0.6);
             //in depot
             robot.pivot(245, -.8);
