@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 
-
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
@@ -42,6 +41,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import java.util.Arrays;
+import java.util.Collections;
+
 
 //import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -93,12 +95,18 @@ public class HardwareRocky {
     public AnalogInput potentiometer;
 
     //Sensors
-    Rev2mDistanceSensor DS1;
-    Rev2mDistanceSensor DS2;
-    Rev2mDistanceSensor DS3;
+    public Rev2mDistanceSensor DS1;
+    public Rev2mDistanceSensor DS2;
+    public Rev2mDistanceSensor DS3;
 
 
     public boolean transportMode = false;
+
+    //update sensor stuff
+
+    long age [] = {0,0,0,0,0,0,0};
+    public double val [] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    long oldest = 0;
 
 
     //Constants
@@ -108,7 +116,7 @@ public class HardwareRocky {
     private static final double MAX_SERVO_POSITION = 1;
     private static final double POSITION_UNIT_PER_DEGREE = 0.00444444;   //relates servo position to degrees
     private double tpr;
-    private static final double distanceDS1toDS2 = 10;
+    public static final double distanceDS1toDS2 = 10;
 
     /* Local OpMode members. */
     HardwareMap hwMap = null;
@@ -358,7 +366,34 @@ public class HardwareRocky {
         return distanceFromWall;
     }
 
+    public void updateDS1(){
+
+        int i = 0;
+        double tempVal;
+        long tempAge;
+
+        /*long age [] = {0,0,0,0,0,0,0};
+        double val [] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        long oldest = 0;*/
+
+        while (age[i] != oldest){ i++;}
+        for (i--; i > 0;){
+            val[i-1] = val[i];
+            age[i-1] = age[i];
+            }
+        val[0] = DS1.getDistance(DistanceUnit.INCH);
+        age[0] = ++oldest;
+        i = 0;
+        while(i<6 && val[i] > val[i+1]){
+            tempVal= val[i];
+            val[i] = val[i+1];
+            val[i+1]= tempVal;
+            tempAge = age[i];
+            age[i] = age[i+1];
+            age[i+1]=tempAge;
+        }
     }
+}
 
 
 

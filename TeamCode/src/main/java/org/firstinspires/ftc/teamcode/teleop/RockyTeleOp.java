@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.HardwareRocky;
 
 /**
@@ -178,8 +179,10 @@ public class RockyTeleOp extends LinearOpMode {
             else{
                 robot.tilter.setPosition(1);}*/
 
+            robot.updateDS1();
+
             //TELEMETRY ZONE
-            telemetry.addData( "right bumper", gamepad2.right_bumper);
+            /*telemetry.addData( "right bumper", gamepad2.right_bumper);
             telemetry.addData( "left bumper", gamepad2.left_bumper);
             telemetry.addData( "right trigger", gamepad2.right_trigger);
             telemetry.addData( "left trigger", gamepad2.left_trigger);
@@ -192,9 +195,15 @@ public class RockyTeleOp extends LinearOpMode {
             telemetry.addData("arm", robot.arm.getPower());
             telemetry.addData("upper", robot.upper.getPower());
             telemetry.addData("arm encoder", robot.arm.getCurrentPosition());
-            telemetry.addData("upper encoder", robot.upper.getCurrentPosition());
+            telemetry.addData("upper encoder", robot.upper.getCurrentPosition());*/
             telemetry.addData("tilter", robot.tilter.getPosition());
             telemetry.addData("Transport mode", robot.transportMode);
+            telemetry.addData("DS1", robot.DS1.getDistance(DistanceUnit.INCH));
+            telemetry.addData("DS2", robot.DS2.getDistance(DistanceUnit.INCH));
+            telemetry.addData("DS3", robot.DS3.getDistance(DistanceUnit.INCH));
+            telemetry.addData("Get angle from wall", robot.getWallAngleTan());
+            telemetry.addData("Distance from wall", robot.getDistanceFromWall());
+            telemetry.addData("DS1 median", robot.val[3]);
             telemetry.update();
 
             // Pause for 40 mS each cycle = update 25 times a second.

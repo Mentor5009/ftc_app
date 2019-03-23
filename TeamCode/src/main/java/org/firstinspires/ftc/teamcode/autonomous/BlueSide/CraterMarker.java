@@ -18,7 +18,7 @@ public class CraterMarker extends LinearOpMode {
         while (opModeIsActive()){
         runOpModeWhileActive();
         }
-        robot.StopAll();
+        robot.stopAll();
     }
         public void runOpModeWhileActive() throws InterruptedException {
         MineralPosition goldPos = MineralPosition.RIGHT;
