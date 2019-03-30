@@ -180,10 +180,11 @@ public class RockyTeleOp extends LinearOpMode {
                 robot.tilter.setPosition(1);}*/
 
             robot.updateDS1();
+            robot.updateDS2();
+            robot.updateDS3();
 
             //TELEMETRY ZONE
             /*telemetry.addData( "right bumper", gamepad2.right_bumper);
-            telemetry.addData( "left bumper", gamepad2.left_bumper);
             telemetry.addData( "right trigger", gamepad2.right_trigger);
             telemetry.addData( "left trigger", gamepad2.left_trigger);
 
@@ -203,7 +204,16 @@ public class RockyTeleOp extends LinearOpMode {
             telemetry.addData("DS3", robot.DS3.getDistance(DistanceUnit.INCH));
             telemetry.addData("Get angle from wall", robot.getWallAngleTan());
             telemetry.addData("Distance from wall", robot.getDistanceFromWall());
-            telemetry.addData("DS1 median", robot.val[3]);
+            telemetry.addData("DS1 median", robot.valDS1[3]);
+            telemetry.addData("DS2 median1", robot.valDS2[0]);
+            telemetry.addData("DS2 median2", robot.valDS2[1]);
+            telemetry.addData("DS2 median3", robot.valDS2[2]);
+            telemetry.addData("DS2 median4", robot.valDS2[3]);
+            telemetry.addData("DS2 median5", robot.valDS2[4]);
+            telemetry.addData("DS2 median6", robot.valDS2[5]);
+            telemetry.addData("DS2 median7", robot.valDS2[6]);
+            telemetry.addData("DS3 median", robot.valDS3[3]);
+
             telemetry.update();
 
             // Pause for 40 mS each cycle = update 25 times a second.

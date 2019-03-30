@@ -41,8 +41,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import java.util.Arrays;
-import java.util.Collections;
 
 
 //import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -104,9 +102,17 @@ public class HardwareRocky {
 
     //update sensor stuff
 
-    long age [] = {0,0,0,0,0,0,0};
-    public double val [] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-    long oldest = 0;
+    public long ageDS1[] = {6,5,4,3,2,1,0};
+    public double valDS1[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    public long newestDS1 = 6;
+
+    public long ageDS2 [] = {6,5,4,3,2,1,0};
+    public double valDS2 [] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    public long newestDS2 = 6;
+
+    public long ageDS3 [] = {6,5,4,3,2,1,0};
+    public double valDS3 [] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    public long newestDS3 = 6;
 
 
     //Constants
@@ -371,26 +377,80 @@ public class HardwareRocky {
         int i = 0;
         double tempVal;
         long tempAge;
+        double newVal = DS1.getDistance(DistanceUnit.INCH);
+        if (newVal<0.25){return;}
+        else if(newVal>50){newVal = 51;}
 
-        /*long age [] = {0,0,0,0,0,0,0};
-        double val [] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        long oldest = 0;*/
-
-        while (age[i] != oldest){ i++;}
-        for (i--; i > 0;){
-            val[i-1] = val[i];
-            age[i-1] = age[i];
+        while (i<6 && ageDS1[i] != newestDS1 -6){ i++; }
+        for (; i > 0;i--){
+            valDS1[i] = valDS1[i-1];
+            ageDS1[i] = ageDS1[i-1];
             }
-        val[0] = DS1.getDistance(DistanceUnit.INCH);
-        age[0] = ++oldest;
+        valDS1[0] = newVal;
+        ageDS1[0] = ++newestDS1;
         i = 0;
-        while(i<6 && val[i] > val[i+1]){
-            tempVal= val[i];
-            val[i] = val[i+1];
-            val[i+1]= tempVal;
-            tempAge = age[i];
-            age[i] = age[i+1];
-            age[i+1]=tempAge;
+        while(i<6 && valDS1[i] > valDS1[i+1]){
+            tempVal= valDS1[i];
+            valDS1[i] = valDS1[i+1];
+            valDS1[i+1]= tempVal;
+            tempAge = ageDS1[i];
+            ageDS1[i] = ageDS1[i+1];
+            ageDS1[i+1]=tempAge;
+            i++;
+        }
+    }
+    public void updateDS2(){
+
+        int i = 0;
+        double tempVal;
+        long tempAge;
+        double newVal = DS2.getDistance(DistanceUnit.INCH);
+        if (newVal<0.25){return;}
+        else if(newVal>50){newVal = 51;}
+
+        while (i<6 && ageDS2[i] != newestDS2 -6){ i++; }
+        for (; i > 0;i--){
+            valDS2[i] = valDS2[i-1];
+            ageDS2[i] = ageDS2[i-1];
+        }
+        valDS2[0] = newVal;
+        ageDS2[0] = ++newestDS2;
+        i = 0;
+        while(i<6 && valDS2[i] > valDS2[i+1]){
+            tempVal= valDS2[i];
+            valDS2[i] = valDS2[i+1];
+            valDS2[i+1]= tempVal;
+            tempAge = ageDS2[i];
+            ageDS2[i] = ageDS2[i+1];
+            ageDS2[i+1]=tempAge;
+            i++;
+        }
+    }
+    public void updateDS3(){
+
+        int i = 0;
+        double tempVal;
+        long tempAge;
+        double newVal = DS3.getDistance(DistanceUnit.INCH);
+        if (newVal<0.25){return;}
+        else if(newVal>50){newVal = 51;}
+
+        while (i<6 && ageDS3[i] != newestDS3 -6){ i++; }
+        for (; i > 0;i--){
+            valDS3[i] = valDS3[i-1];
+            ageDS3[i] = ageDS3[i-1];
+        }
+        valDS3[0] = newVal;
+        ageDS3[0] = ++newestDS3;
+        i = 0;
+        while(i<6 && valDS3[i] > valDS3[i+1]){
+            tempVal= valDS3[i];
+            valDS3[i] = valDS3[i+1];
+            valDS3[i+1]= tempVal;
+            tempAge = ageDS3[i];
+            ageDS3[i] = ageDS3[i+1];
+            ageDS3[i+1]=tempAge;
+            i++;
         }
     }
 }
