@@ -44,7 +44,7 @@ public class Depot extends LinearOpMode {
         }
         robot.upper.setPower(0);
             robot.upper.setPower(-2248)   ;
-        switch (goldPos){+
+        switch (goldPos){
             case LEFT:
                 //this at the end
                 robot.pivot(67, 0.6); // turn toward gold
