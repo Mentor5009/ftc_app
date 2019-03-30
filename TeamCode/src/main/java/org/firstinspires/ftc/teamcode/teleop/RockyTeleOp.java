@@ -179,12 +179,12 @@ public class RockyTeleOp extends LinearOpMode {
             else{
                 robot.tilter.setPosition(1);}*/
 
-            robot.updateDS1();
+            /*robot.updateDS1();
             robot.updateDS2();
-            robot.updateDS3();
+            robot.updateDS3()*/
 
             //TELEMETRY ZONE
-            /*telemetry.addData( "right bumper", gamepad2.right_bumper);
+            telemetry.addData( "right bumper", gamepad2.right_bumper);
             telemetry.addData( "right trigger", gamepad2.right_trigger);
             telemetry.addData( "left trigger", gamepad2.left_trigger);
 
@@ -196,7 +196,7 @@ public class RockyTeleOp extends LinearOpMode {
             telemetry.addData("arm", robot.arm.getPower());
             telemetry.addData("upper", robot.upper.getPower());
             telemetry.addData("arm encoder", robot.arm.getCurrentPosition());
-            telemetry.addData("upper encoder", robot.upper.getCurrentPosition());*/
+            telemetry.addData("upper encoder", robot.upper.getCurrentPosition());
             telemetry.addData("tilter", robot.tilter.getPosition());
             telemetry.addData("Transport mode", robot.transportMode);
             telemetry.addData("DS1", robot.DS1.getDistance(DistanceUnit.INCH));

@@ -378,8 +378,7 @@ public class HardwareRocky {
         double tempVal;
         long tempAge;
         double newVal = DS1.getDistance(DistanceUnit.INCH);
-        if (newVal<0.25){return;}
-        else if(newVal>50){newVal = 51;}
+        if (newVal<0.25 || newVal>50){return;}
 
         while (i<6 && ageDS1[i] != newestDS1 -6){ i++; }
         for (; i > 0;i--){
