@@ -24,12 +24,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @Autonomous(name="k9imuGyro", group="Autonomous")
 //@Disabled
 public class k9imuGyro extends LinearOpMode {
-    DcMotor leftDrive, rightDrive;
+    DcMotor leftDrive, rightDrive ;
     BNO055IMU               imu;
     Orientation             lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
     boolean                 aButton, bButton;
-    public DcMotor flagSpinner;
+
 
     // called when init button is  pressed.
     @Override
@@ -37,7 +37,6 @@ public class k9imuGyro extends LinearOpMode {
     {
         leftDrive = hardwareMap.dcMotor.get("leftDrive");
         rightDrive = hardwareMap.dcMotor.get("rightDrive");
-        flagSpinner = hardwareMap.get(DcMotor.class, "flagSpinner");
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -78,11 +77,7 @@ public class k9imuGyro extends LinearOpMode {
         telemetry.addData("Mode", "running");
         telemetry.update();
 
-        if (gamepad2.y){flagSpinner.setPower(0.5);}
 
-        else if (gamepad2.x){flagSpinner.setPower(-0.5);}
-
-        else flagSpinner.setPower(0);
 
         sleep(1000);
 
@@ -113,13 +108,13 @@ public class k9imuGyro extends LinearOpMode {
                 // backup.
                 leftDrive.setPower(power);
                 rightDrive.setPower(power);
-                flagSpinner.setPower(power);
+
                 sleep(500);
 
                 // stop.
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
-                flagSpinner.setPower(0);
+
 
                 // turn 90 degrees right.
                 if ( aButton) rotate(-90, power) ;
@@ -193,6 +188,7 @@ public class k9imuGyro extends LinearOpMode {
 
         return correction;
     }
+
 
     /**
      * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.

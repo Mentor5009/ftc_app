@@ -78,13 +78,13 @@ public class k9Teleop extends LinearOpMode {
             leftDrivePower = gamepad1.left_stick_y;
             rightDrivePower = -gamepad1.right_stick_y;
 
-            if (gamepad2.a){flagSpinnerPower = 0.5;}
+            if (gamepad2.a){flagSpinner.setPower(0.5);}
 
-            else if (gamepad2.b){flagSpinnerPower = -0.5;}
 
-            else flagSpinnerPower = 0;
+            else if (gamepad2.b){flagSpinner.setPower(-0.5);}
 
-            flagSpinner.setPower(flagSpinnerPower);
+            else flagSpinner.setPower(0);
+
             leftDrive.setPower(leftDrivePower);
             rightDrive.setPower(rightDrivePower);
 
