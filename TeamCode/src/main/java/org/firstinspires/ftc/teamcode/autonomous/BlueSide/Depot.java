@@ -28,24 +28,23 @@ public class Depot extends LinearOpMode {
 
         waitForStart();
         //runtime.reset();
-
         // descend from lander
         robot.dropFromLander();
-
-        // retract upper (descent arm) while scanning for the gold mineral position
-        telemetry.addData("Before", robot.upper.getCurrentPosition());
         telemetry.update();
-
-        while (opModeIsActive() && robot.upper.getCurrentPosition() > -12000) {
-            robot.upper.setPower(-0.9);
-            goldPos = goldDetector.getGoldPos(4000);
-            telemetry.addData("goldpos", goldPos);
-            telemetry.addData("Not there yet", robot.upper.getCurrentPosition());
+            // retract upper (descent arm) while scanning for the gold mineral position
+            telemetry.addData("Before", robot.upper.getCurrentPosition());
             telemetry.update();
+
+            while (opModeIsActive() && robot.upper.getCurrentPosition() > -12000) {
+                robot.upper.setPower(-0.9);
+                goldPos = goldDetector.getGoldPos(4000);
+                telemetry.addData("goldpos", goldPos);
+                telemetry.addData("Not there yet", robot.upper.getCurrentPosition());
+                telemetry.update();
         }
         robot.upper.setPower(0);
-
-        switch (goldPos) {
+            robot.upper.setPower(-2248)   ;
+        switch (goldPos){
             case LEFT:
                 //this at the end
                 robot.pivot(67, 0.6); // turn toward gold

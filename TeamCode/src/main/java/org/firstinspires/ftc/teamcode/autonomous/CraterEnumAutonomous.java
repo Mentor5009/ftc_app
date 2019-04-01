@@ -1,22 +1,16 @@
-package org.firstinspires.ftc.teamcode.autonomous.RedSide;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.HardwareRocky;
-import org.firstinspires.ftc.teamcode.Length;
 import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
+import org.firstinspires.ftc.teamcode.autonomous.CraterEnum;
 
-import java.util.List;
 
-@Autonomous(name = "Red Crater")
-public class CraterMarker extends LinearOpMode {
+@Autonomous(name = "CraterEnumAutonomous")
+public class CraterEnumAutonomous extends LinearOpMode {
     HardwareRocky robot;
     //private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
@@ -24,6 +18,7 @@ public class CraterMarker extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         MineralPosition goldPos = MineralPosition.RIGHT;
+        CraterEnum currentMode = CraterEnum.WaitForStart;
         robot = new HardwareRocky(this);
         robot.init(hardwareMap);
 
@@ -37,6 +32,10 @@ public class CraterMarker extends LinearOpMode {
         //runtime.reset();
 
         // descend from lander
+
+
+
+
         robot.dropFromLander();
 
 

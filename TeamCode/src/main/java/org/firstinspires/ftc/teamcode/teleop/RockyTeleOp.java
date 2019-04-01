@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.HardwareRocky;
 
 /**
@@ -178,9 +179,12 @@ public class RockyTeleOp extends LinearOpMode {
             else{
                 robot.tilter.setPosition(1);}*/
 
+            /*robot.updateDS1();
+            robot.updateDS2();
+            robot.updateDS3()*/
+
             //TELEMETRY ZONE
             telemetry.addData( "right bumper", gamepad2.right_bumper);
-            telemetry.addData( "left bumper", gamepad2.left_bumper);
             telemetry.addData( "right trigger", gamepad2.right_trigger);
             telemetry.addData( "left trigger", gamepad2.left_trigger);
 
