@@ -19,7 +19,7 @@ public class RockyImu extends LinearOpMode {
     Orientation             lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
     boolean                 aButton, bButton;
-    public DcMotor flagSpinner;
+
 
     // called when init button is  pressed.
     @Override
@@ -94,13 +94,11 @@ public class RockyImu extends LinearOpMode {
                 // backup.
                 leftDrive.setPower(power);
                 rightDrive.setPower(power);
-                flagSpinner.setPower(power);
                 sleep(500);
 
                 // stop.
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
-                flagSpinner.setPower(0);
 
                 // turn 90 degrees right.
                 if ( aButton) rotate(-90, power) ;
