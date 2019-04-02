@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.HardwareRocky;
 import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
 import org.firstinspires.ftc.teamcode.vision.RockyImu;
+import org.firstinspires.ftc.teamcode.autonomous.IMUtest;
 
 
 @Autonomous(name= "IMUtest")
@@ -14,7 +15,7 @@ public class IMUtest extends LinearOpMode {
     private HardwareRocky robot;
     private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
-    private rotate 
+    private RockyImu imu;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -25,12 +26,18 @@ public class IMUtest extends LinearOpMode {
 
         goldDetector = new GoldDetector (this);
 
+        imu = new RockyImu();
+        imu.init();
+
         /** Wait for the game to begin **/
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
 
         waitForStart();
         runtime.reset();
+
+
+
 
 
 

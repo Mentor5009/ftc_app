@@ -28,8 +28,17 @@
  */
 
 package org.firstinspires.ftc.teamcode;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.HardwareRocky;
+import org.firstinspires.ftc.teamcode.vision.GoldDetector;
+import org.firstinspires.ftc.teamcode.vision.MineralPosition;
+import org.firstinspires.ftc.teamcode.vision.RockyImu;
+import org.firstinspires.ftc.teamcode.autonomous.IMUtest;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
@@ -102,7 +111,7 @@ public class HardwareRocky {
 
     //update sensor stuff
 
-    public long ageDS1[] = {6,5,4,3,2,1,0};
+    /*public long ageDS1[] = {6,5,4,3,2,1,0};
     public double valDS1[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     public long newestDS1 = 6;
 
@@ -112,7 +121,7 @@ public class HardwareRocky {
 
     public long ageDS3 [] = {6,5,4,3,2,1,0};
     public double valDS3 [] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-    public long newestDS3 = 6;
+    public long newestDS3 = 6;*/
 
 
     //Constants
@@ -122,7 +131,12 @@ public class HardwareRocky {
     private static final double MAX_SERVO_POSITION = 1;
     private static final double POSITION_UNIT_PER_DEGREE = 0.00444444;   //relates servo position to degrees
     private double tpr;
-    public static final double distanceDS1toDS2 = 10;
+    //public static final double distanceDS1toDS2 = 10;
+
+    BNO055IMU               imu;
+    Orientation lastAngles = new Orientation();
+    double                  globalAngle, power = .30, correction;
+    boolean                 aButton, bButton;
 
     /* Local OpMode members. */
     HardwareMap hwMap = null;
@@ -156,9 +170,15 @@ public class HardwareRocky {
 
         potentiometer = hwMap.analogInput.get("potentiometer");
 
-        DS1 = hwMap.get(Rev2mDistanceSensor.class, "DS1");
+        imu = hwMap.get(BNO055IMU.class, "IMU1");
+
+
+
+
+
+        /*DS1 = hwMap.get(Rev2mDistanceSensor.class, "DS1");
         DS2 = hwMap.get(Rev2mDistanceSensor.class, "DS2");
-        DS3 = hwMap.get(Rev2mDistanceSensor.class, "DS3");
+        DS3 = hwMap.get(Rev2mDistanceSensor.class, "DS3");*/
 
         //arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -363,16 +383,16 @@ public class HardwareRocky {
 
     //This function is for the Distance sensor
 
-    public double getWallAngleTan() {
+    /*public double getWallAngleTan() {
         double wallAngle = Math.tan((DS1.getDistance(DistanceUnit.INCH)-DS2.getDistance(DistanceUnit.INCH))/(distanceDS1toDS2));
         return wallAngle;
     }
     public double getDistanceFromWall() {
         double distanceFromWall = (DS3.getDistance(DistanceUnit.INCH)*Math.sin(getWallAngleTan()));
         return distanceFromWall;
-    }
+    }*/
 
-    public void updateDS1(){
+    /*public void updateDS1(){
 
         int i = 0;
         double tempVal;
@@ -450,9 +470,10 @@ public class HardwareRocky {
             ageDS3[i] = ageDS3[i+1];
             ageDS3[i+1]=tempAge;
             i++;
-        }
-    }
+        }*/
+
 }
+
 
 
 
