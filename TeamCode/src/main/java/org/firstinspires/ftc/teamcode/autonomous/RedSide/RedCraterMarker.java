@@ -38,6 +38,7 @@ public class CraterMarker extends LinearOpMode {
 
         // descend from lander
         robot.dropFromLander();
+        robot.move(12, -0.6);
 
 
         // retract upper (descent arm) while scanning for the gold mineral position
@@ -53,15 +54,12 @@ public class CraterMarker extends LinearOpMode {
         }
         robot.upper.setPower(0);
 
-
     switch (goldPos) {
         case LEFT: //hits both golds
+            robot.canadarmLeft.setPosition(0.01);
+            robot.canadarmLeft.setPosition(0.99);
 
-            robot.pivot(70, 0.6); // turn toward gold
-            robot.move(18, -0.6); //reverse to gold and push through
-
-
-            //after hitting sample
+            /*//after hitting sample
             robot.move(20, 0.6);
             robot.pivot(40, .6);
             robot.move(45, 0.9);
@@ -75,12 +73,13 @@ public class CraterMarker extends LinearOpMode {
             //robot.liftmove(7, 0.97);
             //robot.armMove(10, 0.5);
             //robot.armMove(45,0.6);
-            //robot.armMove(45,0.6);
+            //robot.armMove(45,0.6);*/
             break;
         case RIGHT:
-            robot.pivot(68, -0.6); // turn toward gold
-            robot.move(26, -0.6);
-            //after hitting sample
+            robot.canadarmRight.setPosition(.99);
+            robot.canadarmRight.setPosition(.01);
+
+            /*//after hitting sample
             robot.pivot(150, 0.6);
             robot.move(76, 0.6);
             //in depot
@@ -90,12 +89,13 @@ public class CraterMarker extends LinearOpMode {
             robot.move(65, 0.9);
             //
             //robot.armMove(10, 0.5);
-            //robot.armMove(45,0.6);
+            //robot.armMove(45,0.6);*/
             break;
         case CENTRE:
-            robot.move(17, -0.6); //reverse to gold and push through to depot
-            robot.move(14, 0.6);
-            //already hit sample
+            robot.canadarmCentre.setPosition(.01);
+            robot.canadarmCentre.setPosition(.99);
+
+            /*//already hit sample
             robot.pivot(95, 0.6);
             robot.move(54, 0.6);
             //moves towards depot
@@ -112,7 +112,7 @@ public class CraterMarker extends LinearOpMode {
            // robot.liftmove(7, 0.97);
            // robot.armMove(10, 0.5);
 
-            //robot.armMove(45,0.6);
+            //robot.armMove(45,0.6);*/
             break;
     }
 
