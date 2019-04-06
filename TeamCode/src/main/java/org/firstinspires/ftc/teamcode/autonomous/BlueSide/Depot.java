@@ -43,7 +43,8 @@ public class Depot extends LinearOpMode {
                 telemetry.update();
         }
         robot.upper.setPower(0);
-            robot.upper.setPower(-2248)   ;
+
+
         switch (goldPos){
             case LEFT:
                 //this at the end

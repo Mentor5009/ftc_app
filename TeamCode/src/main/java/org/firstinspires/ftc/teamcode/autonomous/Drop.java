@@ -45,6 +45,11 @@ public class Drop extends LinearOpMode {
             telemetry.update();
         }
         robot.upper.setPower(0);
+        robot.canadarm1.setPosition(0.5);
+        robot.canadarm2.setPosition(0.5);
+        robot.canadarm3.setPosition(0.5);
+        
+
 
 
     }
