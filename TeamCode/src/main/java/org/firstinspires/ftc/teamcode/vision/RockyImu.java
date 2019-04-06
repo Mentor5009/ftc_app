@@ -1,5 +1,4 @@
-package org.firstinspires.ftc.teamcode.vision;
-
+package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -11,10 +10,21 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="RockyImu", group="Autonomous")
+
+// Simple autonomous program that drives bot forward until end of period
+// or touch sensor is hit. If touched, backs up a bit and turns 90 degrees
+// right and keeps going. Demonstrates obstacle avoidance and use of the
+// REV Hub's built in IMU in place of a gyro. Also uses gamepad1 buttons to
+// simulate touch sensor press and supports left as well as right turn.
+//
+// Also uses IMU to drive in a straight line when not avoiding an obstacle.
+
+
+
+@Autonomous(name="k9imuGyro", group="Autonomous")
 //@Disabled
-public class RockyImu extends LinearOpMode {
-    DcMotor leftDrive, rightDrive;
+public class k9imuGyro extends LinearOpMode {
+    DcMotor leftDrive, rightDrive ;
     BNO055IMU               imu;
     Orientation             lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
@@ -67,6 +77,10 @@ public class RockyImu extends LinearOpMode {
         telemetry.addData("Mode", "running");
         telemetry.update();
 
+
+
+        sleep(1000);
+
         // drive until end of period.
 
         while (opModeIsActive())
@@ -94,11 +108,13 @@ public class RockyImu extends LinearOpMode {
                 // backup.
                 leftDrive.setPower(power);
                 rightDrive.setPower(power);
+
                 sleep(500);
 
                 // stop.
                 leftDrive.setPower(0);
                 rightDrive.setPower(0);
+
 
                 // turn 90 degrees right.
                 if ( aButton) rotate(-90, power) ;
@@ -173,6 +189,7 @@ public class RockyImu extends LinearOpMode {
         return correction;
     }
 
+
     /**
      * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
      * @param degrees Degrees to turn, + is left - is right
@@ -225,3 +242,4 @@ public class RockyImu extends LinearOpMode {
         resetAngle();
     }
 }
+
