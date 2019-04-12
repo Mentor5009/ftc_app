@@ -52,12 +52,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-
 //import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 
 /**
  * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -88,7 +85,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  */
 public class HardwareRocky {
     private final double WHEEL_DIAMETER = 4;
-
 
     /* Public OpMode members. */
     //motors
@@ -127,8 +123,6 @@ public class HardwareRocky {
     private static final double POSITION_UNIT_PER_DEGREE = 0.00444444;   //relates servo position to degrees
     private double tpr;
 
-
-
     /* Local OpMode members. */
     HardwareMap hwMap = null;
     private LinearOpMode om;
@@ -143,14 +137,12 @@ public class HardwareRocky {
         // save reference to HW Map
         hwMap = ahwMap;
 
-
         // Define and Initialize Servos
 
         parameters.mode                = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.loggingEnabled      = false;
-
 
         marker = hwMap.get(Servo.class, "marker");
         chickenFingers = hwMap.get(DcMotorEx.class, " chickenFingers");
@@ -219,8 +211,6 @@ public class HardwareRocky {
         }
         upper.setPower(0);
     }
-
-
     //This function is for moving the robot (tank control)
 
     public void move(double inches, double power) {
@@ -352,8 +342,6 @@ public class HardwareRocky {
 
     }
 
-    //This function controls the lift and the upper
-
     public double liftInchesToTicks(double liftInches) {
         return (2132 * liftInches) / 2.25;
     }
@@ -361,18 +349,6 @@ public class HardwareRocky {
     public double inchesToTicks(double inches) {
         return (inches * tpr) / (WHEEL_DIAMETER * Math.PI);
     }
-
-
-    //This function controls the arm
-
-    public double armDegreesToTicks(double armDegrees) {
-        return (tpr * armDegrees) / 120;
-    }
-
-
-    //Function for chicken fingers
-
-
 
     //These functions make the ATTS work
     //With the potentiometer we can get the arm angle
@@ -387,7 +363,6 @@ public class HardwareRocky {
     public double getTilterPosition() {
         double tilterPosition = TILTER_DEEGRRES_PER_ARM_DEGREE * getTilterAngle() + 0.75;
     return tilterPosition;}
-
 
     //This makes the finalizes the ATTS by moving at certain angles when the arm is at a certain angle
 
@@ -421,11 +396,9 @@ public class HardwareRocky {
         om. telemetry.addData("Mode", "running");
         om.telemetry.update();
 
-
         om.sleep(1000);
 
         // drive until end of period.
-
 
         // Use gyro to drive in a straight line.
         correction = checkDirection();
@@ -452,11 +425,6 @@ public class HardwareRocky {
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-
-
-        // We record the sensor values because we will test them in more than
-        // one place with time passing between those places. See the lesson on
-        // Timing Considerations to know why.
 
     }
 

@@ -2,16 +2,17 @@ package org.firstinspires.ftc.teamcode.autonomous.BlueSide;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.HardwareRocky;
 import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
 
 
-@Autonomous(name = "Good Blue Depot")
+@Autonomous(name = "good depot")
 public class goodDepot extends LinearOpMode {
     private HardwareRocky robot;
-    //private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
 
     @Override
@@ -39,15 +40,22 @@ public class goodDepot extends LinearOpMode {
         if (opModeIsActive()) {
             telemetry.addData("Before", robot.upper.getCurrentPosition());
             telemetry.update();
-            while (opModeIsActive() && robot.upper.getCurrentPosition() > -3800) {
+            while (opModeIsActive() && robot.upper.getCurrentPosition() > -2724) {
                 robot.upper.setPower(-0.9);
                 goldPos = goldDetector.getGoldPos(4000);
                 telemetry.addData("goldpos", goldPos);
                 telemetry.addData("Not there yet", robot.upper.getCurrentPosition());
                 telemetry.update();
             }
+            runtime.reset();
             robot.upper.setPower(0);
-            robot.move(6, -.6);
+            while (opModeIsActive() && runtime.milliseconds() < 3000){
+                goldPos = goldDetector.getGoldPos(4000);
+                telemetry.addData("goldpos", goldPos);
+                telemetry.addData("Not there yet", robot.upper.getCurrentPosition());
+                telemetry.update();
+            }
+            robot.move(8, -.6);
 
             switch (goldPos) {
                 case LEFT:

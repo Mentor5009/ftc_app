@@ -86,9 +86,6 @@ public class RockyTeleOp extends LinearOpMode {
             left = -gamepad1.left_stick_y;
             right = -gamepad1.right_stick_y;
 
-
-
-
             if (gamepad2.dpad_left || (robot.getArmAngle()>= 20 && robot.getArmAngle()<= 90)) {
                 robot.transportMode = true;
             }
@@ -110,9 +107,7 @@ public class RockyTeleOp extends LinearOpMode {
                 else{
                     robot.tilter.setPosition(0.2);
                 }
-
             }
-
             if (gamepad1.dpad_down) {
                 robot.moveChih(- 0.75);
             }
@@ -154,8 +149,6 @@ public class RockyTeleOp extends LinearOpMode {
             }
             else {
                 robot.lift.setPower(0);
-
-
             }
 
             if (gamepad1.a){
@@ -173,30 +166,6 @@ public class RockyTeleOp extends LinearOpMode {
             else {
                 robot.upper.setPower(0);
             }
-
-
-
-
-/*
-
-            /*if(robot.getArmAngle()>=1 || robot.getArmAngle()>=1) {
-
-                robot.tilter.setPosition(1);}
-
-            else{robot.tilter.setPosition(1);}
-
-            if (gamepad2.dpad_left){
-                robot.tilter.setPosition(1);}
-
-            else if (gamepad2.dpad_right){
-                robot.tilter.setPosition(1);}
-
-            else{
-                robot.tilter.setPosition(1);}*/
-
-            /*robot.updateDS1();
-            robot.updateDS2();
-            robot.updateDS3()*/
 
             //TELEMETRY ZONE
             telemetry.addData("upper encoder", robot.upper.getCurrentPosition());

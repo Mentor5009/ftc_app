@@ -55,6 +55,7 @@ public class goodCraterMarker extends LinearOpMode {
             }
             runtime.reset();
             robot.upper.setPower(0);
+
             while (opModeIsActive() && runtime.milliseconds() < 3000){
                 goldPos = goldDetector.getGoldPos(4000);
                 telemetry.addData("goldpos", goldPos);
