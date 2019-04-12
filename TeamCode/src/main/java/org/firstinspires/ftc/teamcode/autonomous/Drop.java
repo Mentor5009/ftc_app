@@ -31,7 +31,7 @@ public class Drop extends LinearOpMode {
         runtime.reset();
 
         // descend from lander
-        robot.dropFromLander();
+       robot.dropFromLander();
 
         // retract upper (descent arm) while scanning for the gold mineral position
         robot.upper.setPower(-0.9);
@@ -45,13 +45,27 @@ public class Drop extends LinearOpMode {
             telemetry.update();
         }
         robot.upper.setPower(0);
-        robot.canadarm1.setPosition(0.5);
-        robot.canadarm2.setPosition(0.5);
-        robot.canadarm3.setPosition(0.5);
-        
+
+        robot.canadarmLeft.setPosition(0.01);
+        robot.canadarmCentre.setPosition(.01);
+        robot.canadarmRight.setPosition(.99);
+
+        sleep(50);
+
+        robot.canadarmLeft.setPosition(0.99);
+        robot.canadarmCentre.setPosition(.99);
+        robot.canadarmRight.setPosition(.01);
 
 
+        telemetry.addData("canArmLeft", robot.canadarmLeft.getPosition());
+        telemetry.addData("canArmCentre", robot.canadarmCentre.getPosition());
+        telemetry.addData("canArmRight", robot.canadarmRight.getPosition());
 
+       // robot.pivot(90, .8);
+       // telemetry.addData("Move Angle",robot.getMoveAngle());
+
+        telemetry.update();
+        while(opModeIsActive() && runtime.milliseconds() < 4000){}
     }
 }
 

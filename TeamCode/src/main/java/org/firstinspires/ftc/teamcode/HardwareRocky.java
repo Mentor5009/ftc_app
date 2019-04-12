@@ -52,12 +52,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-
 //import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 
 /**
  * This 2018-2019 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -89,7 +86,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class HardwareRocky {
     private final double WHEEL_DIAMETER = 4;
 
-
     /* Public OpMode members. */
     //motors
     public DcMotorEx leftDrive = null;
@@ -103,9 +99,9 @@ public class HardwareRocky {
     //servos
     public Servo marker = null;
     public Servo tilter = null;
-    public Servo canadarm1 = null;
-    public Servo canadarm2 = null;
-    public Servo canadarm3 = null;
+    public Servo canadarmLeft = null;
+    public Servo canadarmCentre = null;
+    public Servo canadarmRight = null;
     public AnalogInput potentiometer;
 
     //Sensors
@@ -120,14 +116,12 @@ public class HardwareRocky {
     double globalAngle, correction;
     BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     //Constants
-    private static final double DEGREES_PER_VOLT = -125;
+    private static final double DEGREES_PER_VOLT = -78.95;
     private static final double TILTER_DEEGRRES_PER_ARM_DEGREE = -0.00678;
     private static final double MAX_ARM_ANGLE = 225;
     private static final double MAX_SERVO_POSITION = 1;
     private static final double POSITION_UNIT_PER_DEGREE = 0.00444444;   //relates servo position to degrees
     private double tpr;
-
-
 
     /* Local OpMode members. */
     HardwareMap hwMap = null;
@@ -143,14 +137,12 @@ public class HardwareRocky {
         // save reference to HW Map
         hwMap = ahwMap;
 
-
         // Define and Initialize Servos
 
         parameters.mode                = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.loggingEnabled      = false;
-
 
         marker = hwMap.get(Servo.class, "marker");
         chickenFingers = hwMap.get(DcMotorEx.class, " chickenFingers");
@@ -165,26 +157,13 @@ public class HardwareRocky {
         upper = (DcMotorEx) hwMap.get(DcMotorEx.class, "upper");
         tilter = hwMap.get(Servo.class, "tilter");
 
-        canadarm1 = hwMap.get(Servo.class, "canadarm1");
-        canadarm2 = hwMap.get(Servo.class, "canadarm2");
-        canadarm3 = hwMap.get(Servo.class, "canadarm3");
+        canadarmLeft = hwMap.get(Servo.class, "canadarmLeft");
+        canadarmCentre = hwMap.get(Servo.class, "canadarmCentre");
+        canadarmRight = hwMap.get(Servo.class, "canadarmRight");
 
         potentiometer = hwMap.analogInput.get("potentiometer");
 
         imu = hwMap.get(BNO055IMU.class, "IMU1");
-
-
-
-
-
-        /*DS1 = hwMap.get(Rev2mDistanceSensor.class, "DS1");
-        DS2 = hwMap.get(Rev2mDistanceSensor.class, "DS2");
-        DS3 = hwMap.get(Rev2mDistanceSensor.class, "DS3");*/
-
-        //arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
-        // Set all motors to zero power
 
         leftDrive.setPower(0);
         rightDrive.setPower(0);
@@ -195,10 +174,8 @@ public class HardwareRocky {
         upper.setPower(0);
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
         arm2.setDirection(DcMotorSimple.Direction.REVERSE);
-
-
-
         resetEncoders();
+
 
 
         tpr = 1066;
@@ -227,18 +204,13 @@ public class HardwareRocky {
         upper.setPower(0.9);
         om.telemetry.update();
         while (om.opModeIsActive() && upper.getCurrentPosition() < 17400) {
-            om.telemetry.addData("going up", upper.getCurrentPosition());
+            om.telemetry.addData("Descending", upper.getCurrentPosition());
             om.telemetry.addData("op mode", om.opModeIsActive());
             om.telemetry.update();
             om.idle();
         }
-
         upper.setPower(0);
-        move(12, -.6);
-
     }
-
-
     //This function is for moving the robot (tank control)
 
     public void move(double inches, double power) {
@@ -294,6 +266,42 @@ public class HardwareRocky {
         rightDrive.setPower(0);
     }
 
+    public void pivotRight(double angle, double power) {
+        double rads = angle * Math.PI / 180;
+        double robotwidth = 17;
+        double ticks = inchesToTicks(.5 * rads * robotwidth);
+        resetEncoders();
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        while (om.opModeIsActive() && Math.abs(leftDrive.getCurrentPosition()) < 2*Math.abs(ticks)) {
+            leftDrive.setPower(power);
+            rightDrive.setPower(power*-.1);
+        }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+    }
+
+    public void leftPivot(double angle, double power) {
+        double rads = angle * Math.PI / 180;
+        double robotwidth = 17;
+        double ticks = inchesToTicks(.5 * rads * robotwidth);
+        resetEncoders();
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        while (om.opModeIsActive() && Math.abs(rightDrive.getCurrentPosition()) < 2*Math.abs(ticks)) {
+            rightDrive.setPower(power);
+            leftDrive.setPower(power*-.1);
+        }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+    }
+
     //This function makes the upper move in autonomous
 
     public void liftmove(double inches, double power) {
@@ -334,8 +342,6 @@ public class HardwareRocky {
 
     }
 
-    //This function controls the lift and the upper
-
     public double liftInchesToTicks(double liftInches) {
         return (2132 * liftInches) / 2.25;
     }
@@ -344,25 +350,10 @@ public class HardwareRocky {
         return (inches * tpr) / (WHEEL_DIAMETER * Math.PI);
     }
 
-
-    //This function controls the arm
-
-    public double armDegreesToTicks(double armDegrees) {
-        return (tpr * armDegrees) / 120;
-    }
-
-
-    //Function for chicken fingers
-
-    public void chickenspin(double power) {
-        chickenFingers.setPower(power);
-    }
-
-
     //These functions make the ATTS work
     //With the potentiometer we can get the arm angle
     public double getArmAngle() {
-        double armAngle = potentiometer.getVoltage() * DEGREES_PER_VOLT + 135;
+        double armAngle = (potentiometer.getVoltage()-1.09) * DEGREES_PER_VOLT + 135;
         om.telemetry.addData("arm angle", armAngle);
         return armAngle;
     }
@@ -373,11 +364,10 @@ public class HardwareRocky {
         double tilterPosition = TILTER_DEEGRRES_PER_ARM_DEGREE * getTilterAngle() + 0.75;
     return tilterPosition;}
 
-
     //This makes the finalizes the ATTS by moving at certain angles when the arm is at a certain angle
 
     public double getTilterAngle() {
-        double tilterAngle = 135-getArmAngle();
+        double tilterAngle = 145-getArmAngle();
     return tilterAngle;
     }
     public void gyroMove(double inches, double power) {
@@ -406,11 +396,9 @@ public class HardwareRocky {
         om. telemetry.addData("Mode", "running");
         om.telemetry.update();
 
-
         om.sleep(1000);
 
         // drive until end of period.
-
 
         // Use gyro to drive in a straight line.
         correction = checkDirection();
@@ -438,11 +426,6 @@ public class HardwareRocky {
         leftDrive.setPower(0);
         rightDrive.setPower(0);
 
-
-        // We record the sensor values because we will test them in more than
-        // one place with time passing between those places. See the lesson on
-        // Timing Considerations to know why.
-
     }
 
 
@@ -460,7 +443,7 @@ public class HardwareRocky {
      * Get current cumulative angle rotation from last reset.
      * @return Angle in degrees. + = left, - = right.
      */
-    private double getMoveAngle()
+    public double getMoveAngle()
     {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is
@@ -565,6 +548,7 @@ public class HardwareRocky {
             // reset angle tracking on new heading.
             resetAngle();
         }
+
     }
 
 
