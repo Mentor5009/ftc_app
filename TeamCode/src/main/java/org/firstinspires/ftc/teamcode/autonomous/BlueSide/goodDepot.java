@@ -8,8 +8,8 @@ import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
 
 
-@Autonomous(name = "Blue Depot")
-public class Depot extends LinearOpMode {
+@Autonomous(name = "Good Blue Depot")
+public class goodDepot extends LinearOpMode {
     private HardwareRocky robot;
     //private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;

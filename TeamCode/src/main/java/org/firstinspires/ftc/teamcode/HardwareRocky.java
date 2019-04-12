@@ -103,9 +103,9 @@ public class HardwareRocky {
     //servos
     public Servo marker = null;
     public Servo tilter = null;
-    public Servo canadarm1 = null;
-    public Servo canadarm2 = null;
-    public Servo canadarm3 = null;
+    public Servo canadarmLeft = null;
+    public Servo canadarmCentre = null;
+    public Servo canadarmRight = null;
     public AnalogInput potentiometer;
 
     //Sensors
@@ -120,7 +120,7 @@ public class HardwareRocky {
     double globalAngle, correction;
     BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     //Constants
-    private static final double DEGREES_PER_VOLT = -125;
+    private static final double DEGREES_PER_VOLT = -78.95;
     private static final double TILTER_DEEGRRES_PER_ARM_DEGREE = -0.00678;
     private static final double MAX_ARM_ANGLE = 225;
     private static final double MAX_SERVO_POSITION = 1;
@@ -165,26 +165,13 @@ public class HardwareRocky {
         upper = (DcMotorEx) hwMap.get(DcMotorEx.class, "upper");
         tilter = hwMap.get(Servo.class, "tilter");
 
-        canadarm1 = hwMap.get(Servo.class, "canadarm1");
-        canadarm2 = hwMap.get(Servo.class, "canadarm2");
-        canadarm3 = hwMap.get(Servo.class, "canadarm3");
+        canadarmLeft = hwMap.get(Servo.class, "canadarmLeft");
+        canadarmCentre = hwMap.get(Servo.class, "canadarmCentre");
+        canadarmRight = hwMap.get(Servo.class, "canadarmRight");
 
         potentiometer = hwMap.analogInput.get("potentiometer");
 
         imu = hwMap.get(BNO055IMU.class, "IMU1");
-
-
-
-
-
-        /*DS1 = hwMap.get(Rev2mDistanceSensor.class, "DS1");
-        DS2 = hwMap.get(Rev2mDistanceSensor.class, "DS2");
-        DS3 = hwMap.get(Rev2mDistanceSensor.class, "DS3");*/
-
-        //arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
-        // Set all motors to zero power
 
         leftDrive.setPower(0);
         rightDrive.setPower(0);
@@ -195,10 +182,8 @@ public class HardwareRocky {
         upper.setPower(0);
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
         arm2.setDirection(DcMotorSimple.Direction.REVERSE);
-
-
-
         resetEncoders();
+
 
 
         tpr = 1066;
@@ -227,15 +212,12 @@ public class HardwareRocky {
         upper.setPower(0.9);
         om.telemetry.update();
         while (om.opModeIsActive() && upper.getCurrentPosition() < 17400) {
-            om.telemetry.addData("going up", upper.getCurrentPosition());
+            om.telemetry.addData("Descending", upper.getCurrentPosition());
             om.telemetry.addData("op mode", om.opModeIsActive());
             om.telemetry.update();
             om.idle();
         }
-
         upper.setPower(0);
-        move(12, -.6);
-
     }
 
 
@@ -289,6 +271,42 @@ public class HardwareRocky {
         while (om.opModeIsActive() && Math.abs(leftDrive.getCurrentPosition()) < Math.abs(ticks) || Math.abs(rightDrive.getCurrentPosition()) < Math.abs(ticks)) {
             rightDrive.setPower(-power);
             leftDrive.setPower(power);
+        }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+    }
+
+    public void pivotRight(double angle, double power) {
+        double rads = angle * Math.PI / 180;
+        double robotwidth = 17;
+        double ticks = inchesToTicks(.5 * rads * robotwidth);
+        resetEncoders();
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        while (om.opModeIsActive() && Math.abs(leftDrive.getCurrentPosition()) < 2*Math.abs(ticks)) {
+            leftDrive.setPower(power);
+            rightDrive.setPower(power*-.1);
+        }
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+    }
+
+    public void leftPivot(double angle, double power) {
+        double rads = angle * Math.PI / 180;
+        double robotwidth = 17;
+        double ticks = inchesToTicks(.5 * rads * robotwidth);
+        resetEncoders();
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        while (om.opModeIsActive() && Math.abs(rightDrive.getCurrentPosition()) < 2*Math.abs(ticks)) {
+            rightDrive.setPower(power);
+            leftDrive.setPower(power*-.1);
         }
         leftDrive.setPower(0);
         rightDrive.setPower(0);
@@ -354,15 +372,12 @@ public class HardwareRocky {
 
     //Function for chicken fingers
 
-    public void chickenspin(double power) {
-        chickenFingers.setPower(power);
-    }
 
 
     //These functions make the ATTS work
     //With the potentiometer we can get the arm angle
     public double getArmAngle() {
-        double armAngle = potentiometer.getVoltage() * DEGREES_PER_VOLT + 135;
+        double armAngle = (potentiometer.getVoltage()-1.09) * DEGREES_PER_VOLT + 135;
         om.telemetry.addData("arm angle", armAngle);
         return armAngle;
     }
@@ -377,7 +392,7 @@ public class HardwareRocky {
     //This makes the finalizes the ATTS by moving at certain angles when the arm is at a certain angle
 
     public double getTilterAngle() {
-        double tilterAngle = 135-getArmAngle();
+        double tilterAngle = 145-getArmAngle();
     return tilterAngle;
     }
     public void gyroMove(double inches, double power) {
@@ -460,7 +475,7 @@ public class HardwareRocky {
      * Get current cumulative angle rotation from last reset.
      * @return Angle in degrees. + = left, - = right.
      */
-    private double getMoveAngle()
+    public double getMoveAngle()
     {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is
@@ -565,6 +580,7 @@ public class HardwareRocky {
             // reset angle tracking on new heading.
             resetAngle();
         }
+
     }
 
 

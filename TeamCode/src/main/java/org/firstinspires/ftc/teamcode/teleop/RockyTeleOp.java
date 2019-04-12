@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.HardwareRocky;
@@ -98,7 +99,18 @@ public class RockyTeleOp extends LinearOpMode {
                 robot.tilter.setPosition(robot.getTilterPosition());
             }
             else {
-                robot.tilter.setPosition(0.24);
+                if (robot.getArmAngle()> 90 ){
+                    if (robot.tilter.getPosition()==0.2) {
+                        robot.tilter.setPosition(0.18);
+                    }
+                    else {
+                        robot.tilter.setPosition(0.2);
+                    }
+                }
+                else{
+                    robot.tilter.setPosition(0.2);
+                }
+
             }
 
             if (gamepad1.dpad_down) {
@@ -146,6 +158,12 @@ public class RockyTeleOp extends LinearOpMode {
 
             }
 
+            if (gamepad1.a){
+                robot.canadarmRight.setPosition(.01);
+                robot.canadarmCentre.setPosition(.99);
+                robot.canadarmLeft.setPosition(0.99);
+            }
+
             if(gamepad2.y){
                 robot.upper.setPower(1);
             }
@@ -157,10 +175,7 @@ public class RockyTeleOp extends LinearOpMode {
             }
 
 
-            if (gamepad2.dpad_left) robot.tilter.setPosition(0.35);
-            //0.8 is 135
-            if (gamepad2.dpad_right) robot.tilter.setPosition(0.2);
-            //0.2 is 45
+
 
 /*
 
@@ -184,21 +199,15 @@ public class RockyTeleOp extends LinearOpMode {
             robot.updateDS3()*/
 
             //TELEMETRY ZONE
-            telemetry.addData( "right bumper", gamepad2.right_bumper);
-            telemetry.addData( "right trigger", gamepad2.right_trigger);
-            telemetry.addData( "left trigger", gamepad2.left_trigger);
-
             telemetry.addData("upper encoder", robot.upper.getCurrentPosition());
             telemetry.addData("potentiometer", robot.potentiometer.getVoltage());
 
-            telemetry.addData("lift", robot.lift.getPower());
-            telemetry.addData("lift", robot.lift.getCurrentPosition());
-            telemetry.addData("arm", robot.arm.getPower());
-            telemetry.addData("upper", robot.upper.getPower());
             telemetry.addData("arm encoder", robot.arm.getCurrentPosition());
             telemetry.addData("upper encoder", robot.upper.getCurrentPosition());
             telemetry.addData("tilter", robot.tilter.getPosition());
             telemetry.addData("Transport mode", robot.transportMode);
+            telemetry.addData("Arm angle", robot.getArmAngle());
+
             telemetry.update();
 
             // Pause for 40 mS each cycle = update 25 times a second.
