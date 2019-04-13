@@ -152,9 +152,9 @@ public class RockyTeleOp extends LinearOpMode {
             }
 
             if (gamepad1.a){
-                robot.canadarmRight.setPosition(.01);
-                robot.canadarmCentre.setPosition(.99);
-                robot.canadarmLeft.setPosition(0.99);
+                robot.canadarmRight.setPosition(.015);
+                robot.canadarmCentre.setPosition(.95);
+                robot.canadarmLeft.setPosition(.95);
             }
 
             if(gamepad2.y){

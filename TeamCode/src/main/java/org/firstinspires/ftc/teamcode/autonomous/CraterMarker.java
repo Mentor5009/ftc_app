@@ -15,8 +15,8 @@ import org.firstinspires.ftc.teamcode.vision.MineralPosition;
 
 import java.util.List;
 
-@Autonomous(name = "goodCraterMarker")
-public class goodCraterMarker extends LinearOpMode {
+@Autonomous(name = "CraterMarker")
+public class CraterMarker extends LinearOpMode {
     HardwareRocky robot;
     private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
@@ -99,12 +99,12 @@ public class goodCraterMarker extends LinearOpMode {
 
     }
 
-    public void moveFromCrater(boolean isLeft ) throws InterruptedException {
+    private void moveFromCrater(boolean isLeft ) throws InterruptedException {
         robot.pivotRight(85,.8); //turns towards wall
         //moves to wall
         robot.move(30,.8); //move towards wall
         robot.pivot(10,-.8); //turns left towards depot
-        if (isLeft == true) {
+        if (isLeft) {
             robot.canadarmLeft.setPosition(0.2);
             robot.move(57,0.8);
             sleep(1000);

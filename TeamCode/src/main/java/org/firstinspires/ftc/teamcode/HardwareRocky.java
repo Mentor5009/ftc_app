@@ -300,7 +300,6 @@ public class HardwareRocky {
         leftDrive.setPower(0);
         rightDrive.setPower(0);
     }
-
     //This function makes the upper move in autonomous
 
     public void liftmove(double inches, double power) {

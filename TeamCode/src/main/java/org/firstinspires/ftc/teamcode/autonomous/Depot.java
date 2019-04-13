@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.vision.GoldDetector;
 import org.firstinspires.ftc.teamcode.vision.MineralPosition;
 
 
-@Autonomous(name = "good depot")
-public class goodDepot extends LinearOpMode {
+@Autonomous(name = "depot")
+public class Depot extends LinearOpMode {
     private HardwareRocky robot;
     private ElapsedTime runtime = new ElapsedTime();
     private GoldDetector goldDetector;
@@ -76,6 +76,7 @@ public class goodDepot extends LinearOpMode {
                     robot.pivot(180,0.8);
                     robot.move(14, -.8);
                     robot.marker.setPosition(0.99);
+                    sleep(800);
                     robot.pivot(45,0.8);
                     robot.move(74, .8);
 
@@ -102,7 +103,7 @@ public class goodDepot extends LinearOpMode {
         robot.pivot(60, -.8);
         robot.move(65, 0.8);
         robot.pivot(225,0.8);
-        sleep(500);
+        sleep(800);
         robot.marker.setPosition(0.99);
         robot.move(60, .8);
 
