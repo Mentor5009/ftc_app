@@ -115,7 +115,7 @@ public class HardwareRocky {
     double globalAngle, correction;
     BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     //Constants
-    private static final double DEGREES_PER_VOLT = -78.95;
+    private static final double DEGREES_PER_VOLT = -83.6;
     private static final double TILTER_DEEGRRES_PER_ARM_DEGREE = -0.00678;
     private static final double MAX_ARM_ANGLE = 225;
     private static final double MAX_SERVO_POSITION = 1;
@@ -351,7 +351,7 @@ public class HardwareRocky {
     //These functions make the ATTS work
     //With the potentiometer we can get the arm angle
     public double getArmAngle() {
-        double armAngle = (potentiometer.getVoltage()-1.09) * DEGREES_PER_VOLT + 135;
+        double armAngle = (potentiometer.getVoltage()-0.714) * DEGREES_PER_VOLT + 135;
         om.telemetry.addData("arm angle", armAngle);
         return armAngle;
     }

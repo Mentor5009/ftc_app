@@ -109,16 +109,16 @@ public class RockyTeleOp extends LinearOpMode {
                 }
             }
             if (gamepad1.dpad_down) {
-                robot.moveChih(- 0.75);
+                robot.moveChih(- 0.50);
             }
             else if (gamepad1.dpad_up) {
-                robot.moveChih(0.75);
+                robot.moveChih(0.50);
             }
             else if (gamepad1.dpad_left){
-                robot.moveChina(-.75);
+                robot.moveChina(-.50);
             }
             else if (gamepad1.dpad_right) {
-                robot.moveChina(0.75);
+                robot.moveChina(0.50);
             }
             else {
                 robot.leftDrive.setPower(left);
@@ -170,9 +170,7 @@ public class RockyTeleOp extends LinearOpMode {
             //TELEMETRY ZONE
             telemetry.addData("upper encoder", robot.upper.getCurrentPosition());
             telemetry.addData("potentiometer", robot.potentiometer.getVoltage());
-
             telemetry.addData("arm encoder", robot.arm.getCurrentPosition());
-            telemetry.addData("upper encoder", robot.upper.getCurrentPosition());
             telemetry.addData("tilter", robot.tilter.getPosition());
             telemetry.addData("Transport mode", robot.transportMode);
             telemetry.addData("Arm angle", robot.getArmAngle());

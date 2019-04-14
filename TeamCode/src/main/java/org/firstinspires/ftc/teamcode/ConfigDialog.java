@@ -1,5 +1,7 @@
+
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,4 +34,8 @@ public class ConfigDialog {
             }
         });
     }
+
+
+
 }
+
