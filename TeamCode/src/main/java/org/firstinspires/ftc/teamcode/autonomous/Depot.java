@@ -67,8 +67,12 @@ public class Depot extends LinearOpMode {
                     break;
                 case RIGHT:
 
+                    robot.canadarmRight.setPosition(.99);
+                    sleep(2500);
+                    robot.canadarmRight.setPosition(.01);
 
-                    robot.pivotRight(165,.8);
+                    moveFromDepot();
+                    /*robot.pivotRight(165,.8);
                     //moves to wall
                     robot.move(25, .8);
                     robot.pivot(40, .8);
@@ -78,7 +82,7 @@ public class Depot extends LinearOpMode {
                     robot.marker.setPosition(0.99);
                     sleep(800);
                     robot.pivot(45,0.8);
-                    robot.move(74, .8);
+                    robot.move(74, .8)*/
 
 
                     break;
@@ -101,8 +105,8 @@ public class Depot extends LinearOpMode {
         //moves to wall
         robot.move(55, -.8);
         robot.pivot(60, -.8);
-        robot.move(65, 0.8);
-        robot.pivot(225,0.8);
+        robot.move(62, 0.8);
+        robot.pivot(255,0.8);
         sleep(800);
         robot.marker.setPosition(0.99);
         robot.move(60, .8);

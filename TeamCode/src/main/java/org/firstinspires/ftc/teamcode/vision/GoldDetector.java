@@ -54,13 +54,15 @@ public class GoldDetector {
                 String rightMineral = "";
                 String centreMineral = "";
                 for (Recognition recognition : updatedRecognitions) {
-                    om.telemetry.addData("object " + String.valueOf(i), recognition.getLabel() + "," + recognition.getTop() + "," + recognition.getBottom());
-                    i++;
+                    if(recognition.getLeft() > 350) {
+                        om.telemetry.addData("object " + String.valueOf(i), recognition.getLabel() + "," + recognition.getTop() + "," + recognition.getLeft());
+                        i++;
 
-                    if (recognition.getTop() < 600 && !rightMineral.equals("Silver Mineral")) {
-                        rightMineral = recognition.getLabel();
-                    } else if (recognition.getTop() >= 600 && recognition.getTop() <= 1000 && !centreMineral.equals("Silver Mineral")) {
-                        centreMineral = recognition.getLabel();
+                        if (recognition.getTop() < 600 && !rightMineral.equals("Silver Mineral")) {
+                            rightMineral = recognition.getLabel();
+                        } else if (recognition.getTop() >= 600 && recognition.getTop() <= 1000 && !centreMineral.equals("Silver Mineral")) {
+                            centreMineral = recognition.getLabel();
+                        }
                     }
                 }
 

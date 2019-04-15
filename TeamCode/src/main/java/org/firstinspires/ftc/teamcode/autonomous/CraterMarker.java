@@ -104,15 +104,16 @@ public class CraterMarker extends LinearOpMode {
     private void moveFromCrater(boolean isLeft ) throws InterruptedException {
         robot.pivotRight(85,.8); //turns towards wall
         //moves to wall
-        robot.move(30,.8); //move towards wall
+        robot.move(24,.8); //move towards wall
         robot.pivot(10,-.8); //turns left towards depot
         if (isLeft) {
             robot.canadarmLeft.setPosition(0.2);
-            robot.move(57,0.8);
+            robot.move(47,0.8);
             sleep(1000);
             robot.canadarmLeft.setPosition(0.99);
         }
-        else {robot.move(57,0.8);}
+        else {
+            robot.move(47,0.8);}
 
         robot.pivot(240,-0.8);
         robot.marker.setPosition(0.99);
